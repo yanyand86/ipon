@@ -1,0 +1,1787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ipon — Investing 101, UK ✕ PH</title>
+<meta name="description" content="A two-flag investing primer: learn, play and quiz your way through UK and Philippine investing.">
+<meta name="theme-color" content="#0E7C66">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Ipon">
+<style>
+:root{
+  --bg:#F6F3EA;
+  --card:#FFFFFF;
+  --ink:#17302B;
+  --ink-soft:#4A5B55;
+  --ink-faint:#8A968F;
+  --rule:#E5E3D6;
+  --uk:#0E7C66;
+  --uk-deep:#0A5646;
+  --uk-tint:#DCF2EB;
+  --ph:#F2A93B;
+  --ph-deep:#B8770E;
+  --ph-tint:#FCEED2;
+  --coral:#E8604C;
+  --coral-tint:#FBE4DF;
+  --gold:#F5C14E;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --radius:16px;
+  --nav-h:64px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--ink);
+  font-size:16px;line-height:1.6;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+/* ---------- masthead: the two-flag sunrise ---------- */
+.masthead{
+  padding:calc(16px + env(safe-area-inset-top)) 20px 16px;
+  background:linear-gradient(115deg,var(--uk-deep),var(--uk) 34%,#2FA184 52%,var(--ph) 86%,var(--gold));
+  background-size:220% 220%;
+  animation:sunrise 14s ease-in-out infinite alternate;
+  color:#fff;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 2px 14px rgba(14,84,70,0.25);
+}
+@keyframes sunrise{from{background-position:0% 40%}to{background-position:100% 60%}}
+.mh-left{flex:1;min-width:0}
+.masthead h1{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-0.01em}
+.masthead .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;opacity:0.85;margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.jar-wrap{display:flex;flex-direction:column;align-items:center;gap:3px;flex:0 0 auto}
+.jar{position:relative;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.18))}
+.jar.bump{animation:jarBump .45s cubic-bezier(.34,1.56,.64,1)}
+@keyframes jarBump{0%{transform:scale(1)}35%{transform:scale(1.18) rotate(-4deg)}70%{transform:scale(0.96) rotate(2deg)}100%{transform:scale(1)}}
+.xp-chip{
+  font-family:var(--mono);font-size:10px;letter-spacing:0.05em;
+  background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);
+  border-radius:99px;padding:2px 9px;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap;
+}
+.coin{
+  position:fixed;z-index:200;width:22px;height:22px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#FFE49A,var(--gold) 55%,var(--ph-deep));
+  border:1.5px solid var(--ph-deep);
+  display:grid;place-items:center;
+  font-family:var(--mono);font-size:11px;font-weight:700;color:#6b4a05;
+  pointer-events:none;
+}
+.xp-float{
+  position:fixed;z-index:199;font-family:var(--mono);font-weight:700;font-size:13px;
+  color:var(--uk);pointer-events:none;text-shadow:0 1px 0 #fff;
+}
+.confetti-bit{position:fixed;z-index:300;top:-14px;width:9px;height:13px;border-radius:2px;pointer-events:none}
+main{max-width:640px;margin:0 auto;padding:18px 18px 30px}
+/* ---------- shared ---------- */
+.rise{animation:rise .45s cubic-bezier(.2,.8,.3,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.section-label{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-faint);margin:22px 0 10px;display:flex;align-items:center;gap:10px;
+}
+.section-label::after{content:"";flex:1;height:1px;background:var(--rule)}
+.figure{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.btn{
+  display:inline-block;background:var(--uk);color:#fff;border:none;border-radius:99px;
+  font-family:var(--sans);font-weight:650;font-size:15px;padding:13px 26px;cursor:pointer;
+  box-shadow:0 3px 10px rgba(14,124,102,0.28);
+  transition:transform .12s ease;
+}
+.btn:active{transform:scale(0.96)}
+.btn:disabled{opacity:0.35;cursor:default;box-shadow:none}
+.btn.gold{background:var(--ph);color:#5c3c05;box-shadow:0 3px 10px rgba(242,169,59,0.35)}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1.5px solid var(--rule);box-shadow:none;font-weight:500}
+/* ---------- home ---------- */
+.level-card{
+  background:linear-gradient(135deg,var(--card),#FBFAF4);
+  border:1px solid var(--rule);border-radius:var(--radius);
+  padding:16px;display:flex;gap:16px;align-items:center;
+  box-shadow:0 4px 16px rgba(23,48,43,0.06);
+}
+.ring-svg{flex:0 0 auto}
+.lv-meta{flex:1;min-width:0}
+.lv-name{font-family:var(--serif);font-weight:600;font-size:19px}
+.lv-sub{font-size:12.5px;color:var(--ink-soft);margin:2px 0 8px}
+.xp-bar{height:9px;border-radius:99px;background:var(--rule);overflow:hidden}
+.xp-bar > div{
+  height:100%;border-radius:99px;width:0;
+  background:linear-gradient(90deg,var(--uk),#2FA184 60%,var(--ph));
+  transition:width .8s cubic-bezier(.2,.8,.3,1);
+}
+.xp-nums{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:5px;font-variant-numeric:tabular-nums}
+.chapter-card{
+  display:flex;gap:14px;align-items:flex-start;background:var(--card);
+  border:1px solid var(--rule);border-radius:var(--radius);
+  padding:14px;margin-bottom:10px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .12s ease, box-shadow .12s ease;
+  box-shadow:0 2px 8px rgba(23,48,43,0.05);
+}
+.chapter-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:5px;
+}
+.chapter-card.c-uk::before{background:var(--uk)}
+.chapter-card.c-ph::before{background:var(--ph)}
+.chapter-card.c-both::before{background:linear-gradient(to bottom,var(--uk) 50%,var(--ph) 50%)}
+.chapter-card:active{transform:scale(0.98)}
+.ch-num{
+  font-family:var(--mono);font-size:13px;color:var(--ink-faint);
+  padding:2px 12px 2px 8px;min-width:40px;font-variant-numeric:tabular-nums;
+}
+.ch-body h3{font-family:var(--serif);font-weight:600;font-size:17.5px;line-height:1.3}
+.ch-body p{font-size:13.5px;color:var(--ink-soft);margin-top:3px;line-height:1.45}
+.ch-side{margin-left:auto;display:flex;flex-direction:column;align-items:flex-end;gap:7px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:0.06em;padding:3px 8px;border-radius:99px;text-transform:uppercase;white-space:nowrap}
+.chip.uk{background:var(--uk-tint);color:var(--uk-deep)}
+.chip.ph{background:var(--ph-tint);color:var(--ph-deep)}
+.chip.both{background:linear-gradient(90deg,var(--uk-tint) 50%,var(--ph-tint) 50%);color:var(--ink-soft)}
+.tick{width:20px;height:20px;border-radius:50%;border:1.5px solid var(--rule);display:grid;place-items:center}
+.tick.done{background:var(--uk);border-color:var(--uk)}
+/* ---------- chapter ---------- */
+.back{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12.5px;color:var(--ink-soft);background:none;border:none;cursor:pointer;padding:4px 0;margin-bottom:10px}
+.ch-head{margin-bottom:16px}
+.ch-head .eyebrow{font-family:var(--mono);font-size:12px;color:var(--ink-faint);letter-spacing:0.08em;text-transform:uppercase}
+.ch-head h2{font-family:var(--serif);font-weight:600;font-size:26px;line-height:1.2;margin-top:4px}
+article h3{font-family:var(--serif);font-weight:600;font-size:19px;margin:26px 0 8px;line-height:1.3}
+article p{margin:0 0 14px;font-size:16px}
+article ul{margin:0 0 14px 4px;list-style:none}
+article li{padding-left:18px;position:relative;margin-bottom:7px;font-size:15.5px}
+article li::before{content:"";position:absolute;left:0;top:0.62em;width:7px;height:1.5px;background:var(--ph-deep)}
+article strong{font-weight:650}
+.callout{border-radius:13px;padding:13px 15px;margin:0 0 16px;font-size:15px;line-height:1.55;border-left:4px solid}
+.callout .co-label{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;display:block;margin-bottom:4px}
+.callout.key{background:var(--uk-tint);border-color:var(--uk)}
+.callout.key .co-label{color:var(--uk-deep)}
+.callout.ph{background:var(--ph-tint);border-color:var(--ph)}
+.callout.ph .co-label{color:var(--ph-deep)}
+.callout.warn{background:var(--coral-tint);border-color:var(--coral)}
+.callout.warn .co-label{color:#B03A28}
+/* ---------- quiz ---------- */
+.quiz{margin-top:30px;border-top:2px dashed var(--rule);padding-top:20px}
+.quiz h3{font-family:var(--serif);font-size:20px;margin-bottom:4px}
+.quiz .q-sub{font-size:13px;color:var(--ink-soft);margin-bottom:16px}
+.q-block{margin-bottom:22px}
+.q-block .q-text{font-weight:600;font-size:15.5px;margin-bottom:10px}
+.q-opt{
+  display:block;width:100%;text-align:left;background:var(--card);
+  border:1.5px solid var(--rule);border-radius:12px;padding:12px 14px;margin-bottom:8px;
+  font-size:15px;color:var(--ink);cursor:pointer;font-family:var(--sans);line-height:1.4;
+  transition:border-color .1s ease, transform .1s ease;
+}
+.q-opt:active{transform:scale(0.99)}
+.q-opt.correct{background:var(--uk-tint);border-color:var(--uk);animation:pop .35s cubic-bezier(.34,1.56,.64,1)}
+.q-opt.wrong{background:var(--coral-tint);border-color:var(--coral);animation:shake .4s ease}
+.q-opt:disabled{cursor:default;opacity:1}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.03)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}55%{transform:translateX(5px)}80%{transform:translateX(-3px)}}
+.q-why{font-size:13.5px;color:var(--ink-soft);background:var(--bg);border-radius:10px;padding:9px 12px;margin-top:2px;display:none}
+.q-why.show{display:block;animation:rise .3s ease both}
+.quiz-result{margin-top:6px;padding:15px 17px;border-radius:14px;display:none;font-size:15px}
+.quiz-result.show{display:block;animation:rise .35s ease both}
+.quiz-result.pass{background:var(--uk-tint)}
+.quiz-result.retry{background:var(--ph-tint)}
+.quiz-result .score{font-family:var(--mono);font-weight:700}
+/* ---------- play tab ---------- */
+.game-card{
+  background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:17px;margin-bottom:12px;cursor:pointer;position:relative;overflow:hidden;
+  box-shadow:0 3px 12px rgba(23,48,43,0.06);transition:transform .12s ease;
+}
+.game-card:active{transform:scale(0.98)}
+.game-card .g-emoji{
+  width:46px;height:46px;border-radius:14px;display:grid;place-items:center;font-size:23px;margin-bottom:10px;
+}
+.game-card h3{font-family:var(--serif);font-size:19px;margin-bottom:3px}
+.game-card p{font-size:13.5px;color:var(--ink-soft);line-height:1.45}
+.game-card .g-best{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:9px;letter-spacing:0.05em;text-transform:uppercase}
+/* market sim */
+.sim-stage{background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);padding:16px;box-shadow:0 3px 12px rgba(23,48,43,0.06)}
+.sim-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.sim-year{font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.sim-pots{display:flex;gap:14px;font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums}
+.sim-pots .you{color:var(--uk-deep);font-weight:700}
+.sim-pots .auto{color:var(--ph-deep)}
+.sim-chart{background:var(--bg);border-radius:12px;overflow:hidden}
+.event-card{
+  margin-top:14px;border-radius:14px;padding:15px;animation:rise .3s ease both;
+}
+.event-card.crash{background:var(--coral-tint);border-left:4px solid var(--coral)}
+.event-card.boom{background:var(--ph-tint);border-left:4px solid var(--ph)}
+.event-card.calm{background:var(--uk-tint);border-left:4px solid var(--uk)}
+.event-card .ev-label{font-family:var(--mono);font-size:10.5px;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;color:var(--ink-soft)}
+.event-card .ev-text{font-weight:600;font-size:15.5px;margin-bottom:11px;line-height:1.4}
+.ev-btn{
+  display:block;width:100%;text-align:left;background:#fff;border:1.5px solid var(--rule);
+  border-radius:11px;padding:11px 13px;margin-bottom:8px;font-size:14.5px;cursor:pointer;font-family:var(--sans);
+}
+.ev-btn:active{transform:scale(0.99)}
+.verdict{margin-top:14px;padding:16px;border-radius:14px;background:var(--uk-tint);animation:rise .35s ease both}
+.verdict h3{font-family:var(--serif);font-size:20px;margin-bottom:6px}
+.verdict p{font-size:14.5px;margin-bottom:8px}
+.verdict .v-row{display:flex;justify-content:space-between;font-family:var(--mono);font-size:14px;padding:6px 0;border-top:1px dashed rgba(23,48,43,0.15);font-variant-numeric:tabular-nums}
+/* scam game */
+.scam-card{
+  background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);
+  padding:20px;min-height:150px;display:flex;flex-direction:column;justify-content:center;
+  box-shadow:0 4px 14px rgba(23,48,43,0.07);animation:rise .3s ease both;
+}
+.scam-card .sc-count{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-bottom:8px;letter-spacing:0.06em}
+.scam-card .sc-text{font-size:16.5px;font-weight:600;line-height:1.45}
+.scam-btns{display:flex;gap:10px;margin-top:14px}
+.scam-btns .btn{flex:1;text-align:center}
+.scam-btns .btn.scam{background:var(--coral);box-shadow:0 3px 10px rgba(232,96,76,0.3)}
+.sc-feedback{margin-top:12px;border-radius:12px;padding:12px 14px;font-size:14px;display:none}
+.sc-feedback.show{display:block;animation:rise .25s ease both}
+.sc-feedback.right{background:var(--uk-tint)}
+.sc-feedback.wrong{background:var(--coral-tint)}
+/* exam */
+.exam-timer{height:7px;border-radius:99px;background:var(--rule);overflow:hidden;margin-bottom:14px}
+.exam-timer > div{height:100%;background:linear-gradient(90deg,var(--uk),var(--ph));width:100%}
+.exam-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;font-family:var(--mono);font-size:12px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+.toggle-row{display:flex;align-items:center;gap:10px;margin:14px 0;font-size:14.5px;color:var(--ink-soft)}
+.switch{position:relative;width:46px;height:27px;border-radius:99px;background:var(--rule);border:none;cursor:pointer;transition:background .2s}
+.switch.on{background:var(--uk)}
+.switch::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#fff;transition:left .2s}
+.switch.on::after{left:22px}
+.grade{
+  font-family:var(--serif);font-size:30px;font-weight:600;margin:4px 0 6px;
+}
+/* ---------- fit / tools / gloss (v1 styles kept) ---------- */
+.fit-q{margin-bottom:24px}
+.fit-q .fq-text{font-weight:600;font-size:15.5px;margin-bottom:10px}
+.fit-opt{display:block;width:100%;text-align:left;background:var(--card);border:1.5px solid var(--rule);border-radius:12px;padding:11px 13px;margin-bottom:8px;font-size:15px;cursor:pointer;font-family:var(--sans);color:var(--ink);line-height:1.4}
+.fit-opt.sel{border-color:var(--uk);background:var(--uk-tint)}
+.archetype{background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px;margin-top:18px;box-shadow:0 4px 14px rgba(23,48,43,0.07);animation:rise .35s ease both}
+.archetype .a-label{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--ink-faint)}
+.archetype h3{font-family:var(--serif);font-size:22px;margin:4px 0 8px}
+.archetype p{font-size:14.5px;color:var(--ink-soft);margin-bottom:12px}
+.archetype .a-sec{font-family:var(--mono);font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;color:var(--ink-faint);margin:12px 0 6px}
+.archetype ul{list-style:none}
+.archetype li{padding-left:16px;position:relative;font-size:14.5px;margin-bottom:6px}
+.archetype li::before{content:"";position:absolute;left:0;top:0.6em;width:6px;height:1.5px;background:var(--ph)}
+.tool-card{background:var(--card);border:1px solid var(--rule);border-radius:var(--radius);padding:18px;margin-bottom:16px;box-shadow:0 3px 12px rgba(23,48,43,0.06)}
+.tool-card h3{font-family:var(--serif);font-size:19px;margin-bottom:4px}
+.tool-card .t-sub{font-size:13px;color:var(--ink-soft);margin-bottom:14px}
+.ctl{margin-bottom:14px}
+.ctl label{display:flex;justify-content:space-between;font-size:13.5px;color:var(--ink-soft);margin-bottom:6px}
+.ctl label .val{font-family:var(--mono);color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+input[type=range]{width:100%;accent-color:var(--uk)}
+.seg{display:inline-flex;border:1px solid var(--rule);border-radius:99px;overflow:hidden;margin-bottom:14px}
+.seg button{border:none;background:transparent;font-family:var(--mono);font-size:13px;padding:7px 16px;cursor:pointer;color:var(--ink-soft)}
+.seg button.on{background:var(--uk);color:#fff}
+.result-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-top:1px dashed var(--rule);font-size:14.5px}
+.result-row .rv{font-family:var(--mono);font-weight:600;font-size:16px;font-variant-numeric:tabular-nums}
+.result-row .rv.uk{color:var(--uk-deep)}
+.result-row .rv.warn{color:var(--coral)}
+.chart-box{margin:6px 0 12px}
+.gloss-search{width:100%;border:1.5px solid var(--rule);border-radius:12px;background:var(--card);padding:12px 14px;font-size:15px;font-family:var(--sans);color:var(--ink);margin-bottom:14px}
+.gloss-search:focus{outline:2px solid var(--uk);outline-offset:1px}
+.g-item{border-bottom:1px solid var(--rule);padding:12px 2px}
+.g-item .g-term{font-weight:650;font-size:15.5px;display:flex;align-items:center;gap:8px}
+.g-item .g-def{font-size:14px;color:var(--ink-soft);margin-top:3px;line-height:1.5}
+/* ---------- nav ---------- */
+nav{
+  position:fixed;left:0;right:0;bottom:0;height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(255,255,255,0.9);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--rule);display:flex;z-index:50;
+}
+nav button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-family:var(--mono);font-size:9.5px;letter-spacing:0.05em;text-transform:uppercase;color:var(--ink-faint)}
+nav button.on{color:var(--uk)}
+nav button svg{stroke:currentColor}
+.foot{margin-top:34px;padding-top:16px;border-top:1px solid var(--rule);font-size:12px;color:var(--ink-faint);line-height:1.6}
+.foot .reset{background:none;border:none;color:var(--ink-faint);text-decoration:underline;cursor:pointer;font-size:12px;padding:0;font-family:var(--sans)}
+:focus-visible{outline:2px solid var(--uk);outline-offset:2px}
+/* ---------- listen / audio ---------- */
+.listen-row{display:flex;gap:10px;margin:2px 0 4px;flex-wrap:wrap}
+.listen-btn{
+  display:inline-flex;align-items:center;gap:8px;background:var(--uk);color:#fff;border:none;
+  border-radius:99px;font-family:var(--sans);font-weight:650;font-size:14.5px;padding:11px 18px;cursor:pointer;
+  box-shadow:0 3px 10px rgba(14,124,102,0.26);transition:transform .12s ease;
+}
+.listen-btn:active{transform:scale(0.96)}
+.listen-btn.alt{background:var(--card);color:var(--uk-deep);border:1.5px solid var(--uk-tint);box-shadow:none}
+.listen-btn svg{fill:currentColor}
+.listen-hero{
+  display:flex;align-items:center;gap:13px;width:100%;margin:14px 0 2px;
+  background:linear-gradient(115deg,var(--uk-deep),var(--uk) 55%,#2FA184);
+  color:#fff;border:none;border-radius:var(--radius);padding:15px 17px;cursor:pointer;text-align:left;
+  box-shadow:0 4px 16px rgba(14,84,70,0.22);transition:transform .12s ease;
+}
+.listen-hero:active{transform:scale(0.985)}
+.listen-hero .lh-ic{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.2);display:grid;place-items:center;flex:0 0 auto}
+.listen-hero .lh-t{font-family:var(--serif);font-weight:600;font-size:17px;line-height:1.2}
+.listen-hero .lh-s{font-size:12.5px;opacity:0.9;margin-top:2px}
+/* audio bar */
+#audiobar{
+  position:fixed;left:0;right:0;z-index:60;display:none;
+  bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,0.97);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+  border-top:1px solid var(--rule);box-shadow:0 -4px 18px rgba(23,48,43,0.1);
+  padding:9px 12px calc(9px);
+}
+#audiobar.show{display:block;animation:barUp .3s ease both}
+@keyframes barUp{from{transform:translateY(100%)}to{transform:none}}
+body.playing #view{padding-bottom:0}
+.ab-top{display:flex;align-items:center;gap:10px}
+.ab-info{flex:1;min-width:0}
+.ab-title{font-size:12px;font-weight:700;color:var(--uk-deep);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ab-now{font-size:12.5px;color:var(--ink-soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+.ab-ctrls{display:flex;align-items:center;gap:2px;flex:0 0 auto}
+.ab-btn{background:none;border:none;cursor:pointer;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;color:var(--ink);padding:0}
+.ab-btn:active{background:var(--bg)}
+.ab-btn svg{fill:currentColor}
+.ab-btn.play{width:46px;height:46px;background:var(--uk);color:#fff;box-shadow:0 3px 9px rgba(14,124,102,0.3)}
+.ab-btn.play:active{background:var(--uk-deep)}
+.ab-prog{height:4px;border-radius:99px;background:var(--rule);overflow:hidden;margin-top:8px}
+.ab-prog > div{height:100%;background:linear-gradient(90deg,var(--uk),var(--ph));width:0;transition:width .25s linear}
+.ab-mini{display:flex;justify-content:space-between;align-items:center;margin-top:6px}
+.ab-mini .gear{background:none;border:none;color:var(--ink-faint);cursor:pointer;font-family:var(--mono);font-size:11px;display:inline-flex;align-items:center;gap:5px;padding:2px 0}
+.ab-mini .cnt{font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);font-variant-numeric:tabular-nums}
+/* settings sheet */
+#sheetWrap{position:fixed;inset:0;z-index:120;display:none}
+#sheetWrap.show{display:block}
+.sheet-bg{position:absolute;inset:0;background:rgba(23,48,43,0.4);opacity:0;transition:opacity .25s}
+#sheetWrap.show .sheet-bg{opacity:1}
+.sheet{
+  position:absolute;left:0;right:0;bottom:0;background:var(--card);
+  border-radius:22px 22px 0 0;padding:20px 20px calc(24px + env(safe-area-inset-bottom));
+  max-width:640px;margin:0 auto;transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.3,1);
+  max-height:82vh;overflow-y:auto;
+}
+#sheetWrap.show .sheet{transform:none}
+.sheet .grab{width:38px;height:4px;border-radius:99px;background:var(--rule);margin:0 auto 16px}
+.sheet h3{font-family:var(--serif);font-size:20px;margin-bottom:14px}
+.sheet label{display:block;font-size:13px;color:var(--ink-soft);margin:14px 0 7px;font-weight:600}
+.sheet select{
+  width:100%;font-family:var(--sans);font-size:15px;padding:12px 13px;border:1.5px solid var(--rule);
+  border-radius:12px;background:var(--bg);color:var(--ink);-webkit-appearance:none;appearance:none;
+}
+.speed-row{display:flex;align-items:center;gap:12px}
+.speed-row input{flex:1}
+.speed-row .sv{font-family:var(--mono);font-weight:600;font-size:14px;min-width:44px;text-align:right;font-variant-numeric:tabular-nums}
+.sheet .note{font-size:12.5px;color:var(--ink-faint);line-height:1.55;margin-top:16px;background:var(--bg);border-radius:12px;padding:12px 14px}
+.sheet .note b{color:var(--ink-soft)}
+.sheet .done-btn{width:100%;margin-top:18px}
+@media (prefers-reduced-motion: reduce){
+  *{transition:none !important;animation:none !important}
+}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="mh-left">
+    <h1>Ipon</h1>
+    <div class="tag">Investing 101 · UK ✕ Philippines</div>
+  </div>
+  <div class="jar-wrap">
+    <div class="jar" id="jar" aria-hidden="true">
+      <svg width="34" height="38" viewBox="0 0 34 38" fill="none">
+        <path d="M8 7h18v3c3 2.5 5 6 5 10.5C31 29.5 24.7 35 17 35S3 29.5 3 20.5C3 16 5 12.5 8 10z" fill="rgba(255,255,255,0.22)" stroke="#fff" stroke-width="1.6"/>
+        <rect x="12" y="3" width="10" height="2.6" rx="1.3" fill="#fff"/>
+        <circle cx="13.5" cy="22" r="3" fill="#F5C14E" stroke="#B8770E"/>
+        <circle cx="20" cy="25" r="3" fill="#F5C14E" stroke="#B8770E"/>
+      </svg>
+    </div>
+    <div class="xp-chip" id="xpChip">0 XP</div>
+  </div>
+</header>
+<main id="view" aria-live="polite"></main>
+<nav aria-label="Sections">
+  <button id="nav-learn" onclick="go('home')" aria-label="Learn">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15.5H6.5A2.5 2.5 0 0 0 4 21z"/><path d="M4 18.5A2.5 2.5 0 0 1 6.5 16H20"/></svg>
+    Learn
+  </button>
+  <button id="nav-play" onclick="go('play')" aria-label="Play">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="15" r="1.4" fill="currentColor" stroke="none"/><circle cx="15" cy="9" r="1.4" fill="currentColor" stroke="none"/><circle cx="9" cy="15" r="1.4" fill="currentColor" stroke="none"/></svg>
+    Play
+  </button>
+  <button id="nav-fit" onclick="go('fit')" aria-label="Fit finder">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z"/></svg>
+    Fit
+  </button>
+  <button id="nav-tools" onclick="go('tools')" aria-label="Tools">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 7h8M8 11h3M8 15h3M14 11h2v6h-2z"/></svg>
+    Tools
+  </button>
+  <button id="nav-gloss" onclick="go('gloss')" aria-label="Glossary">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke-width="1.7"><path d="M5 4h14M5 9h14M5 14h9M5 19h6"/></svg>
+    Glossary
+  </button>
+</nav>
+<div id="audiobar" aria-label="Audio player">
+  <div class="ab-top">
+    <div class="ab-info">
+      <div class="ab-title" id="abTitle">—</div>
+      <div class="ab-now" id="abNow">—</div>
+    </div>
+    <div class="ab-ctrls">
+      <button class="ab-btn" id="abPrev" onclick="TTS.prev()" aria-label="Previous sentence"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M7 6h2v12H7zM19 6 10 12l9 6z"/></svg></button>
+      <button class="ab-btn play" id="abPlay" onclick="TTS.toggle()" aria-label="Play or pause"><svg id="abPlayIc" width="22" height="22" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></button>
+      <button class="ab-btn" id="abNext" onclick="TTS.next()" aria-label="Next sentence"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M15 6h2v12h-2zM5 6l9 6-9 6z"/></svg></button>
+      <button class="ab-btn" id="abSkip" onclick="TTS.nextChapter()" aria-label="Next chapter"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 5l8.5 6.2a1 1 0 0 1 0 1.6L6 19zM16 5h2v14h-2z" opacity="0.55"/><path d="M13 8.5 17 12l-4 3.5z"/></svg></button>
+    </div>
+  </div>
+  <div class="ab-prog"><div id="abProg"></div></div>
+  <div class="ab-mini">
+    <button class="gear" onclick="openSheet()" aria-label="Voice settings">⚙ <span id="abVoice">voice</span></button>
+    <span class="cnt" id="abCnt"></span>
+    <button class="gear" onclick="TTS.stop()" aria-label="Stop">✕ stop</button>
+  </div>
+</div>
+<div id="sheetWrap" onclick="if(event.target.id==='sheetWrap'||event.target.className==='sheet-bg')closeSheet()">
+  <div class="sheet-bg"></div>
+  <div class="sheet" role="dialog" aria-label="Voice settings">
+    <div class="grab"></div>
+    <h3>Voice &amp; speed</h3>
+    <label for="voiceSel">Voice</label>
+    <select id="voiceSel" onchange="TTS.setVoice(this.value)"></select>
+    <label for="speedSel">Reading speed</label>
+    <div class="speed-row">
+      <input type="range" id="speedSel" min="0.7" max="1.3" step="0.05" oninput="TTS.setRate(this.value)">
+      <span class="sv" id="speedVal">1.0×</span>
+    </div>
+    <div class="note" id="voiceNote"></div>
+    <button class="btn done-btn" onclick="closeSheet()">Done</button>
+  </div>
+</div>
+<script>
+"use strict";
+/* ---------- storage & progress ---------- */
+const store = {
+  get(k, d){ try{ const v = localStorage.getItem("ipon."+k); return v ? JSON.parse(v) : d; }catch(e){ return d; } },
+  set(k, v){ try{ localStorage.setItem("ipon."+k, JSON.stringify(v)); }catch(e){} },
+  clear(){ try{ Object.keys(localStorage).filter(k=>k.startsWith("ipon.")).forEach(k=>localStorage.removeItem(k)); }catch(e){} }
+};
+let progress = store.get("progress", {});
+progress.done = progress.done || {};
+progress.scores = progress.scores || {};
+progress.xp = progress.xp || 0;
+progress.awards = progress.awards || {};
+progress.best = progress.best || {};
+let fitState = store.get("fit", { answers:{}, result:null });
+const saveP = ()=> store.set("progress", progress);
+const RM = (typeof matchMedia==="function") ? matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+
+/* ---------- XP & levels ---------- */
+const LEVELS = [
+  {at:0, name:"Baguhan"},
+  {at:150, name:"Mag-iipon"},
+  {at:400, name:"Steady Hand"},
+  {at:800, name:"Portfolio Builder"},
+  {at:1400, name:"Two-Flag Captain"},
+  {at:2200, name:"Compound Master"}
+];
+function levelInfo(){
+  let li = 0;
+  LEVELS.forEach((l,i)=>{ if(progress.xp >= l.at) li = i; });
+  const cur = LEVELS[li], next = LEVELS[li+1] || null;
+  return { idx:li, name:cur.name, cur:cur.at, next: next ? next.at : null };
+}
+function xpChipText(){
+  const li = levelInfo();
+  return "Lv"+(li.idx+1)+" · "+progress.xp+" XP";
+}
+function refreshChip(){ document.getElementById("xpChip").textContent = xpChipText(); }
+function awardXP(n, fromEl){
+  progress.xp += n; saveP(); refreshChip();
+  dropCoin(fromEl, n);
+}
+/* ---------- coin drop & confetti ---------- */
+let coinFlip = true;
+function dropCoin(fromEl, n){
+  const jar = document.getElementById("jar");
+  jar.classList.remove("bump"); void jar.offsetWidth; jar.classList.add("bump");
+  if(RM || !document.body.animate) return;
+  const jr = jar.getBoundingClientRect();
+  const fr = fromEl && fromEl.getBoundingClientRect ? fromEl.getBoundingClientRect() : {left:innerWidth/2,top:innerHeight/2,width:0,height:20};
+  const sx = fr.left + (fr.width||0)/2, sy = fr.top;
+  const ex = jr.left + jr.width/2, ey = jr.top + jr.height/2;
+  const coin = document.createElement("div");
+  coin.className = "coin"; coin.textContent = coinFlip ? "£" : "₱"; coinFlip = !coinFlip;
+  coin.style.left = "0px"; coin.style.top = "0px";
+  document.body.appendChild(coin);
+  const midx = (sx+ex)/2, midy = Math.min(sy,ey) - 90;
+  coin.animate([
+    { transform:"translate("+sx+"px,"+sy+"px) scale(0.6) rotate(0deg)", opacity:1, offset:0 },
+    { transform:"translate("+midx+"px,"+midy+"px) scale(1.15) rotate(200deg)", opacity:1, offset:0.55 },
+    { transform:"translate("+ex+"px,"+ey+"px) scale(0.4) rotate(380deg)", opacity:0.4, offset:1 }
+  ], { duration:650, easing:"cubic-bezier(.3,.6,.4,1)" }).onfinish = ()=> coin.remove();
+  const f = document.createElement("div");
+  f.className = "xp-float"; f.textContent = "+"+n+" XP";
+  f.style.left = sx+"px"; f.style.top = (sy-6)+"px";
+  document.body.appendChild(f);
+  f.animate([{transform:"translateY(0)",opacity:1},{transform:"translateY(-34px)",opacity:0}],
+    {duration:800, easing:"ease-out"}).onfinish = ()=> f.remove();
+}
+function confetti(){
+  if(RM || !document.body.animate) return;
+  const colors=["#0E7C66","#F2A93B","#E8604C","#F5C14E","#2FA184"];
+  for(let i=0;i<46;i++){
+    const b=document.createElement("div");
+    b.className="confetti-bit";
+    b.style.left=(Math.random()*100)+"vw";
+    b.style.background=colors[i%colors.length];
+    document.body.appendChild(b);
+    b.animate([
+      {transform:"translateY(0) rotate(0deg)",opacity:1},
+      {transform:"translateY("+(innerHeight+60)+"px) rotate("+(540+Math.random()*360)+"deg)",opacity:0.9}
+    ],{duration:1600+Math.random()*1400, easing:"cubic-bezier(.2,.6,.6,1)", delay:Math.random()*350}).onfinish=()=>b.remove();
+  }
+}
+/* ---------- markdown-ish renderer ---------- */
+function esc(s){ return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function inline(s){
+  return esc(s)
+    .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\{(£[^}]*|₱[^}]*|[\d][^}]*)\}/g, '<span class="figure">$1</span>');
+}
+const CO_LABELS = { key:["key","Key idea"], ph:["ph","Philippines corner"], uk:["key","UK corner"], warn:["warn","Watch out"] };
+function md(src){
+  const lines = src.split("\n");
+  let html = "", list = null, i;
+  const flush = ()=>{ if(list){ html += "<ul>"+list.map(li=>"<li>"+inline(li)+"</li>").join("")+"</ul>"; list=null; } };
+  for(i=0;i<lines.length;i++){
+    const line = lines[i].trim();
+    if(!line){ flush(); continue; }
+    if(line.startsWith("## ")){ flush(); html += "<h3>"+inline(line.slice(3))+"</h3>"; continue; }
+    if(line.startsWith("- ")){ (list=list||[]).push(line.slice(2)); continue; }
+    const co = line.match(/^>\s*(key|ph|uk|warn):\s*(.*)$/);
+    if(co){ flush(); const [cls,label]=CO_LABELS[co[1]];
+      html += '<div class="callout '+cls+'"><span class="co-label">'+label+'</span>'+inline(co[2])+"</div>"; continue; }
+    flush(); html += "<p>"+inline(line)+"</p>";
+  }
+  flush(); return html;
+}
+/* ---------- woven ring ---------- */
+function ringSVG(doneCount, total){
+  const size=100, cx=50, cy=50, r=40, stroke=11, gap=5, seg=(360/total)-gap;
+  let paths="";
+  for(let i=0;i<total;i++){
+    const a0=(i*(360/total))-90+gap/2, a1=a0+seg, large=seg>180?1:0;
+    const x0=cx+r*Math.cos(a0*Math.PI/180), y0=cy+r*Math.sin(a0*Math.PI/180);
+    const x1=cx+r*Math.cos(a1*Math.PI/180), y1=cy+r*Math.sin(a1*Math.PI/180);
+    const color=i<doneCount ? (i%2===0? "var(--uk)":"var(--ph)") : "var(--rule)";
+    paths += '<path d="M'+x0.toFixed(1)+' '+y0.toFixed(1)+' A'+r+' '+r+' 0 '+large+' 1 '+x1.toFixed(1)+' '+y1.toFixed(1)+'" stroke="'+color+'" stroke-width="'+stroke+'" fill="none" stroke-linecap="round"/>';
+  }
+  return '<svg class="ring-svg" width="'+size+'" height="'+size+'" viewBox="0 0 100 100" role="img" aria-label="'+doneCount+' of '+total+' chapters complete">'+paths+'</svg>';
+}
+/* ---------- router ---------- */
+const view = document.getElementById("view");
+let activeTimers = [];
+function addTimer(t){ activeTimers.push(t); return t; }
+function clearTimers(){ activeTimers.forEach(t=>{clearInterval(t);clearTimeout(t);}); activeTimers=[]; }
+function go(tab, arg){
+  clearTimers();
+  ["learn","play","fit","tools","gloss"].forEach(id=>{
+    document.getElementById("nav-"+id).classList.toggle("on",
+      (id==="learn" && (tab==="home"||tab==="chapter")) || id===tab);
+  });
+  if(tab==="home") renderHome();
+  else if(tab==="chapter") renderChapter(arg);
+  else if(tab==="play") renderPlay();
+  else if(tab==="fit") renderFit();
+  else if(tab==="tools") renderTools();
+  else if(tab==="gloss") renderGloss();
+  window.scrollTo(0,0);
+}
+/* ---------- home ---------- */
+function renderHome(){
+  const total = CHAPTERS.length;
+  const done = CHAPTERS.filter(c=>progress.done[c.id]).length;
+  const li = levelInfo();
+  const span = li.next ? li.next - li.cur : 1;
+  const into = li.next ? progress.xp - li.cur : 1;
+  const pct = li.next ? Math.min(100, Math.round(100*into/span)) : 100;
+  const cards = CHAPTERS.map((c,idx)=>{
+    const isDone = !!progress.done[c.id];
+    return '<div class="chapter-card c-'+c.tag+' rise" style="animation-delay:'+(60+idx*45)+'ms" role="button" tabindex="0" onclick="go(\'chapter\',\''+c.id+'\')" onkeydown="if(event.key===\'Enter\')go(\'chapter\',\''+c.id+'\')">'
+      +'<div class="ch-num">'+String(idx+1).padStart(2,"0")+'</div>'
+      +'<div class="ch-body"><h3>'+c.title+'</h3><p>'+c.blurb+'</p></div>'
+      +'<div class="ch-side"><span class="chip '+c.tag+'">'+(c.tag==="both"?"UK · PH":c.tag)+'</span>'
+      +'<span class="tick'+(isDone?" done":"")+'">'+(isDone?'<svg width="11" height="11" viewBox="0 0 12 12" fill="none" stroke="#fff" stroke-width="2"><path d="M2 6.5 4.8 9 10 3.2"/></svg>':"")+'</span></div></div>';
+  }).join("");
+  view.innerHTML =
+    '<div class="level-card rise">'+ringSVG(done,total)
+    +'<div class="lv-meta"><div class="lv-name">'+li.name+'</div>'
+    +'<div class="lv-sub">'+done+' of '+total+' chapters · earn XP from quizzes, games and the Board Exam</div>'
+    +'<div class="xp-bar"><div id="xpFill"></div></div>'
+    +'<div class="xp-nums">'+(li.next ? progress.xp+" / "+li.next+" XP to "+LEVELS[li.idx+1].name : progress.xp+" XP · top level reached")+'</div>'
+    +'</div></div>'
+    +'<button class="listen-hero rise" style="animation-delay:40ms" onclick="listenAll()"><span class="lh-ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span><span><span class="lh-t">Listen to the whole course</span><span class="lh-s">Play all chapters back-to-back — pocket it and walk</span></span></button>'
+    +'<div class="section-label">The curriculum</div>'
+    + cards
+    +'<div class="foot">Ipon is education, not financial advice — it explains how things work so your decisions are your own. Investments can fall as well as rise; capital is at risk. Tax and account rules change, so confirm current figures on gov.uk, HMRC, BIR and PSE sources before acting. <button class="reset" onclick="resetAll()">Reset progress</button></div>';
+  requestAnimationFrame(()=>{ const f=document.getElementById("xpFill"); if(f) f.style.width=pct+"%"; });
+}
+function resetAll(){
+  if(confirm("Clear all progress, XP and game records?")){
+    store.clear(); progress={done:{},scores:{},xp:0,awards:{},best:{}}; fitState={answers:{},result:null};
+    refreshChip(); renderHome();
+  }
+}
+/* ---------- chapter + quiz ---------- */
+let quizAnswers = {};
+function renderChapter(id){
+  const idx = CHAPTERS.findIndex(c=>c.id===id);
+  const c = CHAPTERS[idx];
+  quizAnswers = {};
+  const qHtml = c.quiz.map((q,qi)=>
+    '<div class="q-block"><div class="q-text">'+(qi+1)+'. '+esc(q.q)+'</div>'
+    + q.opts.map((o,oi)=>'<button class="q-opt" id="q'+qi+'o'+oi+'" onclick="answer('+qi+','+oi+',this)">'+esc(o)+'</button>').join("")
+    +'<div class="q-why" id="why'+qi+'">'+esc(q.why)+'</div></div>'
+  ).join("");
+  view.innerHTML =
+    '<button class="back" onclick="go(\'home\')">&#8592; All chapters</button>'
+    +'<div class="ch-head rise"><div class="eyebrow">Chapter '+String(idx+1).padStart(2,"0")+' · '+(c.tag==="both"?"UK & Philippines":c.tag.toUpperCase())+'</div><h2>'+c.title+'</h2></div>'
+    +'<div class="listen-row rise" style="animation-delay:30ms"><button class="listen-btn" onclick="listenChapter(\''+c.id+'\')"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg> Listen to this chapter</button>'
+    +'<button class="listen-btn alt" onclick="listenFrom(\''+c.id+'\')"><svg width="17" height="17" viewBox="0 0 24 24"><path d="M6 5l8.5 6.2a1 1 0 0 1 0 1.6L6 19zM16 5h2v14h-2z"/></svg> Play from here</button></div>'
+    +'<article class="rise" style="animation-delay:60ms">'+md(c.body)+'</article>'
+    +'<div class="quiz"><h3>Check yourself</h3><div class="q-sub">Answer all '+c.quiz.length+' — get at least '+(c.quiz.length-1)+' right to weave this chapter into your ring.</div>'
+    + qHtml
+    +'<div class="quiz-result" id="quizResult"></div></div>';
+  window.__ch = c;
+}
+function answer(qi, oi, el){
+  const c = window.__ch;
+  if(quizAnswers[qi]!==undefined) return;
+  quizAnswers[qi]=oi;
+  const correct = c.quiz[qi].a;
+  c.quiz[qi].opts.forEach((_,k)=>{
+    const b=document.getElementById("q"+qi+"o"+k);
+    b.disabled=true;
+    if(k===correct) b.classList.add("correct");
+    else if(k===oi) b.classList.add("wrong");
+  });
+  document.getElementById("why"+qi).classList.add("show");
+  if(oi===correct) awardXP(10, el);
+  if(Object.keys(quizAnswers).length===c.quiz.length) finishQuiz();
+}
+function finishQuiz(){
+  const c=window.__ch;
+  const score=c.quiz.reduce((s,q,qi)=>s+(quizAnswers[qi]===q.a?1:0),0);
+  const pass=score>=c.quiz.length-1;
+  progress.scores[c.id]=score;
+  let bonusMsg="";
+  if(pass){
+    const firstPass = !progress.done[c.id];
+    progress.done[c.id]=true;
+    if(firstPass){
+      const bonus = 40 + (score===c.quiz.length ? 25 : 0);
+      progress.xp += bonus; refreshChip();
+      bonusMsg = ' <span class="score">+'+bonus+' XP</span> chapter bonus.';
+      if(CHAPTERS.every(x=>progress.done[x.id])) confetti();
+    }
+  }
+  saveP();
+  const box=document.getElementById("quizResult");
+  box.className="quiz-result show "+(pass?"pass":"retry");
+  box.innerHTML='<span class="score">'+score+'/'+c.quiz.length+'</span> — '
+    +(pass?"chapter woven into the ring."+bonusMsg:"close — reopen the chapter to retake and lock it in.")
+    +'<div style="margin-top:10px"><button class="btn ghost" onclick="go(\'home\')">Back to chapters</button>'
+    +(pass?' <button class="btn" style="margin-left:8px" onclick="go(\'play\')">Try the games</button>':"")+'</div>';
+}
+
+/* ---------- play hub ---------- */
+function bestLine(key, fmt){
+  return progress.best[key]!==undefined ? fmt(progress.best[key]) : "Not played yet";
+}
+function renderPlay(){
+  view.innerHTML =
+    '<div class="ch-head rise"><div class="eyebrow">Play</div><h2>Learn it in your hands</h2></div>'
+    +'<div class="game-card rise" style="animation-delay:50ms" onclick="startSim()" role="button" tabindex="0">'
+    +'<div class="g-emoji" style="background:var(--uk-tint)">📈</div>'
+    +'<h3>Steady or Panic?</h3><p>Thirty simulated years, real crashes, one standing order — and your nerves. Beat the autopilot if you can.</p>'
+    +'<div class="g-best">'+bestLine("sim", v=>"Best pot: £"+v.toLocaleString("en-GB"))+'</div></div>'
+    +'<div class="game-card rise" style="animation-delay:110ms" onclick="startScam()" role="button" tabindex="0">'
+    +'<div class="g-emoji" style="background:var(--coral-tint)">🕵️</div>'
+    +'<h3>Scam or Legit?</h3><p>Twelve pitches from both countries. Some are real products; some want your ipon. Call each one.</p>'
+    +'<div class="g-best">'+bestLine("scam", v=>"Best: "+v+"/12")+'</div></div>'
+    +'<div class="game-card rise" style="animation-delay:170ms" onclick="examIntro()" role="button" tabindex="0">'
+    +'<div class="g-emoji" style="background:var(--ph-tint)">🎓</div>'
+    +'<h3>The Board Exam</h3><p>Fifteen questions drawn from the whole curriculum. Passing rate: 75%, as tradition demands.</p>'
+    +'<div class="g-best">'+bestLine("exam", v=>"Best: "+v+"/15")+'</div></div>'
+    +'<p style="font-size:12.5px;color:var(--ink-faint);margin-top:16px">Games award XP every run — replaying is revising.</p>';
+}
+
+/* ---------- game 1: Steady or Panic? ---------- */
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+let sim=null;
+function startSim(){
+  const seed = Math.floor(Math.random()*1e9);
+  const rand = mulberry32(seed);
+  // build 30 years of monthly returns with two scripted crashes and one bubble
+  const months=360, ret=new Array(months);
+  for(let m=0;m<months;m++){ ret[m]=0.0058 + (rand()-0.5)*0.055; } // ~7%/yr drifty noise
+  const crash1 = 60 + Math.floor(rand()*60);   // year 5-10
+  const crash2 = 200 + Math.floor(rand()*80);  // year 17-23
+  const bubble = 130 + Math.floor(rand()*40);  // year 11-14
+  for(let k=0;k<10;k++){ ret[crash1+k] = -0.052 - rand()*0.03; ret[crash2+k] = -0.045 - rand()*0.03; }
+  for(let k=0;k<12;k++){ ret[crash1+12+k] = 0.021 + rand()*0.012; ret[crash2+12+k] = 0.019 + rand()*0.012; }
+  sim = {
+    ret, m:0, months, contrib:200,
+    you:{units:0, cash:0, invested:true, paused:0},
+    auto:{units:0},
+    price:100, hist:[], histAuto:[],
+    events:[
+      {at:crash1+7, type:"crash", text:"Markets have fallen 30% in three months. Headlines say worse is coming. Your pot is deep red.", opts:[
+        {t:"Keep the standing order running", fx:"stay"},
+        {t:"Pause contributions until it calms down", fx:"pause"},
+        {t:"Sell everything — protect what is left", fx:"sell"}]},
+      {at:bubble, type:"boom", text:"Everyone on the unit is buying MoonCoin — up 400% this year. A colleague doubled her money in eight weeks.", opts:[
+        {t:"Stick to the boring global fund", fx:"stay"},
+        {t:"Put three months of contributions into MoonCoin", fx:"moon"}]},
+      {at:crash2+7, type:"crash", text:"A second storm: global markets down 28%. You have seen this film before.", opts:[
+        {t:"Keep buying — units are on sale", fx:"stay"},
+        {t:"Sell everything, sleep at night", fx:"sell"}]}
+    ],
+    reentry:null, moonHit:false, done:false, seed
+  };
+  view.innerHTML =
+    '<button class="back" onclick="go(\'play\')">&#8592; Games</button>'
+    +'<div class="ch-head rise"><div class="eyebrow">Steady or Panic?</div><h2>£200 a month, 30 years, your nerves</h2></div>'
+    +'<div class="sim-stage rise" style="animation-delay:60ms">'
+    +'<div class="sim-top"><span class="sim-year" id="simYear">Year 0</span>'
+    +'<div class="sim-pots"><span class="you" id="simYou">£0</span><span class="auto" id="simAuto">£0</span></div></div>'
+    +'<div class="sim-chart" id="simChart"></div>'
+    +'<div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);display:flex;gap:16px;margin-top:6px"><span style="color:var(--uk-deep)">— you</span><span style="color:var(--ph-deep)">- - autopilot</span></div>'
+    +'<div id="simEvent"></div></div>';
+  runSim();
+}
+function runSim(){
+  const t = addTimer(setInterval(()=>{ simTick(); }, 55));
+  sim.timer = t;
+}
+function simTick(){
+  if(sim.m >= sim.months){ endSim(); return; }
+  const ev = sim.events.find(e=>e.at===sim.m && !e.doneFlag);
+  if(ev){ pauseForEvent(ev); return; }
+  if(sim.reentry && sim.m===sim.reentry){ pauseForEvent({type:"calm", text:"Markets have rebounded 18% from the low. You are still in cash.", opts:[{t:"Get back in now",fx:"reenter"},{t:"Wait for a clearer signal",fx:"wait"}], reent:true}); return; }
+  stepMonth();
+}
+function stepMonth(){
+  const r = sim.ret[sim.m];
+  sim.price *= (1+r);
+  // autopilot always buys
+  sim.auto.units += sim.contrib / sim.price;
+  // you
+  if(sim.you.invested){
+    if(sim.you.paused>0){ sim.you.paused--; }
+    else sim.you.units += sim.contrib / sim.price;
+  } else {
+    sim.you.cash += sim.contrib;
+  }
+  if(sim.moonHit && sim.m===sim.moonAt+10){
+    sim.you.units *= 0.94; // mooncoin round trip cost ~6% of pot
+    toastEvent("MoonCoin fell 85%. The detour cost about 6% of your pot.", "crash");
+  }
+  sim.hist.push(sim.you.units*sim.price + sim.you.cash);
+  sim.histAuto.push(sim.auto.units*sim.price);
+  sim.m++;
+  paintSim();
+}
+function paintSim(){
+  const yp = sim.hist[sim.hist.length-1]||0, ap = sim.histAuto[sim.histAuto.length-1]||0;
+  document.getElementById("simYear").textContent = "Year "+Math.floor(sim.m/12);
+  document.getElementById("simYou").textContent = "£"+Math.round(yp).toLocaleString("en-GB");
+  document.getElementById("simAuto").textContent = "£"+Math.round(ap).toLocaleString("en-GB");
+  const w=560,h=190,pad=8, n=sim.hist.length;
+  const max=Math.max(...sim.histAuto, ...sim.hist, 1);
+  const X=i=>pad+(w-2*pad)*(i/(sim.months-1));
+  const Y=v=>h-pad-(h-2*pad)*(v/max);
+  const line=a=>a.map((v,i)=>(i?"L":"M")+X(i).toFixed(1)+" "+Y(v).toFixed(1)).join(" ");
+  document.getElementById("simChart").innerHTML =
+    '<svg viewBox="0 0 '+w+' '+h+'" width="100%">'
+    +'<path d="'+line(sim.histAuto)+'" fill="none" stroke="var(--ph)" stroke-width="2" stroke-dasharray="5 5"/>'
+    +'<path d="'+line(sim.hist)+'" fill="none" stroke="var(--uk)" stroke-width="2.6"/></svg>';
+}
+function pauseForEvent(ev){
+  clearTimers();
+  ev.doneFlag=true;
+  const box=document.getElementById("simEvent");
+  box.innerHTML='<div class="event-card '+ev.type+'"><div class="ev-label">'+(ev.type==="crash"?"Market event":ev.type==="boom"?"Temptation":"Decision point")+' · Year '+Math.floor(sim.m/12)+'</div>'
+    +'<div class="ev-text">'+esc(ev.text)+'</div>'
+    +ev.opts.map((o,i)=>'<button class="ev-btn" onclick="simChoose(\''+o.fx+'\')">'+esc(o.t)+'</button>').join("")
+    +'</div>';
+  box.scrollIntoView({behavior:RM?"auto":"smooth", block:"nearest"});
+}
+function toastEvent(text, type){
+  const box=document.getElementById("simEvent");
+  box.innerHTML='<div class="event-card '+type+'"><div class="ev-text" style="margin-bottom:0">'+esc(text)+'</div></div>';
+  addTimer(setTimeout(()=>{ if(box.firstChild) box.innerHTML=""; }, 2600));
+}
+function simChoose(fx){
+  document.getElementById("simEvent").innerHTML="";
+  if(fx==="pause"){ sim.you.paused=12; toastEvent("Contributions paused for a year. The dip will be bought — just not by you.","boom"); }
+  if(fx==="sell"){ sim.you.cash += sim.you.units*sim.price; sim.you.units=0; sim.you.invested=false; sim.reentry = sim.m+14; }
+  if(fx==="moon"){ sim.moonHit=true; sim.moonAt=sim.m; }
+  if(fx==="reenter"){ sim.you.units += sim.you.cash/sim.price; sim.you.cash=0; sim.you.invested=true; sim.reentry=null; }
+  if(fx==="wait"){ sim.reentry = sim.m+14; toastEvent("You wait. The market does not.","boom"); }
+  runSim();
+}
+function endSim(){
+  clearTimers();
+  if(!sim.you.invested){ /* still in cash at the end */ }
+  const you=Math.round(sim.hist[sim.hist.length-1]);
+  const auto=Math.round(sim.histAuto[sim.histAuto.length-1]);
+  const paid=sim.contrib*sim.months;
+  const beat = you >= auto*0.99;
+  progress.best.sim = Math.max(progress.best.sim||0, you); saveP();
+  const xp = 60 + (beat?40:0);
+  const verdict = beat
+    ? "You matched the autopilot — which is the whole secret. Steady hands, standing order, no heroics."
+    : "The autopilot won by doing nothing but showing up. Every exit, pause and detour has a price the chart remembers.";
+  document.getElementById("simEvent").innerHTML =
+    '<div class="verdict"><h3>'+(beat?"Steady hands. 🏆":"The market taught its fee.")+'</h3>'
+    +'<p>'+verdict+'</p>'
+    +'<div class="v-row"><span>You paid in</span><span>£'+paid.toLocaleString("en-GB")+'</span></div>'
+    +'<div class="v-row"><span>Your pot</span><span>£'+you.toLocaleString("en-GB")+'</span></div>'
+    +'<div class="v-row"><span>Autopilot pot</span><span>£'+auto.toLocaleString("en-GB")+'</span></div>'
+    +'<div style="margin-top:12px"><button class="btn" onclick="startSim()">Run it again</button> <button class="btn ghost" style="margin-left:8px" onclick="go(\'play\')">Games</button></div></div>';
+  awardXP(xp, document.getElementById("simChart"));
+  if(beat) confetti();
+}
+
+/* ---------- game 2: Scam or Legit? ---------- */
+let scam=null;
+function startScam(){
+  const deck=[...SCAM_CARDS].sort(()=>Math.random()-0.5);
+  scam={deck, i:0, score:0};
+  renderScamCard();
+}
+function renderScamCard(){
+  const c=scam.deck[scam.i];
+  view.innerHTML =
+    '<button class="back" onclick="go(\'play\')">&#8592; Games</button>'
+    +'<div class="ch-head rise"><div class="eyebrow">Scam or Legit?</div><h2>Call it</h2></div>'
+    +'<div class="scam-card"><div class="sc-count">Card '+(scam.i+1)+' of '+scam.deck.length+' · Score '+scam.score+'</div>'
+    +'<div class="sc-text">'+esc(c.text)+'</div></div>'
+    +'<div class="scam-btns"><button class="btn scam" id="btnScam" onclick="scamPick(true,this)">🚨 Scam</button>'
+    +'<button class="btn" id="btnLegit" onclick="scamPick(false,this)">✅ Legit</button></div>'
+    +'<div class="sc-feedback" id="scFb"></div>';
+}
+function scamPick(saidScam, el){
+  const c=scam.deck[scam.i];
+  const right = saidScam===c.scam;
+  document.getElementById("btnScam").disabled=true;
+  document.getElementById("btnLegit").disabled=true;
+  const fb=document.getElementById("scFb");
+  fb.className="sc-feedback show "+(right?"right":"wrong");
+  fb.innerHTML="<strong>"+(right?"Correct":"Not this time")+" — "+(c.scam?"scam.":"legit.")+"</strong> "+esc(c.why)
+    +'<div style="margin-top:10px"><button class="btn ghost" onclick="scamNext()">'+(scam.i+1<scam.deck.length?"Next card":"See result")+'</button></div>';
+  if(right){ scam.score++; awardXP(8, el); }
+}
+function scamNext(){
+  scam.i++;
+  if(scam.i<scam.deck.length){ renderScamCard(); return; }
+  const perfect = scam.score===scam.deck.length;
+  progress.best.scam = Math.max(progress.best.scam||0, scam.score); saveP();
+  if(perfect){ progress.xp+=20; refreshChip(); saveP(); confetti(); }
+  view.innerHTML =
+    '<button class="back" onclick="go(\'play\')">&#8592; Games</button>'
+    +'<div class="verdict rise"><h3>'+(perfect?"Perfect radar. 🛡️":scam.score>=9?"Sharp eyes.":"The scammers got a few past you.")+'</h3>'
+    +'<p>You called <span style="font-family:var(--mono);font-weight:700">'+scam.score+'/'+scam.deck.length+'</span>. '
+    +(perfect?"Nobody is taking your ipon today. +20 XP bonus.":"Every card you missed is a pattern worth rereading in Chapter 06.")+'</p>'
+    +'<div style="margin-top:10px"><button class="btn" onclick="startScam()">New deck</button> <button class="btn ghost" style="margin-left:8px" onclick="go(\'chapter\',\'risk\')">Reread Chapter 06</button></div></div>';
+}
+
+/* ---------- game 3: The Board Exam ---------- */
+let exam=null;
+function examIntro(){
+  view.innerHTML =
+    '<button class="back" onclick="go(\'play\')">&#8592; Games</button>'
+    +'<div class="ch-head rise"><div class="eyebrow">The Board Exam</div><h2>Fifteen questions. Pass mark 75%.</h2></div>'
+    +'<div class="tool-card rise" style="animation-delay:60ms"><p style="font-size:15px;margin-bottom:6px">Questions are drawn from every chapter plus a harder reserve bank — different paper every sitting.</p>'
+    +'<div class="toggle-row"><button class="switch'+(examTimed?" on":"")+'" id="swTimed" onclick="toggleTimed()" role="switch" aria-checked="'+examTimed+'" aria-label="Timed mode"></button> Timed — 20 seconds a question</div>'
+    +'<button class="btn gold" onclick="startExam()">Begin the exam</button>'
+    +(progress.best.exam!==undefined?'<div class="g-best" style="margin-top:12px">Best sitting: '+progress.best.exam+'/15</div>':"")
+    +'</div>';
+}
+let examTimed=true;
+function toggleTimed(){ examTimed=!examTimed; const s=document.getElementById("swTimed"); s.classList.toggle("on",examTimed); s.setAttribute("aria-checked",examTimed); }
+function startExam(){
+  const pool = CHAPTERS.flatMap(c=>c.quiz).concat(EXTRA_QS);
+  const paper = [...pool].sort(()=>Math.random()-0.5).slice(0,15);
+  exam={paper, i:0, score:0, t:null};
+  examQ();
+}
+function examQ(){
+  clearTimers();
+  const q=exam.paper[exam.i];
+  view.innerHTML =
+    '<div class="exam-head"><span>Question '+(exam.i+1)+' / 15</span><span>Score '+exam.score+'</span></div>'
+    +(examTimed?'<div class="exam-timer"><div id="exBar"></div></div>':"")
+    +'<div class="q-block rise"><div class="q-text" style="font-size:16.5px">'+esc(q.q)+'</div>'
+    +q.opts.map((o,oi)=>'<button class="q-opt" id="exo'+oi+'" onclick="examPick('+oi+',this)">'+esc(o)+'</button>').join("")
+    +'<div class="q-why" id="exWhy">'+esc(q.why)+'</div></div>'
+    +'<div id="exNext"></div>';
+  if(examTimed){
+    const bar=document.getElementById("exBar");
+    let left=20000; const step=100;
+    if(!RM) bar.style.transition="width 0.1s linear";
+    addTimer(setInterval(()=>{
+      left-=step; bar.style.width=(100*left/20000)+"%";
+      if(left<=0){ examPick(-1,null); }
+    },step));
+  }
+}
+function examPick(oi, el){
+  clearTimers();
+  const q=exam.paper[exam.i];
+  q.opts.forEach((_,k)=>{
+    const b=document.getElementById("exo"+k);
+    if(!b) return;
+    b.disabled=true;
+    if(k===q.a) b.classList.add("correct");
+    else if(k===oi) b.classList.add("wrong");
+  });
+  document.getElementById("exWhy").classList.add("show");
+  if(oi===q.a){ exam.score++; awardXP(10, el); }
+  document.getElementById("exNext").innerHTML='<button class="btn" onclick="examNext()">'+(exam.i+1<15?"Next question":"Submit paper")+'</button>';
+}
+function examNext(){
+  exam.i++;
+  if(exam.i<15){ examQ(); return; }
+  const pass=exam.score>=12, distinction=exam.score>=14;
+  progress.best.exam = Math.max(progress.best.exam||0, exam.score);
+  let bonus=0;
+  if(pass) bonus+=50;
+  if(distinction) bonus+=40;
+  if(bonus){ progress.xp+=bonus; refreshChip(); }
+  saveP();
+  if(pass) confetti();
+  view.innerHTML =
+    '<div class="verdict rise" style="text-align:center;padding:26px 18px">'
+    +'<div class="grade">'+(distinction?"Distinction 🎓":pass?"Passed ✅":"Not yet")+'</div>'
+    +'<p style="font-family:var(--mono);font-size:17px;font-weight:700">'+exam.score+' / 15</p>'
+    +'<p>'+(distinction?"Top of the batch. +"+bonus+" XP.":pass?"Above the 75% line — the review paid off. +"+bonus+" XP.":"Below the 75% line this sitting. The explanations under each question are the reviewer — then sit again.")+'</p>'
+    +'<div style="margin-top:12px"><button class="btn gold" onclick="startExam()">Sit again</button> <button class="btn ghost" style="margin-left:8px" onclick="go(\'play\')">Games</button></div></div>';
+}
+
+/* ---------- fit finder ---------- */
+function renderFit(){
+  const qs = FIT_QS.map((q,qi)=>{
+    const opts = q.opts.map((o,oi)=>{
+      const sel = fitState.answers[qi]===oi ? " sel":"";
+      return '<button class="fit-opt'+sel+'" onclick="fitPick('+qi+','+oi+')">'+esc(o.t)+'</button>';
+    }).join("");
+    return '<div class="fit-q"><div class="fq-text">'+(qi+1)+'. '+esc(q.q)+'</div>'+opts+'</div>';
+  }).join("");
+  const answered = Object.keys(fitState.answers).length===FIT_QS.length;
+  view.innerHTML =
+    '<div class="ch-head"><div class="eyebrow">Fit finder</div><h2>Which approach suits your life?</h2></div>'
+    +'<p style="color:var(--ink-soft);font-size:14.5px;margin-bottom:20px">Five questions about your time, goals and temperament. The result is an educational archetype — a starting shape to research, not a recommendation.</p>'
+    + qs
+    +'<button class="btn" id="fitGo" '+(answered?"":"disabled ")+'onclick="fitResult()">Show my archetype</button>'
+    +'<div id="fitOut">'+(fitState.result?archetypeHTML(fitState.result):"")+'</div>';
+}
+function fitPick(qi,oi){
+  fitState.answers[qi]=oi;
+  store.set("fit",fitState);
+  renderFit();
+}
+function fitResult(){
+  const tally={auto:0,twoflag:0,cautious:0,tinker:0};
+  FIT_QS.forEach((q,qi)=>{
+    const pick=q.opts[fitState.answers[qi]];
+    Object.keys(pick.w).forEach(k=>tally[k]+=pick.w[k]);
+  });
+  const best=Object.keys(tally).sort((a,b)=>tally[b]-tally[a])[0];
+  fitState.result=best;
+  store.set("fit",fitState);
+  document.getElementById("fitOut").innerHTML=archetypeHTML(best);
+}
+function archetypeHTML(key){
+  const a=ARCHETYPES[key];
+  return '<div class="archetype"><div class="a-label">Your archetype</div><h3>'+a.name+'</h3><p>'+a.desc+'</p>'
+    +'<div class="a-sec">Why it fits</div><ul>'+a.why.map(x=>"<li>"+x+"</li>").join("")+'</ul>'
+    +'<div class="a-sec">First steps to research</div><ul>'+a.steps.map(x=>"<li>"+x+"</li>").join("")+'</ul>'
+    +'<div class="a-sec">Watch out for</div><ul>'+a.watch.map(x=>"<li>"+x+"</li>").join("")+'</ul>'
+    +'<p style="font-size:12px;color:var(--ink-faint);margin-top:14px;margin-bottom:0">Education, not advice — archetypes describe common approaches so you can research them, and chapters 05–08 cover the details.</p></div>';
+}
+
+/* ---------- tools ---------- */
+let toolState = { monthly:200, years:20, rate:5, cur:"£" };
+function renderTools(){
+  view.innerHTML =
+    '<div class="ch-head"><div class="eyebrow">Tools</div><h2>See the maths move</h2></div>'
+    +'<div class="tool-card"><h3>Compound growth</h3><div class="t-sub">What steady monthly investing could become. Growth is illustrative and not guaranteed — real returns vary year to year.</div>'
+    +'<div class="seg"><button id="curGBP" onclick="setCur(\'£\')">£ GBP</button><button id="curPHP" onclick="setCur(\'₱\')">₱ PHP</button></div>'
+    +'<div class="ctl"><label>Monthly amount <span class="val" id="vMonthly"></span></label><input type="range" min="25" max="1000" step="25" id="rMonthly" oninput="toolInput()"></div>'
+    +'<div class="ctl"><label>Years <span class="val" id="vYears"></span></label><input type="range" min="1" max="40" step="1" id="rYears" oninput="toolInput()"></div>'
+    +'<div class="ctl"><label>Assumed growth per year <span class="val" id="vRate"></span></label><input type="range" min="0" max="10" step="0.5" id="rRate" oninput="toolInput()"></div>'
+    +'<div class="chart-box" id="chart"></div>'
+    +'<div class="result-row"><span>You put in</span><span class="rv" id="outPaid"></span></div>'
+    +'<div class="result-row"><span>Projected pot</span><span class="rv uk" id="outPot"></span></div>'
+    +'<div class="result-row"><span>Growth does</span><span class="rv" id="outGrowth"></span></div>'
+    +'</div>'
+    +'<div class="tool-card"><h3>The fee drag</h3><div class="t-sub">Same money, same years, same growth — the only difference is the yearly fee. Fees compound too, just against you.</div>'
+    +'<div class="result-row"><span>Pot at 0.2% fee</span><span class="rv uk" id="feeLow"></span></div>'
+    +'<div class="result-row"><span>Pot at 1.5% fee</span><span class="rv warn" id="feeHigh"></span></div>'
+    +'<div class="result-row"><span>Cost of the higher fee</span><span class="rv" id="feeDiff"></span></div>'
+    +'</div>';
+  document.getElementById("rMonthly").value=toolState.monthly;
+  document.getElementById("rYears").value=toolState.years;
+  document.getElementById("rRate").value=toolState.rate;
+  setCur(toolState.cur,true);
+}
+function setCur(c,skip){
+  toolState.cur=c;
+  document.getElementById("curGBP").classList.toggle("on",c==="£");
+  document.getElementById("curPHP").classList.toggle("on",c==="₱");
+  if(!skip && c==="₱" && toolState.monthly<100){ toolState.monthly=200; }
+  calcTools();
+}
+function toolInput(){
+  toolState.monthly=+document.getElementById("rMonthly").value;
+  toolState.years=+document.getElementById("rYears").value;
+  toolState.rate=+document.getElementById("rRate").value;
+  calcTools();
+}
+function fv(monthly, years, annualPct){
+  const i=annualPct/100/12, n=years*12;
+  if(i===0) return monthly*n;
+  return monthly*((Math.pow(1+i,n)-1)/i);
+}
+function money(x){
+  return toolState.cur+Math.round(x).toLocaleString("en-GB");
+}
+function calcTools(){
+  const {monthly,years,rate}=toolState;
+  const paid=monthly*years*12;
+  const pot=fv(monthly,years,rate);
+  document.getElementById("vMonthly").textContent=money(monthly);
+  document.getElementById("vYears").textContent=years+" yr";
+  document.getElementById("vRate").textContent=rate.toFixed(1)+"%";
+  document.getElementById("outPaid").textContent=money(paid);
+  document.getElementById("outPot").textContent=money(pot);
+  document.getElementById("outGrowth").textContent="+"+money(pot-paid);
+  const low=fv(monthly,years,Math.max(rate-0.2,0));
+  const high=fv(monthly,years,Math.max(rate-1.5,0));
+  document.getElementById("feeLow").textContent=money(low);
+  document.getElementById("feeHigh").textContent=money(high);
+  document.getElementById("feeDiff").textContent="-"+money(low-high);
+  drawChart(monthly,years,rate);
+}
+function drawChart(monthly,years,rate){
+  const w=560,h=170,pad=6;
+  const pts=[];let max=0;
+  for(let y=0;y<=years;y++){const v=fv(monthly,y,rate);pts.push(v);if(v>max)max=v;}
+  const paidPts=[];for(let y=0;y<=years;y++)paidPts.push(monthly*y*12);
+  const X=y=>pad+(w-2*pad)*(y/years);
+  const Y=v=>h-pad-(h-2*pad)*(max?v/max:0);
+  const line=arr=>arr.map((v,y)=>(y?"L":"M")+X(y).toFixed(1)+" "+Y(v).toFixed(1)).join(" ");
+  const area=line(pts)+" L"+X(years).toFixed(1)+" "+(h-pad)+" L"+X(0)+" "+(h-pad)+" Z";
+  document.getElementById("chart").innerHTML=
+    '<svg viewBox="0 0 '+w+' '+h+'" width="100%" role="img" aria-label="Projected growth curve">'
+    +'<path d="'+area+'" fill="var(--uk-tint)"/>'
+    +'<path d="'+line(pts)+'" pathLength="1" class="drawline" fill="none" stroke="var(--uk)" stroke-width="2.5"/>'
+    +'<path d="'+line(paidPts)+'" fill="none" stroke="var(--ph)" stroke-width="2" stroke-dasharray="5 5"/>'
+    +'</svg>'
+    +'<div style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);display:flex;gap:16px;margin-top:4px"><span style="color:var(--uk)">— pot</span><span style="color:var(--ph)">- - paid in</span></div>';
+}
+
+/* ---------- glossary ---------- */
+function renderGloss(){
+  view.innerHTML =
+    '<div class="ch-head"><div class="eyebrow">Glossary</div><h2>The words, decoded</h2></div>'
+    +'<input class="gloss-search" id="gq" placeholder="Search terms…" oninput="glossFilter()" aria-label="Search glossary">'
+    +'<div id="gList"></div>';
+  glossFilter();
+}
+function glossFilter(){
+  const q=(document.getElementById("gq").value||"").toLowerCase();
+  const items=GLOSSARY.filter(g=>!q||g.t.toLowerCase().includes(q)||g.d.toLowerCase().includes(q));
+  document.getElementById("gList").innerHTML = items.length
+    ? items.map(g=>'<div class="g-item"><div class="g-term">'+esc(g.t)+'<span class="chip '+g.tag+'">'+(g.tag==="both"?"UK · PH":g.tag)+'</span></div><div class="g-def">'+esc(g.d)+'</div></div>').join("")
+    : '<p style="color:var(--ink-soft);font-size:14px">No matches — try a shorter word.</p>';
+}
+
+/* ---------- scam deck ---------- */
+const SCAM_CARDS = [
+{scam:true, text:"A Facebook group offers a paluwagan paying guaranteed 30% monthly — slots close tonight, and you earn more for every friend you recruit.", why:"Guaranteed + high + urgent + recruitment is the full pyramid quartet. Real paluwagan rotates members' own money; it cannot mint 30% a month."},
+{scam:true, text:"A message from your bank: suspicious activity detected — please move your savings to a 'safe account' they have opened for you while they investigate.", why:"The safe account scam. Banks never ask you to move money to a new account; the safe account belongs to the caller."},
+{scam:false, text:"A fund factsheet lists an ongoing charge (OCF) of 0.12% a year and shows the index it tracks.", why:"Boring, specific and documented — exactly what legitimate products look like. Low fees and clear tracking are green flags."},
+{scam:true, text:"An investment firm with a name almost identical to a famous UK platform emails you a brochure — the returns are better than the real site shows.", why:"A clone firm. Fraudsters copy real firms' names and paperwork. Check the FCA register and only use contact details listed there."},
+{scam:false, text:"Pag-IBIG MP2 enrolment: a 5-year government savings programme, dividends declared yearly, no guaranteed rate quoted.", why:"Legit — and note what is missing: nobody guarantees a big number. Government-backed capital, variable dividends, honest framing."},
+{scam:true, text:"Someone you met on a dating app is teaching you crypto trading on a special exchange — your first small withdrawal worked perfectly.", why:"Romance-investment fraud. The early withdrawal is bait; the platform is theirs, and larger deposits never come back."},
+{scam:false, text:"A UK platform states: investments are FSCS-protected up to £85,000 if the firm fails, but the value of investments can fall.", why:"Legit wording — honest firms name the protection and the risk. Scams promise protection from losses; regulation never does."},
+{scam:true, text:"A GCash 'verifier' DMs: your account will be suspended unless you confirm your MPIN and the code we just texted you.", why:"No provider asks for your MPIN or OTP — those codes are the keys. Anyone requesting them is the thief."},
+{scam:false, text:"The Bureau of the Treasury announces a Retail Treasury Bond offer through banks, minimum ₱5,000, fixed coupon, dated prospectus.", why:"Legit — RTBs are how the Philippine government borrows from ordinary savers, sold through official channels with documents."},
+{scam:true, text:"A Telegram signals group shows screenshots of members' profits and offers account management: send funds, they trade for you, 15% weekly.", why:"Screenshots are free to fake, weekly double-digit returns are impossible to promise, and handing over funds to strangers ends one way."},
+{scam:false, text:"A broker's practice mode gives you virtual money to place pretend trades before committing anything real.", why:"Legit and genuinely useful — rehearsing with virtual money is how you test both the platform and your temperament."},
+{scam:true, text:"An 'SEC-registered' solar farm pays 4% monthly, capital guaranteed, and a celebrity endorses it in a glossy video.", why:"Registration of a company is not a licence to solicit investments — and guaranteed 4% monthly (60%+ a year) with celebrity gloss is the classic advisory-list resident."}
+];
+
+/* ---------- board exam reserve bank ---------- */
+const EXTRA_QS = [
+{q:"The UK tax year runs from…", opts:["1 January to 31 December","6 April to 5 April","1 April to 31 March","6 June to 5 June"], a:1, why:"6 April to 5 April — the clock your ISA allowance resets on."},
+{q:"You invest £15,000 in your ISA in May. How much ISA allowance remains this tax year?", opts:["£0","£5,000","£15,000","Unlimited"], a:1, why:"The overall allowance is £20,000 per tax year across all ISA types."},
+{q:"You sell ₱50,000 of PSE shares. The stock transaction tax taken is about…", opts:["₱30","₱300","₱3,000","Nothing"], a:1, why:"0.6% of the gross sale value: ₱50,000 × 0.006 = ₱300, withheld automatically."},
+{q:"MP2 savings are committed for…", opts:["1 year","5 years","10 years","No fixed term"], a:1, why:"MP2 runs on a five-year term — one reason it suits medium-term peso goals rather than emergency cash."},
+{q:"Philippine dividend tax was withheld on income you received while UK-resident. Under the double taxation treaty, that withheld tax typically becomes…", opts:["Lost money","A credit against your UK tax on the same income","A refund from the PSE","Irrelevant — foreign income is UK-exempt"], a:1, why:"Treaty relief usually credits foreign tax paid against the UK liability so the same peso is not fully taxed twice."},
+{q:"Fund A charges 0.15%; Fund B charges 1.4%. Over 25 years the main effect of choosing B is…", opts:["Better service","Tens of thousands less in your pot","Nothing measurable","Faster withdrawals"], a:1, why:"Fees compound against you every single year; over decades the drag runs into five figures on ordinary contributions."},
+{q:"A UK REIT's PID lands in your general account (GIA). By default it arrives…", opts:["Gross, tax-free","With 20% deducted as property income","With 0.6% deducted","Only in December"], a:1, why:"PIDs are normally paid net of 20% outside a wrapper — inside an ISA they arrive gross."},
+{q:"Your emergency fund target if essential spending is £1,400 a month is roughly…", opts:["£1,400","£4,200–£8,400","£50,000","One month's salary"], a:1, why:"Three to six months of essentials: 3–6 × £1,400."},
+{q:"Pound-cost averaging buys the most units when…", opts:["Prices are high","Prices are low","Markets are closed","You skip a month"], a:1, why:"The fixed amount buys more units when prices fall — the mechanism that turns dips into future gains."},
+{q:"FSCS would help you if…", opts:["Your index fund falls 15%","Your FCA-authorised platform goes bust","Inflation rises","A PSE stock is suspended"], a:1, why:"FSCS covers failure of the authorised firm (up to £85,000) — never market losses."},
+{q:"Money for a house deposit needed in two years belongs in…", opts:["A global equity fund","Cash savings or a Cash ISA","Philippine REITs","MoonCoin"], a:1, why:"The five-year rule: short-horizon money cannot wait out a crash, so it stays in cash."},
+{q:"Board lots on the PSE mean…", opts:["Every share costs ₱100","There is a minimum share quantity per trade that varies by price","Only brokers can buy","Trading happens monthly"], a:1, why:"The exchange sets minimum quantities by price band — cheap shares trade in bigger lots."},
+{q:"A LISA can be opened by someone aged…", opts:["Any age","Under 40","Over 60 only","Under 18"], a:1, why:"Open between 18 and 39; up to £4,000 a year earns a 25% bonus, locked for a first home or age 60."},
+{q:"Your fund is down 25% and you do not need the money for 20 years. The evidence-backed move is…", opts:["Sell and wait in cash","Keep the standing order running","Double-check prices hourly","Switch to whatever rose most"], a:1, why:"Contributions made in downturns buy cheap units; exits crystallise losses and usually miss the rebound."},
+{q:"The clearest tell of a clone-firm scam is…", opts:["A low OCF","Contact details that differ from the FCA register entry","A dated prospectus","A practice mode"], a:1, why:"Clones copy real names but not real channels — always verify contact details independently on the register."}
+];
+
+/* ================= CONTENT ================= */
+const CHAPTERS = [
+{
+id:"why", tag:"both", title:"Why invest at all",
+blurb:"Inflation, compounding, and the order of operations before a single pound goes in.",
+body:`Cash feels safe because the number never goes down. But the number is not the point — what it buys is. If prices rise around 3% a year and your savings earn less, your money quietly shrinks in real terms. Investing is how ordinary people give their savings a fighting chance to grow faster than prices over the long run.
+
+> key: Investing is not gambling with money you need. It is putting money you will not touch for years into assets that historically outgrow inflation — accepting bumps along the way in exchange for growth.
+
+## The quiet engine: compounding
+
+Growth earns growth. {£200} a month growing at 5% a year becomes roughly {£82,000} after 20 years — about {£48,000} of it paid in by you, the rest done by time. Start earlier, and time does more of the lifting than the amount ever will. This is why boring and early beats clever and late.
+
+## The order of operations
+
+Before investing a single pound, get the foundations in this order:
+
+- **Expensive debt first.** Credit cards and overdrafts charge more than markets reliably return. Clearing them is a guaranteed win.
+- **Emergency fund.** Three to six months of essential spending in instant-access cash. This is what stops a broken boiler or a family emergency forcing you to sell investments at a bad moment.
+- **Your pension.** If you are in the NHS scheme, you already hold one of the best retirement assets in the country — a guaranteed, inflation-linked income with a large employer contribution. That is your foundation, already being laid every payday.
+- **Then invest** — money you can leave alone for five years or more.
+
+> ph: The same logic applies to money for Philippine goals — family support, property, a future move. The vehicles differ (later chapters), but the order does not: debt, buffer, then growth.
+
+## The five-year rule
+
+Markets fall — sometimes hard. What makes that survivable is time. Money needed within about five years (a wedding, a visa fee, a house deposit next year) belongs in cash savings, not shares. Money with a decade ahead of it can ride the dips.
+
+> warn: If losing the money next year would derail your life, it is not investment money yet. Nothing in this app changes that.`,
+quiz:[
+{q:"Your savings account pays 2% while inflation runs at 3.5%. What is happening to your money?",
+opts:["Nothing — the balance is growing","It is losing buying power in real terms","It is growing faster than prices","It depends on the bank"],
+a:1, why:"The balance rises, but prices rise faster — so what the money can actually buy shrinks. That gap is the core reason to invest long-term money."},
+{q:"Which should generally come before investing in shares?",
+opts:["Buying individual stocks quickly to catch up","Clearing expensive debt and building an emergency fund","Waiting for the perfect market moment","Opening accounts in both countries"],
+a:1, why:"High-interest debt outpaces typical returns, and an emergency buffer stops life events forcing you to sell at the worst time."},
+{q:"Money you will need in 18 months for a fixed cost belongs mostly in…",
+opts:["A global shares fund","Cash savings","Philippine blue-chip stocks","Whatever grew most last year"],
+a:1, why:"Markets can fall 20% or more in a single year. Short-horizon money cannot wait out a dip, so it stays in cash."}
+]
+},
+{
+id:"blocks", tag:"both", title:"The building blocks",
+blurb:"Cash, bonds, shares, funds — the whole zoo, arranged by risk, in both countries.",
+body:`Every investment you will ever meet is a variation on a few basic blocks. Learn the blocks and no product page can confuse you again.
+
+## The ladder, lowest risk first
+
+- **Cash savings** — banks pay you interest. Safe, flexible, and the right home for your emergency fund. Its enemy is inflation.
+- **Bonds** — you lend money to a government or company; they pay interest and return the loan. UK government bonds are called **gilts**; the Philippines sells **Retail Treasury Bonds** to ordinary Filipinos. Steadier than shares, lower expected growth.
+- **Shares (equities)** — you own a slice of a company and share its fortunes: growth, dividends, and the full drama of its ups and downs.
+- **Property and REITs** — owning buildings, or shares in companies that own buildings (REITs trade on both the London and Philippine exchanges), collecting rent as income.
+- **Speculative assets** — crypto, gold, individual bets. Prices move on sentiment; treat as optional spice, never the meal.
+
+> key: Risk and expected return travel together. Anything promising high returns with no risk has simply hidden the risk — usually somewhere expensive.
+
+## The block that changes everything: funds
+
+A **fund** pools money from thousands of people to buy hundreds or thousands of shares in one purchase. One buy, instant diversification — no single company can sink you.
+
+An **index fund** (or its exchange-traded cousin, the **ETF**) does not try to be clever. It simply buys the whole market — every company in an index like the FTSE All-World — for a tiny fee, often under 0.25% a year. Decades of evidence show most professional stock-pickers fail to beat this dumb-sounding approach after fees. For busy people, the index fund is the closest thing investing has to a cheat code.
+
+> ph: The Philippine equivalents: **UITFs** from banks and **mutual funds** from investment houses pool money the same way, including PSEi index funds that track the top 30 Philippine companies. Fees tend to run higher than UK trackers — always check before buying.
+
+## Diversification, in one sentence
+
+Spread across many companies, countries and asset types, so no single failure — a company, a sector, even a whole country's rough decade — takes your future with it.`,
+quiz:[
+{q:"What does buying an index fund actually do?",
+opts:["Picks the best few stocks for you","Buys a small slice of every company in a market index at low cost","Guarantees a fixed return","Lends your money to the government"],
+a:1, why:"An index fund holds the whole market rather than guessing winners — instant diversification for a very small fee."},
+{q:"A gilt is…",
+opts:["A UK government bond","A Philippine blue-chip share","A type of ISA","A gold-backed token"],
+a:0, why:"Gilts are loans to the UK government. The Philippine retail equivalent is the Retail Treasury Bond."},
+{q:"Why do funds suit beginners better than single shares?",
+opts:["They always go up","One purchase spreads risk across hundreds of companies","They are tax-free everywhere","They can be sold faster"],
+a:1, why:"Diversification is the point: one company failing barely dents a broad fund, but it can wreck a portfolio of three stocks."}
+]
+},
+{
+id:"ukwrap", tag:"uk", title:"UK accounts and the tax question",
+blurb:"ISAs, the general account, and why the wrapper matters as much as what goes inside.",
+body:`In the UK, **where** you hold investments matters almost as much as **what** you hold. The same fund can be tax-free in one account and taxable in another. These containers are called wrappers.
+
+## The ISA: your first stop
+
+Each tax year (6 April to 5 April) you get a {£20,000} ISA allowance across all ISA types. Inside a **Stocks & Shares ISA**, everything — growth and dividends — is free of UK tax, forever, with nothing to report to HMRC. For most people starting out, filling the ISA before anything else is the obvious move. A **Cash ISA** shelters savings interest the same way.
+
+> key: Same fund, two outcomes: inside an ISA, gains are yours entirely; outside, the taxman takes a share and you inherit paperwork. Use the wrapper first.
+
+- **Lifetime ISA** — if you are under 40 you can open one: up to {£4,000} a year gets a 25% government bonus, but the money is locked for a first home (up to {£450,000}) or age 60. Worth researching if either applies.
+- **SIPP** — a personal pension with tax relief on the way in. As an NHS scheme member your workplace pension usually comes first, but a SIPP can top things up. Money is locked until pension age.
+
+## Outside the wrapper: the GIA
+
+A **General Investment Account** has no limits — and no shelter. Currently you get a {£3,000} capital gains allowance and a {£500} dividend allowance per year; above those, tax and Self Assessment reporting apply. Rules and rates move around at Budgets, so check gov.uk for the current figures. Most people only need a GIA after the ISA is full — a good problem to have.
+
+## Is my money safe?
+
+Two different protections, often confused:
+
+- **FSCS** covers up to {£85,000} per person per institution if the **provider itself fails**. Check any platform is FCA-authorised on the FCA register before opening an account.
+- Nothing protects against **investments falling in value** — that is market risk, and it is yours. Diversification and time are the tools for that.
+
+> warn: An ISA shelters UK tax only. It does nothing for Philippine holdings — those live under different rules, coming in the next chapter.`,
+quiz:[
+{q:"Inside a Stocks & Shares ISA, gains and dividends are…",
+opts:["Taxed at your income rate","Free of UK tax, with nothing to report","Tax-free only after five years","Taxed at 10%"],
+a:1, why:"That is the whole point of the wrapper: no UK tax on growth or dividends, and no HMRC reporting, within the £20,000 yearly allowance."},
+{q:"FSCS protection (up to £85,000) covers you when…",
+opts:["Your fund falls in value","Your FCA-authorised provider fails","You pick a bad stock","Inflation rises"],
+a:1, why:"FSCS is about institutional failure, not market losses. Falls in value are ordinary market risk — no scheme insures against those."},
+{q:"When does a General Investment Account typically enter the picture?",
+opts:["Before any ISA","Once the yearly ISA allowance is used up","Only for retirees","Never — it is obsolete"],
+a:1, why:"The GIA has no limits but no tax shelter, so it usually makes sense only after the ISA allowance is full."}
+]
+},
+{
+id:"ph", tag:"ph", title:"The Philippines corner",
+blurb:"PSE basics, MP2 and PERA, brokers, and what UK residency means for money back home.",
+body:`Investing with one foot in each country is entirely doable — plenty of overseas Filipinos run a UK core and a Philippine satellite. You just need to know which rules apply where.
+
+## The Philippine Stock Exchange
+
+The **PSE** in Bonifacio Global City lists the country's big names — banks, holding companies, telecoms, property. The headline index is the **PSEi**, the 30 largest listed companies. Shares trade in **board lots** — minimum quantities that vary with the share price — so very cheap and very expensive shares have different minimum buys.
+
+You will need a Philippine broker. Established online options include **COL Financial**, **BDO Securities** and **First Metro Securities**, and app-based routes like **GStocks** inside GCash have lowered the door for OFWs. Opening an account remotely as an overseas Filipino is normal — expect ID, TIN and proof-of-address requirements.
+
+## Two quietly excellent government schemes
+
+- **Pag-IBIG MP2** — a voluntary five-year government savings programme open to members including OFWs. Dividends have historically run well above bank rates and are tax-free in the Philippines. Capital is government-backed. For Philippine-peso goals, this is many OFWs' first stop before shares.
+- **PERA** — the Personal Equity and Retirement Account, a tax-advantaged retirement wrapper. Overseas Filipinos can contribute up to {₱200,000} a year (double the resident limit) with a 5% tax credit in the Philippines.
+
+> key: MP2 plus a PSEi index fund is a simple, popular two-piece Philippine setup: government-backed stability underneath, market growth on top.
+
+## Philippine taxes, briefly
+
+Selling PSE shares costs a **stock transaction tax of 0.6%** of the sale value, taken automatically — no capital gains filing for listed shares. Cash **dividends carry a 10% withholding** at source. Your broker handles both.
+
+## The part most guides skip: you live in the UK
+
+As a UK tax resident you are generally taxable on **worldwide** income and gains — Philippine dividends and MP2 earnings included, even if tax was already withheld in Manila. The **UK–Philippines double taxation treaty** exists precisely so the same money is not fully taxed twice: tax paid there typically becomes a credit here. Small amounts may sit within UK allowances, but the reporting duty is yours.
+
+> warn: Your ISA cannot shelter Philippine-held assets, and HMRC does not consider foreign income invisible. If your PH holdings grow beyond pocket-money scale, an accountant familiar with foreign income is worth one hour of their time.`,
+quiz:[
+{q:"When you sell shares on the PSE, capital gains are handled by…",
+opts:["Filing a Philippine capital gains return","A 0.6% stock transaction tax taken automatically on the sale","Paying 20% at year end","Nothing — PSE sales are untaxed"],
+a:1, why:"Listed-share sales carry the 0.6% stock transaction tax at source, which settles the Philippine side without a filing."},
+{q:"MP2 is best described as…",
+opts:["A high-risk stock fund","A voluntary, government-backed 5-year savings programme with tax-free Philippine dividends","A UK pension for Filipinos","A crypto wallet"],
+a:1, why:"MP2 is Pag-IBIG's voluntary savings scheme — government-backed, five-year term, historically strong tax-free dividends, open to OFW members."},
+{q:"You live in the UK and receive Philippine dividends with 10% already withheld. For HMRC, that income is…",
+opts:["Invisible — it was taxed abroad","Still reportable in the UK, usually with treaty credit for the Philippine tax","Only reportable above £1 million","Covered by your ISA"],
+a:1, why:"UK residents are taxed on worldwide income. The double taxation treaty prevents paying in full twice, but the UK reporting duty remains."}
+]
+},
+{
+id:"fit", tag:"both", title:"What fits a nurse's life",
+blurb:"Shift work, no screen-watching, and the honest evidence on trading versus investing.",
+body:`Here is the question underneath everything: what actually works for someone doing long days on a unit, whose free time is precious and irregular?
+
+## Trading and investing are different jobs
+
+**Trading** means buying and selling frequently, trying to profit from short-term moves. It is a screen-heavy, emotionally expensive pursuit — and the evidence is brutal. UK regulators force CFD and leveraged-product providers to publish the share of retail customers losing money, and it is routinely around three-quarters. Academic studies of day traders find the vast majority underperform or lose outright over time.
+
+**Investing** means buying broad assets and holding them for years, letting compounding and world economic growth do the work. It needs minutes a month.
+
+> key: The winning move for a busy clinician is usually to be gloriously boring: automatic monthly buying of a diversified low-cost fund, then going back to your actual life.
+
+## Pound-cost averaging: the shift-worker's friend
+
+Investing the same amount every payday — regardless of headlines — is called pound-cost averaging. Prices high? Your money buys fewer units. Prices low? It quietly buys more. You never need an opinion about timing, which is ideal, because nobody reliably has one.
+
+## A sequence that suits your situation
+
+- **Foundation** — emergency fund topped up; NHS pension ticking away with every payslip.
+- **Core** — a global index fund inside a Stocks & Shares ISA, bought by standing order each payday. Platforms offer automatic investing so it happens while you are mid-shift.
+- **Satellite, if wanted** — Philippine-peso goals through MP2 and perhaps a PSEi index fund; small and separate from the core.
+- **Play money, optional** — if picking stocks appeals, cap it at 5–10% and treat results as tuition. Practice modes let you learn with virtual money first.
+
+## A realistic time budget
+
+Thirty minutes a month: check the standing orders went through, glance at the pot, log anything you changed and why. Quarterly, an hour to review. That is genuinely enough — more checking mostly produces more anxiety, not more return.
+
+> warn: If an approach only works when you watch charts between obs rounds, it does not fit your life. Design for your worst week, not your best one.`,
+quiz:[
+{q:"What do regulator-mandated disclosures consistently show about retail CFD trading accounts?",
+opts:["Most are profitable","Roughly three-quarters lose money","Results are secret","Losses only happen to beginners"],
+a:1, why:"Providers must publish loss rates, and they routinely sit around 70–80% of retail accounts — the strongest everyday evidence that frequent trading is a losing game for most."},
+{q:"Pound-cost averaging means…",
+opts:["Buying only when markets dip","Investing a fixed amount at regular intervals regardless of price","Converting pounds to pesos monthly","Averaging your last five buys"],
+a:1, why:"A fixed, automatic amount each payday removes timing decisions entirely — fewer units when dear, more when cheap."},
+{q:"For a shift worker, a sensible core investment looks like…",
+opts:["Day trading on breaks","A global index fund bought automatically each payday inside an ISA","Whatever a ward colleague tips","A single promising stock"],
+a:1, why:"Automatic, diversified and tax-sheltered — it works on your worst week, which is the real test."}
+]
+},
+{
+id:"risk", tag:"both", title:"Risk, fees and scams",
+blurb:"Volatility versus real loss, why small fees eat big money, and the red flags aimed at OFWs.",
+body:`Three forces quietly decide most investing outcomes: how you handle drops, what you pay in fees, and whether anyone manages to steal from you. All three are learnable.
+
+## Volatility is not the same as loss
+
+A diversified fund falling 20% is a **paper drop** — it becomes a real loss only if you sell. Broad markets have fallen 30–50% several times in living memory and later recovered to new highs; the people hurt most were those forced or frightened into selling at the bottom. This is why the emergency fund and the five-year rule exist: they buy you the right to wait.
+
+> key: Risk you should minimise: concentration (too few holdings), leverage, and needing the money soon. Risk you must simply accept: prices wobbling on the way up.
+
+## Fees: the polite thief
+
+Fees compound just like growth — against you. {£200} a month for 25 years at 6% growth: a 0.2% yearly fee leaves roughly {£134,000}; a 1.5% fee leaves about {£111,000}. Same money, same market — around {£23,000} gone to the higher fee. Check the fee (OCF) on any fund and the platform charge on top. The Tools tab lets you run your own numbers.
+
+## Protection, both flags
+
+- **UK** — use FCA-authorised platforms (check the FCA register), with FSCS cover up to {£85,000} if the firm fails.
+- **PH** — brokers should be licensed with the Philippine SEC and PSE; the SEC publishes advisories naming active investment scams. Reading that list is sobering and worth ten minutes.
+
+## Scams love hardworking savers
+
+Overseas Filipino workers are a favourite target — steady income, strong family motivation, and distance from home. The red flags repeat:
+
+- **Guaranteed** high returns — the word guaranteed next to a big number is the tell.
+- Pressure to decide **today**, before a slot closes.
+- Returns paid from **recruiting others** — that is a pyramid, whatever it calls itself.
+- Contact via social media DMs, romance chats, or friend-of-a-friend paluwagan-style groups that suddenly need bank transfers.
+- Celebrity endorsements and screenshots of other people's winnings.
+
+> warn: Real investing never needs urgency. Anyone rushing you is selling something that cannot survive a night's sleep. Verify the firm on the FCA register or SEC advisories first — one search has saved many life savings.`,
+quiz:[
+{q:"Your diversified global fund is down 20% this year. The most evidence-backed response is…",
+opts:["Sell before it hits zero","Keep to your plan — drops become losses only when you sell","Move everything to one recovering stock","Stop your monthly contributions forever"],
+a:1, why:"Broad markets have repeatedly fallen hard and recovered; selling in the trough converts a paper drop into a permanent loss."},
+{q:"Over 25 years, the realistic difference between a 0.2% and 1.5% yearly fee on £200 a month is closest to…",
+opts:["A few hundred pounds","Around £23,000","Nothing — fees do not compound","£1 million"],
+a:1, why:"Fees compound against you every year. Small-looking percentages become tens of thousands over decades."},
+{q:"Which is the clearest scam signal?",
+opts:["A fund listing its fees","Guaranteed 30% monthly returns if you join today","An FCA-registered platform","A five-year government savings scheme"],
+a:1, why:"Guaranteed plus high plus urgent is the classic trio. Legitimate investing offers none of the three."}
+]
+},
+{
+id:"mind", tag:"both", title:"The behaviour curriculum",
+blurb:"Your own brain is the biggest risk in the room. Train it like any other skill.",
+body:`Study after study lands on the same awkward truth: the average fund does better than the average person **in** that fund. The gap is behaviour — buying after rises, selling after falls, tinkering. The good news: behaviour is trainable, and as a nurse you already train under pressure for a living.
+
+## The three expensive instincts
+
+- **Loss aversion** — losses feel roughly twice as strong as equal gains, which is why a red day screams and a green day whispers. Knowing the wiring helps you discount the scream.
+- **Recency bias** — whatever just happened feels like it will continue. Markets that just fell feel doomed; ones that just rose feel unstoppable. Both feelings are noise.
+- **Action bias** — under stress, doing something feels safer than holding steady. In clinical work, often true. In investing, the data says the opposite: activity is usually the leak.
+
+> key: You do not need to feel calm during a market fall. You need a pre-written plan that does not care how you feel.
+
+## Habits that do the heavy lifting
+
+- **Automate everything** — standing order in, auto-invest on. The best investing happens while you are busy elsewhere.
+- **Check monthly, not daily** — the more often you look, the more red you see, and the more tempted you are to touch. Put a recurring slot in your calendar and keep to it.
+- **Keep an investing journal** — one line per decision: what you did and **why**. Before any change, write the reason; if it will not survive being written down, it will not survive reality. Reread yearly — it becomes your own private curriculum.
+- **Pre-commit to falls** — write it now, in calm weather: when my fund drops 25%, I will keep buying monthly and touch nothing. Future-you will be very glad past-you left instructions.
+
+## Crashes, reframed
+
+For someone contributing monthly with decades ahead, a crash is the sale of the century — the same standing order quietly buying more units at marked-down prices. That reframe is not spin; it is arithmetic, and it is the single most useful sentence to remember in a bad year.
+
+> warn: If checking your portfolio is affecting your sleep or your shifts, that is a signal — reduce risk, widen your buffer, or step back to cash-plus-pension for a while. Investing serves the life, never the reverse.`,
+quiz:[
+{q:"Why does the average investor often earn less than the very fund they hold?",
+opts:["Funds cheat","Behaviour — buying high, selling low, tinkering","Taxes take the rest","Luck alone"],
+a:1, why:"The behaviour gap is well documented: emotional timing decisions cost more than fees for many people."},
+{q:"The most protective single habit is…",
+opts:["Checking prices every morning","Automating contributions and reviewing on a schedule","Following market news closely","Switching funds each year"],
+a:1, why:"Automation removes the daily decision, and scheduled reviews starve impulse of its opportunity."},
+{q:"For a monthly investor with 20 years ahead, a market crash mostly means…",
+opts:["Time to stop contributing","The standing order buys more units at lower prices","Investing has failed","Switch everything to cash"],
+a:1, why:"Same money, cheaper units. Historically, contributions made in downturns did the most eventual work."}
+]
+},
+{
+id:"reits", tag:"both", title:"REITs: property without the landlord",
+blurb:"Rent-collecting shares on both exchanges — payout laws, PIDs, PSE yields, and the classic traps.",
+body:`REITs answer a question close to many Filipino hearts: how do I own property without becoming a long-distance landlord? A **Real Estate Investment Trust** is a listed company that owns income-producing buildings — warehouses, offices, malls, clinics — and by law must hand most of the rent to shareholders as dividends. You buy it like any share, in seconds, from your phone. No tenants, no 3am boiler calls, no barangay paperwork.
+
+> key: A REIT gives you the income of property with the liquidity of shares — and the price swings of shares too. It is an equity with a property engine, not a replacement for cash or bonds.
+
+## How the law makes them income machines
+
+Both countries force the payout. UK REITs must distribute at least {90%} of their property rental profits; the Philippine REIT Act requires at least {90%} of distributable income as dividends. That is why REIT yields usually sit well above ordinary shares — the rent has nowhere else to go.
+
+## The UK shelf
+
+London lists REITs across warehouses and logistics, offices, retail and — pleasingly for an NHS nurse — healthcare REITs that own GP surgeries and medical centres. Names like Segro or Primary Health Properties show the range (examples, never tips). UK REIT payouts arrive as **PIDs** — property income distributions — normally paid with 20% tax deducted in a general account. Inside a Stocks & Shares ISA they arrive **gross**: the wrapper earns its keep unusually well here. A property ETF spreads you across many REITs in a single buy.
+
+> ph: The PSE's REIT board is young — the first listing arrived in 2020 — and grew fast as the big property families brought malls, offices and towers to market: AREIT (Ayala), RCR (Robinsons) and MREIT (Megaworld) are examples of the breed. Dividends have commonly landed mid-single-digit yields, paid quarterly, with the usual 10% withheld at source — and, as ever, reportable to HMRC while you live in the UK.
+
+## What can go wrong
+
+REIT prices are sensitive to **interest rates** — when rates jumped in 2022, REITs worldwide fell hard even while rents kept flowing. Dividends can be **cut**: office-heavy REITs on both exchanges have had lean patches when tenants left. And a single REIT is one sponsor's buildings — concentration wearing a diversified costume.
+
+> warn: Yield-chasing is the classic REIT trap. A payout far above every peer usually means the market expects trouble — a falling price makes any dividend look generous. Compare like with like, and let REITs be a slice of the plan, not the plate.
+
+## Where they fit
+
+Your global index core already holds some property. A deliberate REIT slice is an optional income tilt — the satellite frame from Chapter 05 applies: sized so a bad year is a shrug, held inside the ISA on the UK side, and journalled like everything else.`,
+quiz:[
+{q:"Why do REIT dividend yields usually beat ordinary shares?",
+opts:["The law forces them to pay out at least ~90% of property income","Governments guarantee the payments","They carry no risk","Currency effects boost them"],
+a:0, why:"Both the UK regime and the Philippine REIT Act compel high distribution of rental or distributable income — the yield is structural, not generosity."},
+{q:"In the UK, where do REIT payouts (PIDs) work hardest for you?",
+opts:["A GIA — the account makes no difference","Inside a Stocks & Shares ISA, where PIDs arrive gross","Cash under the mattress","REITs cannot be held in an ISA"],
+a:1, why:"Outside a wrapper, PIDs normally arrive with 20% deducted as property income; inside the ISA they are received gross — one of the wrapper's best party tricks."},
+{q:"A PH REIT yields 14% while its peers pay around 6%. The most likely explanation is…",
+opts:["A rare free lunch","The market is pricing in trouble — a fallen share price inflates the yield","A government subsidy","A rounding error"],
+a:1, why:"Yield is dividend divided by price. When the price falls on bad expectations, the yield looks spectacular right up until the dividend is cut."}
+]
+},
+{
+id:"first", tag:"both", title:"Your first month",
+blurb:"A four-week, no-money-yet runway from reading to ready.",
+body:`Knowledge becomes protection only when it turns into setup. Here is a four-week runway that costs nothing and commits you to nothing — by the end you will be genuinely ready, not just informed.
+
+## Week 1 — the honest numbers
+
+- Work out monthly essential spending, then your emergency fund target (3–6 months of it) and how far along you are.
+- Find your payslip and confirm your pension scheme membership — that is your foundation asset, already running.
+- Pick your number: an amount you could invest monthly without noticing. Small and sustainable beats bold and abandoned.
+
+## Week 2 — open the practice door
+
+- Open a **practice account** — several UK platforms offer virtual-money modes. Place pretend trades, watch a week of wobble, feel the interface.
+- Notice your reactions when the practice pot dips. That feeling, at zero cost, is the cheapest education in this entire app.
+
+## Week 3 — research the boring core
+
+- Read the factsheet of one or two **global index funds** — the kind tracking thousands of companies worldwide. Factsheets are two pages: what it holds, what it costs (the OCF), how it has behaved.
+- Compare a couple of FCA-authorised platforms on fees and whether they offer a Stocks & Shares ISA with automatic investing.
+
+> ph: Parallel track, if PH goals matter now: confirm your Pag-IBIG membership status and read the MP2 enrolment steps — an OFW can complete it online. Browse one PH broker's account-opening requirements so nothing surprises you later.
+
+## Week 4 — decide and write it down
+
+- Write a one-page **investing policy**: my monthly amount, my core fund type, my wrapper (ISA), what I will do in a crash (nothing new), and when I review (monthly, 30 minutes).
+- Set the calendar slot. If you are ready, open the ISA and set the standing order for the day after payday — automation from day one.
+
+> key: The finish line of month one is not wealth — it is a written plan, a tested temperament, and a system that runs on your worst week. The pounds and pesos are just what flows through it afterwards.
+
+From here, the Fit Finder tab can sanity-check your archetype, and the Tools tab will show what your chosen number could become. Balato comes later — the plan starts now.`,
+quiz:[
+{q:"The main goal of your first month is…",
+opts:["Doubling your money","A written plan, a tested temperament, and automated setup","Finding one hot stock","Opening every account available"],
+a:1, why:"Systems beat intentions. A one-page policy plus automation is what actually survives contact with real life."},
+{q:"What is a practice account for?",
+opts:["Guaranteed profits","Learning the interface and your own reactions with virtual money","Avoiding all tax","Unlocking bonuses"],
+a:1, why:"It rehearses both mechanics and emotions at zero cost — especially the feeling of watching a dip."},
+{q:"A fund factsheet is mainly used to check…",
+opts:["The manager's photo","What the fund holds and what it costs per year","Yesterday's price only","Social media reviews"],
+a:1, why:"Holdings and the ongoing charge (OCF) are the two facts that matter most for a long-term core fund."}
+]
+}
+];
+
+const GLOSSARY = [
+{t:"ISA", tag:"uk", d:"Individual Savings Account — a UK wrapper where growth and dividends are free of UK tax. £20,000 total allowance per tax year across all ISA types."},
+{t:"Stocks & Shares ISA", tag:"uk", d:"The ISA type that holds investments (funds, shares). No UK tax on gains or dividends, nothing to report to HMRC."},
+{t:"Cash ISA", tag:"uk", d:"An ISA holding cash savings — interest is free of UK tax."},
+{t:"Lifetime ISA (LISA)", tag:"uk", d:"Openable under age 40: up to £4,000 a year plus a 25% government bonus, locked for a first home (up to £450,000) or age 60."},
+{t:"GIA", tag:"uk", d:"General Investment Account — no limits, no tax shelter. Capital gains and dividend allowances apply; above them, tax and Self Assessment."},
+{t:"SIPP", tag:"uk", d:"Self-Invested Personal Pension — tax relief on contributions, money locked until pension age. Usually a supplement to a workplace scheme."},
+{t:"Capital gains tax (CGT)", tag:"uk", d:"Tax on profit when selling assets outside a wrapper. A yearly allowance (currently £3,000) applies first."},
+{t:"Dividend", tag:"both", d:"A cash payout of company profits to shareholders. Taxed above the UK dividend allowance in a GIA; 10% withheld at source in the Philippines."},
+{t:"FSCS", tag:"uk", d:"Financial Services Compensation Scheme — covers up to £85,000 per person per institution if an authorised firm fails. Does not cover market losses."},
+{t:"FCA", tag:"uk", d:"Financial Conduct Authority — the UK regulator. Check any platform on the FCA register before trusting it with money."},
+{t:"Gilt", tag:"uk", d:"A UK government bond — you lend to the government for interest and repayment."},
+{t:"Index fund", tag:"both", d:"A fund that simply buys everything in a market index for a very low fee, rather than picking stocks. The evidence-backed default core."},
+{t:"ETF", tag:"both", d:"Exchange-Traded Fund — an index fund that trades on an exchange like a share."},
+{t:"OCF", tag:"both", d:"Ongoing Charges Figure — a fund's yearly fee. The single number to check first; small differences compound into large sums."},
+{t:"OEIC", tag:"uk", d:"Open-Ended Investment Company — the common legal form of UK funds bought directly from the manager."},
+{t:"Pound-cost averaging", tag:"both", d:"Investing a fixed amount at regular intervals regardless of price — buys more units when cheap, fewer when dear, and removes timing decisions."},
+{t:"Diversification", tag:"both", d:"Spreading money across many companies, sectors and countries so no single failure sinks you."},
+{t:"Volatility", tag:"both", d:"How much prices swing. Uncomfortable but normal; only becomes loss if you sell during it."},
+{t:"Drawdown", tag:"both", d:"A fall from a previous peak. Broad markets have seen 30–50% drawdowns and recovered; plans should assume they will happen."},
+{t:"Compounding", tag:"both", d:"Growth earning growth on itself. The engine that makes early and boring beat late and clever."},
+{t:"Emergency fund", tag:"both", d:"3–6 months of essential spending in instant-access cash — the buffer that lets investments stay untouched through life events."},
+{t:"PSE / PSEi", tag:"ph", d:"The Philippine Stock Exchange and its headline index of the 30 largest listed companies."},
+{t:"Board lot", tag:"ph", d:"The minimum share quantity per trade on the PSE, which varies with the share's price band."},
+{t:"Stock transaction tax", tag:"ph", d:"0.6% of the sale value on PSE share sales, taken automatically — settles Philippine capital gains for listed shares."},
+{t:"MP2", tag:"ph", d:"Pag-IBIG's voluntary 5-year savings programme — government-backed, historically strong dividends, tax-free in the Philippines, open to OFW members."},
+{t:"PERA", tag:"ph", d:"Personal Equity and Retirement Account — a Philippine tax-advantaged retirement wrapper; OFWs may contribute up to ₱200,000 a year."},
+{t:"UITF", tag:"ph", d:"Unit Investment Trust Fund — a pooled fund offered by Philippine banks, including PSEi index trackers. Check fees carefully."},
+{t:"RTB", tag:"ph", d:"Retail Treasury Bond — Philippine government bonds sold in small denominations to ordinary investors."},
+{t:"REIT", tag:"both", d:"Real Estate Investment Trust — a listed company owning income-producing property; trades on both London and Philippine exchanges. Chapter 08 covers them properly."},
+{t:"PID", tag:"uk", d:"Property Income Distribution — a UK REIT's payout, normally paid with 20% tax deducted outside a wrapper but received gross inside an ISA or SIPP."},
+{t:"Dividend yield", tag:"both", d:"Yearly dividends divided by share price. Useful for comparing income — and a warning light when far above peers, since a falling price inflates it."},
+{t:"Double taxation treaty", tag:"both", d:"The UK–Philippines agreement preventing the same income being fully taxed twice — foreign tax paid typically becomes a credit."},
+{t:"Blue chip", tag:"both", d:"A large, established, financially solid listed company."},
+{t:"Bid-offer spread", tag:"both", d:"The small gap between buying and selling prices — an implicit cost of each trade."}
+];
+
+const FIT_QS = [
+{q:"Honestly, how much attention can investing have each month?",
+ opts:[
+  {t:"About 30 minutes — set it and barely look", w:{auto:3,cautious:1}},
+  {t:"An hour or two — happy to review properly", w:{auto:2,twoflag:2}},
+  {t:"Several hours — I find this genuinely interesting", w:{tinker:3,twoflag:1}}
+ ]},
+{q:"When would you realistically want to use most of this money?",
+ opts:[
+  {t:"Within about 5 years", w:{cautious:3}},
+  {t:"5–15 years away", w:{auto:2,twoflag:2}},
+  {t:"15+ years — this is future-me money", w:{auto:3,tinker:1}}
+ ]},
+{q:"Where do your money goals mostly live?",
+ opts:[
+  {t:"Mainly the UK", w:{auto:3}},
+  {t:"Both — UK life plus Philippine plans", w:{twoflag:3}},
+  {t:"Mainly the Philippines", w:{twoflag:3,cautious:1}}
+ ]},
+{q:"Your fund drops 20% in a rough year. Your honest gut says…",
+ opts:[
+  {t:"Sell — I could not sleep through that", w:{cautious:3}},
+  {t:"Hold and keep contributing as planned", w:{auto:3,twoflag:1}},
+  {t:"Buy extra — things are on sale", w:{tinker:2,auto:1}},
+  {t:"No idea until it happens", w:{cautious:2,auto:1}}
+ ]},
+{q:"Which sounds most like the relationship you want with investing?",
+ opts:[
+  {t:"Invisible and automatic, like my pension", w:{auto:3}},
+  {t:"A steady system plus goals in two currencies", w:{twoflag:3}},
+  {t:"Mostly automatic, with a small hands-on corner", w:{tinker:3}},
+  {t:"Very careful — protect first, grow second", w:{cautious:3}}
+ ]}
+];
+
+const ARCHETYPES = {
+auto:{ name:"The Autopilot Grower",
+ desc:"You want compounding without a hobby attached. Your shape: one broad global index fund, one tax wrapper, one standing order — then life continues.",
+ why:["Automation survives night shifts, busy months and bad news cycles.","A single global fund is already spread across thousands of companies.","Minutes-per-month maintenance matches your real diary, not an idealised one."],
+ steps:["Research global index funds and their OCF on two FCA-authorised platforms.","Open a Stocks & Shares ISA and set an auto-invest standing order for the day after payday.","Book a recurring 30-minute monthly review slot — that is the whole job."],
+ watch:["Boredom — the urge to tinker precisely because nothing is happening. Nothing happening is the strategy.","Pausing contributions during falls, which is when they work hardest."]},
+twoflag:{ name:"The Two-Flag Builder",
+ desc:"Your life and your goals span the UK and the Philippines, so your money does too: a UK core for the long term, a Philippine sleeve for goals back home.",
+ why:["Separating the two stops peso goals raiding pound compounding, and vice versa.","MP2-style stability suits nearer Philippine goals; a UK index core suits far ones.","Currency spread mirrors how your life actually works."],
+ steps:["Set the UK core first: global index fund inside a Stocks & Shares ISA, automated.","Confirm Pag-IBIG membership and read MP2 enrolment steps; browse one PH broker's requirements.","Note the UK tax angle on Philippine income (Chapter 04) before the PH sleeve grows large."],
+ watch:["Double paperwork — keep a simple record of PH income for UK reporting.","FX temptation — transferring on gut feeling about exchange rates is just timing in disguise."]},
+cautious:{ name:"The Steady Saver",
+ desc:"Capital protection matters more to you than maximum growth right now — often because goals are close or the buffer is not finished. That is not timid; it is sequencing.",
+ why:["Money needed within ~5 years does not belong in shares — cash-first is correct, not cowardly.","Confidence built on a full emergency fund tends to last; confidence built on a lucky run does not.","Government-backed vehicles let savings work without market risk."],
+ steps:["Finish the emergency fund in the best instant-access or Cash ISA rate you can find.","For peso goals, read up on MP2 and Retail Treasury Bonds — protection-first by design.","Revisit the Fit Finder once the buffer is full; many Steady Savers graduate to Autopilot."],
+ watch:["Staying 100% cash for decades — inflation is the quiet risk on this path.","Products promising equity returns with zero risk. Chapter 06 explains why that sentence is always false."]},
+tinker:{ name:"The Curious Tinkerer",
+ desc:"You will actually enjoy this — so build a structure that lets curiosity play without letting it steer. The classic shape: an automated core, plus a small hands-on satellite.",
+ why:["A 90/10 core-and-satellite keeps mistakes affordable while you learn.","Practice modes and a journal turn tinkering into education rather than expense.","Curiosity sustained over years compounds into genuine competence."],
+ steps:["Automate the boring core first — global index fund in an ISA. Non-negotiable before play begins.","Open a practice account and paper-trade for a month before real money enters the satellite.","Journal every satellite trade in one line: what and why. Reread quarterly."],
+ watch:["Satellite creep — 10% quietly becoming 40% after a winning streak.","Confusing a bull market with skill. The journal is your honesty mirror."]}
+};
+
+/* ================= LISTEN / TTS ================= */
+const synth = (typeof speechSynthesis !== "undefined") ? speechSynthesis : null;
+const audioPrefs = store.get("audio", { voiceURI:null, rate:1.0 });
+
+/* turn a chapter body into clean spoken sentences */
+function speakableFrom(body){
+  const out = [];
+  body.split("\n").forEach(raw=>{
+    let line = raw.trim();
+    if(!line) return;
+    if(line.startsWith("## ")) line = line.slice(3);
+    else if(line.startsWith("- ")) line = line.slice(2);
+    else { const co = line.match(/^>\s*(key|ph|uk|warn):\s*(.*)$/);
+      if(co){ const lead={key:"Key idea.",ph:"Philippines corner.",uk:"UK corner.",warn:"Watch out."}[co[1]]; line = lead+" "+co[2]; } }
+    line = line.replace(/\*\*(.+?)\*\*/g,"$1").replace(/\{(.+?)\}/g,"$1");
+    line = line.replace(/₱\s?([\d,]+)/g,"$1 pesos").replace(/₱/g,"pesos ");
+    line = line.replace(/\bOFWs\b/g,"overseas Filipino workers").replace(/\bOFW\b/g,"overseas Filipino worker");
+    // split into sentences without breaking decimals/percentages
+    line.split(/(?<=[.!?])\s+(?=[A-Z£"'])/).forEach(s=>{ s=s.trim(); if(s) out.push(s); });
+  });
+  return out;
+}
+function buildQueue(startIdx, singleChapter){
+  const q = [];
+  const list = singleChapter ? [CHAPTERS[startIdx]] : CHAPTERS.slice(startIdx);
+  list.forEach((c,i)=>{
+    const n = (singleChapter?startIdx:startIdx+i)+1;
+    q.push({ text:"Chapter "+n+". "+c.title+".", chId:c.id, chTitle:c.title, head:true });
+    speakableFrom(c.body).forEach(s=> q.push({ text:s, chId:c.id, chTitle:c.title }));
+  });
+  return q;
+}
+
+const TTS = window.TTS = {
+  queue:[], idx:0, playing:false, paused:false, voice:null, rate:audioPrefs.rate||1.0, wake:null,
+  supported: !!synth,
+
+  start(startIdx, singleChapter){
+    if(!this.supported){ this.noSupport(); return; }
+    this.stop(true);
+    this.queue = buildQueue(startIdx, singleChapter);
+    this.idx = 0; this.playing = true; this.paused = false;
+    document.body.classList.add("playing");
+    document.getElementById("audiobar").classList.add("show");
+    this.requestWake();
+    this.speakCurrent();
+    this.paint();
+  },
+  speakCurrent(){
+    if(!this.supported) return;
+    synth.cancel();
+    if(this.idx >= this.queue.length){ this.finish(); return; }
+    const item = this.queue[this.idx];
+    const u = new SpeechSynthesisUtterance(item.text);
+    if(this.voice) u.voice = this.voice;
+    u.rate = this.rate; u.pitch = 1.0;
+    u.onend = ()=>{ if(this.playing && !this.paused){ this.idx++; this.speakCurrent(); } };
+    u.onerror = ()=>{ if(this.playing && !this.paused){ this.idx++; this.speakCurrent(); } };
+    synth.speak(u);
+    this.paint();
+  },
+  toggle(){
+    if(!this.playing){ // resume from stopped state at current idx if queue exists
+      if(this.queue.length){ this.playing=true; this.paused=false; document.body.classList.add("playing");
+        document.getElementById("audiobar").classList.add("show"); this.requestWake(); this.speakCurrent(); this.paint(); }
+      return;
+    }
+    if(this.paused){ this.paused=false; this.speakCurrent(); this.requestWake(); }
+    else { this.paused=true; synth.cancel(); this.releaseWake(); }
+    this.paint();
+  },
+  next(){ if(!this.queue.length) return; this.idx=Math.min(this.idx+1,this.queue.length-1); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+  prev(){ if(!this.queue.length) return; this.idx=Math.max(this.idx-1,0); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+  nextChapter(){
+    if(!this.queue.length) return;
+    const cur = this.queue[this.idx].chId;
+    let j = this.idx+1;
+    while(j<this.queue.length && this.queue[j].chId===cur) j++;
+    if(j>=this.queue.length){ this.finish(); return; }
+    this.idx=j; if(!this.paused&&this.playing) this.speakCurrent(); this.paint();
+  },
+  stop(silent){
+    this.playing=false; this.paused=false;
+    if(this.supported) synth.cancel();
+    this.releaseWake();
+    if(!silent){ this.queue=[]; this.idx=0;
+      document.body.classList.remove("playing");
+      document.getElementById("audiobar").classList.remove("show"); }
+  },
+  finish(){
+    this.playing=false; this.paused=false; this.releaseWake();
+    this.paint(); if(!RM) confetti();
+    document.getElementById("abNow").textContent="Finished — nice walk.";
+    this.setPlayIcon(false);
+  },
+  setPlayIcon(isPlaying){
+    const ic=document.getElementById("abPlayIc");
+    ic.innerHTML = isPlaying ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
+  },
+  paint(){
+    if(!this.queue.length) return;
+    const item=this.queue[Math.min(this.idx,this.queue.length-1)];
+    document.getElementById("abTitle").textContent=item.chTitle;
+    document.getElementById("abNow").textContent=item.head?"Starting chapter…":item.text;
+    document.getElementById("abProg").style.width=Math.round(100*(this.idx+1)/this.queue.length)+"%";
+    document.getElementById("abCnt").textContent=(this.idx+1)+" / "+this.queue.length;
+    document.getElementById("abVoice").textContent=this.voice?this.voice.name.replace(/\(.*\)/,"").trim():"default voice";
+    this.setPlayIcon(this.playing && !this.paused);
+  },
+  /* ---- voices ---- */
+  loadVoices(){
+    if(!this.supported) return [];
+    const all = synth.getVoices();
+    const en = all.filter(v=>/^en(-|_)/i.test(v.lang));
+    const rank = v=>{
+      let s=0; const L=v.lang.toLowerCase();
+      if(L.startsWith("en-gb")) s+=100; else if(L.startsWith("en-ie")||L.startsWith("en-au")) s+=60; else s+=10;
+      if(/daniel|kate|serena|stephanie|arthur|martha|jamie|oliver|libby|sonia|ryan|george|hazel/i.test(v.name)) s+=25;
+      if(/enhanced|premium|siri|natural|neural/i.test(v.name)) s+=40;
+      if(v.localService) s+=5;
+      return -s;
+    };
+    en.sort((a,b)=>rank(a)-rank(b));
+    return en.length? en : all;
+  },
+  pickDefault(){
+    const list=this.loadVoices();
+    if(!list.length) return;
+    if(audioPrefs.voiceURI){ const saved=list.find(v=>v.voiceURI===audioPrefs.voiceURI); if(saved){ this.voice=saved; return; } }
+    this.voice=list[0];
+  },
+  setVoice(uri){
+    const v=this.loadVoices().find(x=>x.voiceURI===uri); if(!v) return;
+    this.voice=v; audioPrefs.voiceURI=uri; store.set("audio",audioPrefs);
+    if(this.playing && !this.paused) this.speakCurrent();
+    this.paint();
+  },
+  setRate(r){
+    this.rate=parseFloat(r); audioPrefs.rate=this.rate; store.set("audio",audioPrefs);
+    document.getElementById("speedVal").textContent=this.rate.toFixed(2).replace(/0$/,"")+"×";
+    if(this.playing && !this.paused) this.speakCurrent();
+  },
+  /* ---- wake lock (keeps screen alive while playing) ---- */
+  async requestWake(){
+    try{ if("wakeLock" in navigator && !this.wake){ this.wake=await navigator.wakeLock.request("screen"); } }catch(e){}
+  },
+  releaseWake(){ try{ if(this.wake){ this.wake.release(); this.wake=null; } }catch(e){} },
+  noSupport(){
+    const b=document.getElementById("audiobar");
+    b.classList.add("show"); document.body.classList.add("playing");
+    document.getElementById("abTitle").textContent="Listen unavailable";
+    document.getElementById("abNow").textContent="This browser has no built-in speech. Try Safari or Chrome.";
+    document.getElementById("abProg").style.width="0%";
+  }
+};
+
+/* keep speech alive when returning to the tab; iOS suspends on lock */
+document.addEventListener("visibilitychange", ()=>{
+  if(document.visibilityState==="visible" && TTS.playing && !TTS.paused){ TTS.requestWake(); }
+});
+
+function listenChapter(id){ const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,true); }
+function listenFrom(id){ const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,false); }
+function listenAll(){ TTS.start(0,false); }
+
+/* ---- settings sheet ---- */
+function openSheet(){
+  const sel=document.getElementById("voiceSel");
+  const list=TTS.loadVoices();
+  if(!list.length){ sel.innerHTML='<option>No voices found on this device</option>'; }
+  else{
+    sel.innerHTML=list.map(v=>'<option value="'+v.voiceURI+'"'+(TTS.voice&&v.voiceURI===TTS.voice.voiceURI?" selected":"")+'>'+v.name+' — '+v.lang+'</option>').join("");
+  }
+  const sp=document.getElementById("speedSel"); sp.value=TTS.rate;
+  document.getElementById("speedVal").textContent=TTS.rate.toFixed(2).replace(/0$/,"")+"×";
+  document.getElementById("voiceNote").innerHTML='<b>Most natural voice on iPhone/iPad:</b> open Settings › Accessibility › Spoken Content › Voices › English, and download a UK voice marked Premium or Enhanced (e.g. Daniel, Serena, Jamie). It will then appear in the list above. &nbsp;<b>Heads up:</b> iOS pauses playback when the screen locks — keep the screen on to listen on a walk.';
+  document.getElementById("sheetWrap").classList.add("show");
+}
+function closeSheet(){ document.getElementById("sheetWrap").classList.remove("show"); }
+
+/* ================= /LISTEN ================= */
+
+/* ---------- boot ---------- */
+if(TTS.supported){
+  TTS.pickDefault();
+  if(synth.onvoiceschanged !== undefined){
+    synth.onvoiceschanged = ()=>{ if(!TTS.voice || (TTS.voice && !TTS.playing)) TTS.pickDefault(); };
+  }
+}
+refreshChip();
+go("home");
+</script>
+</body>
+</html>
