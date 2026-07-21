@@ -440,6 +440,7 @@ body.playing #view{padding-bottom:0}
     <h3>Voice &amp; speed</h3>
     <label for="voiceSel">Voice</label>
     <select id="voiceSel" onchange="TTS.setVoice(this.value)"></select>
+    <div id="voiceCount" style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:6px"></div>
     <label for="speedSel">Reading speed</label>
     <div class="speed-row">
       <input type="range" id="speedSel" min="0.7" max="1.3" step="0.05" oninput="TTS.setRate(this.value)">
@@ -1757,16 +1758,23 @@ function listenFrom(id){ const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,f
 function listenAll(){ TTS.start(0,false); }
 
 /* ---- settings sheet ---- */
-function openSheet(){
+function populateVoiceList(){
   const sel=document.getElementById("voiceSel");
+  if(!sel) return;
   const list=TTS.loadVoices();
-  if(!list.length){ sel.innerHTML='<option>No voices found on this device</option>'; }
-  else{
+  if(!list.length){
+    sel.innerHTML='<option>— tap ▶ Listen once, then reopen —</option>';
+  } else {
     sel.innerHTML=list.map(v=>'<option value="'+v.voiceURI+'"'+(TTS.voice&&v.voiceURI===TTS.voice.voiceURI?" selected":"")+'>'+v.name+' — '+v.lang+'</option>').join("");
   }
+  const cnt=document.getElementById("voiceCount");
+  if(cnt) cnt.textContent = list.length ? (list.length+" voice"+(list.length===1?"":"s")+" available on this device") : "0 voices loaded yet — iOS wakes them after the first play";
+}
+function openSheet(){
+  populateVoiceList();
   const sp=document.getElementById("speedSel"); sp.value=TTS.rate;
   document.getElementById("speedVal").textContent=TTS.rate.toFixed(2).replace(/0$/,"")+"×";
-  document.getElementById("voiceNote").innerHTML='<b>Most natural voice on iPhone/iPad:</b> open Settings › Accessibility › Spoken Content › Voices › English, and download a UK voice marked Premium or Enhanced (e.g. Daniel, Serena, Jamie). It will then appear in the list above. &nbsp;<b>Heads up:</b> iOS pauses playback when the screen locks — keep the screen on to listen on a walk.';
+  document.getElementById("voiceNote").innerHTML='<b>No sound, or the list is empty?</b> On iPhone and iPad the voices only wake after you tap ▶ Listen once — do that, then reopen this panel and they should appear. Also make sure the side switch is not set to silent and the volume is turned up.<br><br><b>For the most natural voice:</b> Settings › Accessibility › Spoken Content › Voices › English, then download a UK voice marked Premium or Enhanced (Daniel, Serena, Jamie) and pick it above.';
   document.getElementById("sheetWrap").classList.add("show");
 }
 function closeSheet(){ document.getElementById("sheetWrap").classList.remove("show"); }
@@ -1777,7 +1785,11 @@ function closeSheet(){ document.getElementById("sheetWrap").classList.remove("sh
 if(TTS.supported){
   TTS.pickDefault();
   if(synth.onvoiceschanged !== undefined){
-    synth.onvoiceschanged = ()=>{ if(!TTS.voice || (TTS.voice && !TTS.playing)) TTS.pickDefault(); };
+    synth.onvoiceschanged = ()=>{
+      if(!TTS.voice) TTS.pickDefault();
+      const ab=document.getElementById("abVoice"); if(ab && TTS.voice) ab.textContent=TTS.voice.name.replace(/\(.*\)/,"").trim();
+      const sw=document.getElementById("sheetWrap"); if(sw && sw.classList.contains("show")) populateVoiceList();
+    };
   }
 }
 refreshChip();
