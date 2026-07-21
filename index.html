@@ -1782,6 +1782,7 @@ if(TTS.supported){
 }
 refreshChip();
 go("home");
+if('serviceWorker' in navigator){ addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }
 </script>
 </body>
 </html>
