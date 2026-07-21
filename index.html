@@ -426,7 +426,7 @@ body.playing #view{padding-bottom:0}
       <button class="ab-btn" id="abSkip" onclick="TTS.nextChapter()" aria-label="Next chapter"><svg width="20" height="20" viewBox="0 0 24 24"><path d="M6 5l8.5 6.2a1 1 0 0 1 0 1.6L6 19zM16 5h2v14h-2z" opacity="0.55"/><path d="M13 8.5 17 12l-4 3.5z"/></svg></button>
     </div>
   </div>
-  <div class="ab-prog"><div id="abProg"></div></div>
+  <div class="ab-prog" id="abProgBar" onclick="TTS.seekAt(event)"><div id="abProg"></div></div>
   <div class="ab-mini">
     <button class="gear" onclick="openSheet()" aria-label="Voice settings">⚙ <span id="abVoice">voice</span></button>
     <span class="cnt" id="abCnt"></span>
@@ -1628,10 +1628,12 @@ function buildQueue(startIdx, singleChapter){
 const TTS = window.TTS = {
   queue:[], idx:0, playing:false, paused:false, voice:null, rate:audioPrefs.rate||1.0, wake:null,
   supported: !!synth,
+  mode:'speech', audio:null, manifest:null, aIds:[], aIdx:0,
 
   start(startIdx, singleChapter){
     if(!this.supported){ this.noSupport(); return; }
     this.stop(true);
+    this.mode='speech';
     this.queue = buildQueue(startIdx, singleChapter);
     this.idx = 0; this.playing = true; this.paused = false;
     document.body.classList.add("playing");
@@ -1654,6 +1656,7 @@ const TTS = window.TTS = {
     this.paint();
   },
   toggle(){
+    if(this.mode==='audio') return this.aToggle();
     if(!this.playing){ // resume from stopped state at current idx if queue exists
       if(this.queue.length){ this.playing=true; this.paused=false; document.body.classList.add("playing");
         document.getElementById("audiobar").classList.add("show"); this.requestWake(); this.speakCurrent(); this.paint(); }
@@ -1663,9 +1666,12 @@ const TTS = window.TTS = {
     else { this.paused=true; synth.cancel(); this.releaseWake(); }
     this.paint();
   },
-  next(){ if(!this.queue.length) return; this.idx=Math.min(this.idx+1,this.queue.length-1); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
-  prev(){ if(!this.queue.length) return; this.idx=Math.max(this.idx-1,0); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+  next(){ if(this.mode==='audio') return this.aNext();
+    if(!this.queue.length) return; this.idx=Math.min(this.idx+1,this.queue.length-1); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+  prev(){ if(this.mode==='audio') return this.aPrev();
+    if(!this.queue.length) return; this.idx=Math.max(this.idx-1,0); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
   nextChapter(){
+    if(this.mode==='audio') return this.aNext();
     if(!this.queue.length) return;
     const cur = this.queue[this.idx].chId;
     let j = this.idx+1;
@@ -1676,8 +1682,10 @@ const TTS = window.TTS = {
   stop(silent){
     this.playing=false; this.paused=false;
     if(this.supported) synth.cancel();
+    if(this.audio){ try{ this.audio.pause(); }catch(e){} }
+    this.msState('none');
     this.releaseWake();
-    if(!silent){ this.queue=[]; this.idx=0;
+    if(!silent){ this.queue=[]; this.idx=0; this.mode='speech';
       document.body.classList.remove("playing");
       document.getElementById("audiobar").classList.remove("show"); }
   },
@@ -1692,6 +1700,7 @@ const TTS = window.TTS = {
     ic.innerHTML = isPlaying ? '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>' : '<path d="M8 5v14l11-7z"/>';
   },
   paint(){
+    if(this.mode==='audio') return this.aPaint();
     if(!this.queue.length) return;
     const item=this.queue[Math.min(this.idx,this.queue.length-1)];
     document.getElementById("abTitle").textContent=item.chTitle;
@@ -1743,9 +1752,95 @@ const TTS = window.TTS = {
     const b=document.getElementById("audiobar");
     b.classList.add("show"); document.body.classList.add("playing");
     document.getElementById("abTitle").textContent="Listen unavailable";
-    document.getElementById("abNow").textContent="This browser has no built-in speech. Try Safari or Chrome.";
+    document.getElementById("abNow").textContent="This browser has no built-in speech, and no recorded audio was found. Try Safari or Chrome.";
     document.getElementById("abProg").style.width="0%";
-  }
+  },
+  /* ================= AUDIO MODE (recorded MP3s) ================= */
+  audioMeta(id){ return this.manifest && this.manifest.chapters.find(x=>x.id===id); },
+  ensureAudio(){
+    if(this.audio) return this.audio;
+    const a = new Audio();
+    a.preload = 'metadata';
+    a.addEventListener('timeupdate', ()=>{ if(this.mode==='audio') this.aPaint(); });
+    a.addEventListener('loadedmetadata', ()=>{ if(this.mode==='audio') this.aPaint(); });
+    a.addEventListener('play', ()=>{ this.playing=true; this.paused=false; this.setPlayIcon(true); this.msState('playing'); this.requestWake(); });
+    a.addEventListener('pause', ()=>{ if(this.mode==='audio'){ this.paused=true; this.setPlayIcon(false); this.msState('paused'); this.releaseWake(); } });
+    a.addEventListener('ended', ()=>{ if(this.mode==='audio') this.aNext(); });
+    a.addEventListener('error', ()=>{ if(this.mode==='audio') this.aError(); });
+    this.audio = a;
+    try{ document.body.appendChild(a); }catch(e){}
+    return a;
+  },
+  startAudio(startId, single){
+    this.stop(true);
+    this.mode='audio';
+    const order = CHAPTERS.map(c=>c.id).filter(id=>this.audioMeta(id));
+    const from = order.indexOf(startId);
+    this.aIds = single ? [startId] : order.slice(from<0?0:from);
+    this.aIdx = 0; this.playing=true; this.paused=false;
+    document.body.classList.add("playing");
+    document.getElementById("audiobar").classList.add("show");
+    this.loadAChapter(true);
+  },
+  loadAChapter(autoplay){
+    const a = this.ensureAudio();
+    const meta = this.audioMeta(this.aIds[this.aIdx]);
+    if(!meta){ this.finish(); return; }
+    a.src = './audio/' + meta.file;
+    this.mediaSession(meta);
+    this.aPaint();
+    if(autoplay){ const p=a.play(); if(p&&p.catch) p.catch(()=>{}); }
+  },
+  aToggle(){
+    const a=this.ensureAudio();
+    if(a.paused){ const p=a.play(); if(p&&p.catch)p.catch(()=>{}); }
+    else a.pause();
+  },
+  aNext(){ if(this.aIdx < this.aIds.length-1){ this.aIdx++; this.loadAChapter(true); } else this.finish(); },
+  aPrev(){
+    const a=this.ensureAudio();
+    if(a.currentTime > 3){ a.currentTime = 0; return; }
+    if(this.aIdx > 0){ this.aIdx--; this.loadAChapter(true); } else a.currentTime = 0;
+  },
+  aSeek(fraction){ const a=this.ensureAudio(); if(a.duration && isFinite(a.duration)) a.currentTime = fraction*a.duration; },
+  seekAt(e){
+    if(this.mode!=='audio') return;
+    const bar=document.getElementById('abProgBar'); if(!bar) return;
+    const r=bar.getBoundingClientRect();
+    const cx=(e.touches&&e.touches[0]?e.touches[0].clientX:e.clientX);
+    this.aSeek(Math.min(1,Math.max(0,(cx-r.left)/r.width)));
+  },
+  aError(){
+    // recorded file missing/failed — fall back to the built-in voice for this run
+    const startId=this.aIds[this.aIdx]||this.aIds[0]; const single=this.aIds.length===1;
+    this.mode='speech';
+    const i=CHAPTERS.findIndex(c=>c.id===startId);
+    if(i>=0 && this.supported){ this.start(i,single); }
+    else { document.getElementById("abNow").textContent="Audio unavailable and no built-in voice. Re-run the audio action or use Safari."; }
+  },
+  fmt(t){ if(!isFinite(t)||t<0) t=0; const m=Math.floor(t/60), s=Math.floor(t%60); return m+':'+(s<10?'0':'')+s; },
+  aPaint(){
+    const a=this.audio; if(!a) return;
+    const meta=this.audioMeta(this.aIds[this.aIdx])||{};
+    document.getElementById("abTitle").textContent=meta.title||'';
+    document.getElementById("abNow").textContent = this.aIds.length>1 ? ('Chapter '+(this.aIdx+1)+' of '+this.aIds.length+' · recorded voice') : 'Recorded voice';
+    const pct=(a.duration&&isFinite(a.duration))?Math.round(100*a.currentTime/a.duration):0;
+    document.getElementById("abProg").style.width=pct+"%";
+    document.getElementById("abCnt").textContent=this.fmt(a.currentTime)+' / '+this.fmt(a.duration);
+    document.getElementById("abVoice").textContent=(this.manifest&&this.manifest.voice)?this.manifest.voice.replace('en-GB-','').replace('Neural',''):'audio';
+    this.setPlayIcon(!a.paused);
+  },
+  mediaSession(meta){
+    if(!('mediaSession' in navigator)) return;
+    try{
+      navigator.mediaSession.metadata=new MediaMetadata({ title:meta.title, artist:'Ipon', album:'Investing 101 · UK ✕ PH' });
+      navigator.mediaSession.setActionHandler('play', ()=>this.aToggle());
+      navigator.mediaSession.setActionHandler('pause', ()=>this.aToggle());
+      navigator.mediaSession.setActionHandler('nexttrack', ()=>this.aNext());
+      navigator.mediaSession.setActionHandler('previoustrack', ()=>this.aPrev());
+    }catch(e){}
+  },
+  msState(s){ if('mediaSession' in navigator){ try{ navigator.mediaSession.playbackState=s; }catch(e){} } }
 };
 
 /* keep speech alive when returning to the tab; iOS suspends on lock */
@@ -1753,9 +1848,10 @@ document.addEventListener("visibilitychange", ()=>{
   if(document.visibilityState==="visible" && TTS.playing && !TTS.paused){ TTS.requestWake(); }
 });
 
-function listenChapter(id){ const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,true); }
-function listenFrom(id){ const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,false); }
-function listenAll(){ TTS.start(0,false); }
+function audioReady(id){ return !!(TTS.manifest && TTS.manifest.chapters.find(x=>x.id===id)); }
+function listenChapter(id){ if(audioReady(id)){ TTS.startAudio(id,true); return; } const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,true); }
+function listenFrom(id){ if(audioReady(id)){ TTS.startAudio(id,false); return; } const i=CHAPTERS.findIndex(c=>c.id===id); TTS.start(i,false); }
+function listenAll(){ const first=CHAPTERS[0].id; if(audioReady(first)){ TTS.startAudio(first,false); return; } TTS.start(0,false); }
 
 /* ---- settings sheet ---- */
 function populateVoiceList(){
@@ -1774,7 +1870,7 @@ function openSheet(){
   populateVoiceList();
   const sp=document.getElementById("speedSel"); sp.value=TTS.rate;
   document.getElementById("speedVal").textContent=TTS.rate.toFixed(2).replace(/0$/,"")+"×";
-  document.getElementById("voiceNote").innerHTML='<b>No sound, or the list is empty?</b> On iPhone and iPad the voices only wake after you tap ▶ Listen once — do that, then reopen this panel and they should appear. Also make sure the side switch is not set to silent and the volume is turned up.<br><br><b>For the most natural voice:</b> Settings › Accessibility › Spoken Content › Voices › English, then download a UK voice marked Premium or Enhanced (Daniel, Serena, Jamie) and pick it above.';
+  document.getElementById("voiceNote").innerHTML=(TTS.manifest?'<b>A recorded natural voice is active</b> ('+TTS.manifest.voice.replace('en-GB-','').replace('Neural','')+') — it plays in the background with lock-screen controls. The picker above only changes the built-in fallback voice used if a file is missing.<br><br>':'')+'<b>No sound, or the list is empty?</b> On iPhone and iPad the built-in voices only wake after you tap ▶ Listen once — do that, then reopen this panel. Also make sure the side switch is not set to silent and the volume is turned up.<br><br><b>For a natural built-in voice</b> (fallback only): Settings › Accessibility › Spoken Content › Voices › English, download a UK voice, then pick it above.';
   document.getElementById("sheetWrap").classList.add("show");
 }
 function closeSheet(){ document.getElementById("sheetWrap").classList.remove("show"); }
@@ -1787,11 +1883,16 @@ if(TTS.supported){
   if(synth.onvoiceschanged !== undefined){
     synth.onvoiceschanged = ()=>{
       if(!TTS.voice) TTS.pickDefault();
-      const ab=document.getElementById("abVoice"); if(ab && TTS.voice) ab.textContent=TTS.voice.name.replace(/\(.*\)/,"").trim();
+      const ab=document.getElementById("abVoice"); if(ab && TTS.voice && TTS.mode!=='audio') ab.textContent=TTS.voice.name.replace(/\(.*\)/,"").trim();
       const sw=document.getElementById("sheetWrap"); if(sw && sw.classList.contains("show")) populateVoiceList();
     };
   }
 }
+// recorded neural audio, if the GitHub Action has generated it
+fetch('./audio/manifest.json', {cache:'no-cache'})
+  .then(r=> r.ok ? r.json() : null)
+  .then(m=>{ if(m && m.chapters && m.chapters.length){ TTS.manifest=m; } })
+  .catch(()=>{});
 refreshChip();
 go("home");
 if('serviceWorker' in navigator){ addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{})); }
