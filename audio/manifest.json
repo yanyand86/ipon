@@ -1,0 +1,50 @@
+{
+  "voice": "en-GB-SoniaNeural",
+  "chapters": [
+    {
+      "id": "why",
+      "file": "chapter-why.mp3",
+      "title": "Why invest at all"
+    },
+    {
+      "id": "blocks",
+      "file": "chapter-blocks.mp3",
+      "title": "The building blocks"
+    },
+    {
+      "id": "ukwrap",
+      "file": "chapter-ukwrap.mp3",
+      "title": "UK accounts and the tax question"
+    },
+    {
+      "id": "ph",
+      "file": "chapter-ph.mp3",
+      "title": "The Philippines corner"
+    },
+    {
+      "id": "fit",
+      "file": "chapter-fit.mp3",
+      "title": "What fits a nurse's life"
+    },
+    {
+      "id": "risk",
+      "file": "chapter-risk.mp3",
+      "title": "Risk, fees and scams"
+    },
+    {
+      "id": "mind",
+      "file": "chapter-mind.mp3",
+      "title": "The behaviour curriculum"
+    },
+    {
+      "id": "reits",
+      "file": "chapter-reits.mp3",
+      "title": "REITs: property without the landlord"
+    },
+    {
+      "id": "first",
+      "file": "chapter-first.mp3",
+      "title": "Your first month"
+    }
+  ]
+}
