@@ -1,20 +1,20 @@
 name: Generate chapter audio
 
-# Runs when you change the app text or the generator, and can also be run
-# by hand from the Actions tab (Run workflow).
+# Everything needed lives in this one file — no other scripts required.
+# Runs when index.html changes, or on demand from the Actions tab.
 on:
   push:
     branches: [ main ]
     paths:
       - 'index.html'
-      - 'generate_audio.py'
+      - '.github/workflows/audio.yml'
   workflow_dispatch:
 
 jobs:
   build-audio:
     runs-on: ubuntu-latest
     permissions:
-      contents: write   # lets the job commit the MP3s back to your repo
+      contents: write
     steps:
       - name: Check out repo
         uses: actions/checkout@v4
@@ -28,7 +28,122 @@ jobs:
         run: pip install edge-tts
 
       - name: Generate audio
-        run: python generate_audio.py
+        run: |
+          python3 - << 'PYEOF'
+          # ---------------------------------------------------------------
+          # Ipon audio generator (embedded).
+          # Change VOICE below to pick a different narrator, then commit.
+          #   Female: en-GB-SoniaNeural, en-GB-LibbyNeural, en-GB-MaisieNeural
+          #   Male:   en-GB-RyanNeural, en-GB-ThomasNeural
+          # ---------------------------------------------------------------
+          VOICE = "en-GB-SoniaNeural"
+          RATE  = "+0%"
+          PITCH = "+0Hz"
+
+          import asyncio, hashlib, json, os, re, sys
+          import edge_tts
+
+          SOURCE = "index.html"
+          OUT_DIR = "audio"
+          CACHE = os.path.join(OUT_DIR, ".voicecache.json")
+
+          if not os.path.exists(SOURCE):
+              sys.exit("ERROR: index.html not found in the repository root.")
+
+          html = open(SOURCE, encoding="utf-8").read()
+          if "const CHAPTERS = [" not in html:
+              sys.exit("ERROR: could not find the CHAPTERS list inside index.html.")
+
+          block = html[html.index("const CHAPTERS = ["):]
+          pattern = re.compile(
+              r'id:"(?P<id>[^"]+)",\s*tag:"[^"]+",\s*title:"(?P<title>[^"]+)",'
+              r'\s*blurb:"[^"]*",\s*body:`(?P<body>.*?)`,\s*quiz:',
+              re.DOTALL)
+          chapters = [m.groupdict() for m in pattern.finditer(block)]
+          if not chapters:
+              sys.exit("ERROR: parsed zero chapters from index.html.")
+          print("Found %d chapters." % len(chapters))
+
+          def normalise(line):
+              line = re.sub(r"\*\*(.+?)\*\*", r"\1", line)
+              line = re.sub(r"\{(.+?)\}", r"\1", line)
+              line = re.sub(r"(\d)\s*[\u2013\u2014]\s*(\d)", r"\1 to \2", line)
+              line = re.sub(r"\s*\u2014\s*", ", ", line)
+              line = re.sub(r"\s*\u2013\s*", ", ", line)
+              line = re.sub(r"\u20B1\s?([\d,]+)", r"\1 pesos", line)
+              line = line.replace("\u20B1", "pesos ")
+              line = re.sub(r"\bOFWs\b", "overseas Filipino workers", line)
+              line = re.sub(r"\bOFW\b", "overseas Filipino worker", line)
+              line = re.sub(r"\bPIDs\b", "P I Ds", line)
+              line = re.sub(r"\bPID\b", "P I D", line)
+              line = re.sub(r"\bPSEi\b", "P S E index", line)
+              line = re.sub(r",\s*,", ",", line)
+              line = re.sub(r"\s{2,}", " ", line)
+              return line.strip()
+
+          def spoken_text(body):
+              # Callout labels shown on screen are visual only and never spoken.
+              out, bullets, para = [], [], []
+              def flush_para():
+                  if para:
+                      out.append(" ".join(para)); para.clear()
+              def flush_bullets():
+                  if bullets:
+                      out.append(" ".join(bullets)); bullets.clear()
+              for raw in body.split("\n"):
+                  line = raw.strip()
+                  if not line:
+                      flush_bullets(); flush_para(); continue
+                  if line.startswith("## "):
+                      flush_bullets(); flush_para()
+                      h = normalise(line[3:])
+                      if h and h[-1] not in ".!?":
+                          h += "."
+                      out.append(h); continue
+                  if line.startswith("- "):
+                      flush_para()
+                      b = normalise(line[2:])
+                      if b and b[-1] not in ".!?":
+                          b += "."
+                      bullets.append(b); continue
+                  m = re.match(r"^>\s*(?:key|ph|uk|warn):\s*(.*)$", line)
+                  if m:
+                      flush_bullets(); flush_para()
+                      out.append(normalise(m.group(1))); continue
+                  flush_bullets()
+                  para.append(normalise(line))
+              flush_bullets(); flush_para()
+              return "\n\n".join([p for p in out if p])
+
+          try:
+              cache = json.load(open(CACHE, encoding="utf-8"))
+          except Exception:
+              cache = {}
+
+          os.makedirs(OUT_DIR, exist_ok=True)
+          manifest, made, skipped = [], 0, 0
+
+          async def synth(text, path):
+              await edge_tts.Communicate(text, VOICE, rate=RATE, pitch=PITCH).save(path)
+
+          for ch in chapters:
+              text = ch["title"] + ".\n\n" + spoken_text(ch["body"])
+              fname = "chapter-%s.mp3" % ch["id"]
+              fpath = os.path.join(OUT_DIR, fname)
+              digest = hashlib.sha1(("%s|%s|%s|%s" % (VOICE, RATE, PITCH, text)).encode("utf-8")).hexdigest()
+              if cache.get(ch["id"]) == digest and os.path.exists(fpath):
+                  print("=  %s unchanged" % ch["id"]); skipped += 1
+              else:
+                  print("~  %s generating..." % ch["id"])
+                  asyncio.run(synth(text, fpath))
+                  cache[ch["id"]] = digest; made += 1
+              manifest.append({"id": ch["id"], "file": fname, "title": ch["title"]})
+
+          json.dump(cache, open(CACHE, "w", encoding="utf-8"), indent=2)
+          json.dump({"voice": VOICE, "chapters": manifest},
+                    open(os.path.join(OUT_DIR, "manifest.json"), "w", encoding="utf-8"), indent=2)
+          print("\nDone: %d generated, %d unchanged." % (made, skipped))
+          PYEOF
 
       - name: Commit audio back to the repo
         run: |
