@@ -1,0 +1,43 @@
+name: Generate chapter audio
+
+# Runs when you change the app text or the generator, and can also be run
+# by hand from the Actions tab (Run workflow).
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'index.html'
+      - 'generate_audio.py'
+  workflow_dispatch:
+
+jobs:
+  build-audio:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # lets the job commit the MP3s back to your repo
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install edge-tts
+        run: pip install edge-tts
+
+      - name: Generate audio
+        run: python generate_audio.py
+
+      - name: Commit audio back to the repo
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add audio/
+          if git diff --staged --quiet; then
+            echo "No audio changes to commit."
+          else
+            git commit -m "Update chapter audio [skip ci]"
+            git push
+          fi
