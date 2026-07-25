@@ -446,6 +446,7 @@ body.playing #view{padding-bottom:0}
       <input type="range" id="speedSel" min="0.7" max="1.3" step="0.05" oninput="TTS.setRate(this.value)">
       <span class="sv" id="speedVal">1.0×</span>
     </div>
+    <div id="applyHint" style="font-family:var(--mono);font-size:10.5px;color:var(--ink-faint);margin-top:8px"></div>
     <div class="note" id="voiceNote"></div>
     <button class="btn done-btn" onclick="closeSheet()">Done</button>
   </div>
@@ -1596,22 +1597,91 @@ tinker:{ name:"The Curious Tinkerer",
 const synth = (typeof speechSynthesis !== "undefined") ? speechSynthesis : null;
 const audioPrefs = store.get("audio", { voiceURI:null, rate:1.0 });
 
-/* turn a chapter body into clean spoken sentences */
-function speakableFrom(body){
-  const out = [];
-  body.split("\n").forEach(raw=>{
-    let line = raw.trim();
-    if(!line) return;
-    if(line.startsWith("## ")) line = line.slice(3);
-    else if(line.startsWith("- ")) line = line.slice(2);
-    else { const co = line.match(/^>\s*(key|ph|uk|warn):\s*(.*)$/);
-      if(co){ const lead={key:"Key idea.",ph:"Philippines corner.",uk:"UK corner.",warn:"Watch out."}[co[1]]; line = lead+" "+co[2]; } }
-    line = line.replace(/\*\*(.+?)\*\*/g,"$1").replace(/\{(.+?)\}/g,"$1");
-    line = line.replace(/₱\s?([\d,]+)/g,"$1 pesos").replace(/₱/g,"pesos ");
-    line = line.replace(/\bOFWs\b/g,"overseas Filipino workers").replace(/\bOFW\b/g,"overseas Filipino worker");
-    // split into sentences without breaking decimals/percentages
-    line.split(/(?<=[.!?])\s+(?=[A-Z£"'])/).forEach(s=>{ s=s.trim(); if(s) out.push(s); });
+/* ---- turn a chapter body into smooth, speakable paragraphs ----
+   Nothing is invented here: the callout labels shown on screen ("Key idea",
+   "Watch out") are visual only and are NOT spoken. Text is grouped into
+   paragraph-sized chunks so the voice flows instead of halting every sentence. */
+const SPEECH_CHUNK = 260;
+
+function normaliseForSpeech(line){
+  return line
+    .replace(/\*\*(.+?)\*\*/g,"$1")
+    .replace(/\{(.+?)\}/g,"$1")
+    .replace(/(\d)\s*[\u2013\u2014]\s*(\d)/g,"$1 to $2")
+    .replace(/\s*\u2014\s*/g,", ")
+    .replace(/\s*\u2013\s*/g,", ")
+    .replace(/\u20B1\s?([\d,]+)/g,"$1 pesos")
+    .replace(/\u20B1/g,"pesos ")
+    .replace(/\bOFWs\b/g,"overseas Filipino workers")
+    .replace(/\bOFW\b/g,"overseas Filipino worker")
+    .replace(/\bPIDs\b/g,"P I Ds")
+    .replace(/\bPID\b/g,"P I D")
+    .replace(/\bPSEi\b/g,"P S E index")
+    .replace(/,\s*,/g,",")
+    .replace(/\s{2,}/g," ")
+    .trim();
+}
+function splitSentences(text){
+  const S="\u0001";
+  const t = text.replace(/(\d)\.(\d)/g,"$1"+S+"$2")
+                .replace(/\b(e\.g|i\.e|etc|Mr|Mrs|Dr|St)\./g, m=>m.split(".").join(S));
+  const out=[]; const re=/[^.!?]+[.!?]+["')\]]*\s*|[^.!?]+$/g; let m;
+  while((m=re.exec(t))!==null){
+    const s=m[0].trim();
+    if(s) out.push(s.split(S).join("."));
+  }
+  return out.length? out : [text.trim()];
+}
+function chunkBlock(block){
+  const sents=splitSentences(block);
+  const grouped=[]; let cur="";
+  sents.forEach(s=>{
+    if(!cur) cur=s;
+    else if((cur.length+1+s.length)<=SPEECH_CHUNK) cur+=" "+s;
+    else { grouped.push(cur); cur=s; }
   });
+  if(cur) grouped.push(cur);
+  const out=[];
+  grouped.forEach(c=>{
+    if(c.length<=SPEECH_CHUNK*1.7){ out.push(c); return; }
+    const bits=c.split(/,\s+/); let acc="";
+    bits.forEach((b,i)=>{
+      const piece=(i<bits.length-1)? b+"," : b;
+      if(!acc) acc=piece;
+      else if((acc.length+1+piece.length)<=SPEECH_CHUNK) acc+=" "+piece;
+      else { out.push(acc); acc=piece; }
+    });
+    if(acc) out.push(acc);
+  });
+  return out;
+}
+function speakableFrom(body){
+  const blocks=[]; let bullets=[], para=[];
+  const flushPara=()=>{ if(para.length){ blocks.push(para.join(" ")); para=[]; } };
+  const flushBullets=()=>{ if(bullets.length){ blocks.push(bullets.join(" ")); bullets=[]; } };
+  body.split("\n").forEach(raw=>{
+    const line=raw.trim();
+    if(!line){ flushBullets(); flushPara(); return; }
+    if(line.indexOf("## ")===0){
+      flushBullets(); flushPara();
+      let h=normaliseForSpeech(line.slice(3));
+      if(!/[.!?]$/.test(h)) h+=".";
+      blocks.push(h); return;
+    }
+    if(line.indexOf("- ")===0){
+      flushPara();
+      let b=normaliseForSpeech(line.slice(2));
+      if(!/[.!?]$/.test(b)) b+=".";
+      bullets.push(b); return;
+    }
+    const co=line.match(/^>\s*(?:key|ph|uk|warn):\s*(.*)$/);
+    if(co){ flushBullets(); flushPara(); blocks.push(normaliseForSpeech(co[1])); return; }
+    flushBullets();
+    para.push(normaliseForSpeech(line));
+  });
+  flushBullets(); flushPara();
+  const out=[];
+  blocks.forEach(b=>{ if(b) chunkBlock(b).forEach(c=>{ if(c) out.push(c); }); });
   return out;
 }
 function buildQueue(startIdx, singleChapter){
@@ -1626,7 +1696,8 @@ function buildQueue(startIdx, singleChapter){
 }
 
 const TTS = window.TTS = {
-  queue:[], idx:0, playing:false, paused:false, voice:null, rate:audioPrefs.rate||1.0, wake:null,
+  queue:[], idx:0, playing:false, paused:false, rate:audioPrefs.rate||1.0, wake:null,
+  voiceURI: audioPrefs.voiceURI||null, token:0,
   supported: !!synth,
   mode:'speech', audio:null, manifest:null, aIds:[], aIdx:0,
 
@@ -1639,37 +1710,49 @@ const TTS = window.TTS = {
     document.body.classList.add("playing");
     document.getElementById("audiobar").classList.add("show");
     this.requestWake();
-    this.speakCurrent();
+    this.speakCurrent(true);
     this.paint();
   },
-  speakCurrent(){
+  /* interrupt=true when jumping/starting (cancels whatever is speaking).
+     Every utterance carries a token; a cancelled utterance's callbacks fire
+     with a stale token and are ignored — this is what stops repeated words. */
+  speakCurrent(interrupt){
     if(!this.supported) return;
-    synth.cancel();
+    const token = ++this.token;
+    if(interrupt){ try{ synth.cancel(); }catch(e){} }
     if(this.idx >= this.queue.length){ this.finish(); return; }
     const item = this.queue[this.idx];
     const u = new SpeechSynthesisUtterance(item.text);
-    if(this.voice) u.voice = this.voice;
+    const v = this.resolveVoice();
+    if(v){ u.voice = v; u.lang = v.lang; } else { u.lang = "en-GB"; }
     u.rate = this.rate; u.pitch = 1.0;
-    u.onend = ()=>{ if(this.playing && !this.paused){ this.idx++; this.speakCurrent(); } };
-    u.onerror = ()=>{ if(this.playing && !this.paused){ this.idx++; this.speakCurrent(); } };
-    synth.speak(u);
+    const advance = ()=>{
+      if(token !== this.token) return;          // stale callback — ignore
+      if(!this.playing || this.paused) return;
+      this.idx++;
+      this.speakCurrent(false);
+      this.paint();
+    };
+    u.onend = advance; u.onerror = advance;
+    const go = ()=>{ if(token === this.token){ try{ synth.speak(u); }catch(e){} } };
+    if(interrupt) setTimeout(go, 80); else go();   // let cancel() settle on iOS
     this.paint();
   },
   toggle(){
     if(this.mode==='audio') return this.aToggle();
     if(!this.playing){ // resume from stopped state at current idx if queue exists
       if(this.queue.length){ this.playing=true; this.paused=false; document.body.classList.add("playing");
-        document.getElementById("audiobar").classList.add("show"); this.requestWake(); this.speakCurrent(); this.paint(); }
+        document.getElementById("audiobar").classList.add("show"); this.requestWake(); this.speakCurrent(true); this.paint(); }
       return;
     }
-    if(this.paused){ this.paused=false; this.speakCurrent(); this.requestWake(); }
+    if(this.paused){ this.paused=false; this.speakCurrent(true); this.requestWake(); }
     else { this.paused=true; synth.cancel(); this.releaseWake(); }
     this.paint();
   },
   next(){ if(this.mode==='audio') return this.aNext();
-    if(!this.queue.length) return; this.idx=Math.min(this.idx+1,this.queue.length-1); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+    if(!this.queue.length) return; this.idx=Math.min(this.idx+1,this.queue.length-1); if(!this.paused&&this.playing) this.speakCurrent(true); this.paint(); },
   prev(){ if(this.mode==='audio') return this.aPrev();
-    if(!this.queue.length) return; this.idx=Math.max(this.idx-1,0); if(!this.paused&&this.playing) this.speakCurrent(); this.paint(); },
+    if(!this.queue.length) return; this.idx=Math.max(this.idx-1,0); if(!this.paused&&this.playing) this.speakCurrent(true); this.paint(); },
   nextChapter(){
     if(this.mode==='audio') return this.aNext();
     if(!this.queue.length) return;
@@ -1677,7 +1760,7 @@ const TTS = window.TTS = {
     let j = this.idx+1;
     while(j<this.queue.length && this.queue[j].chId===cur) j++;
     if(j>=this.queue.length){ this.finish(); return; }
-    this.idx=j; if(!this.paused&&this.playing) this.speakCurrent(); this.paint();
+    this.idx=j; if(!this.paused&&this.playing) this.speakCurrent(true); this.paint();
   },
   stop(silent){
     this.playing=false; this.paused=false;
@@ -1707,7 +1790,7 @@ const TTS = window.TTS = {
     document.getElementById("abNow").textContent=item.head?"Starting chapter…":item.text;
     document.getElementById("abProg").style.width=Math.round(100*(this.idx+1)/this.queue.length)+"%";
     document.getElementById("abCnt").textContent=(this.idx+1)+" / "+this.queue.length;
-    document.getElementById("abVoice").textContent=this.voice?this.voice.name.replace(/\(.*\)/,"").trim():"default voice";
+    document.getElementById("abVoice").textContent=this.voiceLabel();
     this.setPlayIcon(this.playing && !this.paused);
   },
   /* ---- voices ---- */
@@ -1726,22 +1809,44 @@ const TTS = window.TTS = {
     en.sort((a,b)=>rank(a)-rank(b));
     return en.length? en : all;
   },
+  /* iOS hands out fresh voice objects over time, so never hold onto one —
+     look it up by URI at the moment of speaking. */
+  resolveVoice(){
+    if(!this.supported) return null;
+    const live = synth.getVoices();
+    if(!live.length) return null;
+    if(this.voiceURI){
+      const match = live.find(v=>v.voiceURI===this.voiceURI);
+      if(match) return match;
+    }
+    const ranked = this.loadVoices();
+    return ranked[0] || null;
+  },
+  voiceLabel(){
+    const v=this.resolveVoice();
+    return v ? v.name.replace(/\(.*\)/,"").trim() : "device voice";
+  },
   pickDefault(){
     const list=this.loadVoices();
     if(!list.length) return;
-    if(audioPrefs.voiceURI){ const saved=list.find(v=>v.voiceURI===audioPrefs.voiceURI); if(saved){ this.voice=saved; return; } }
-    this.voice=list[0];
+    if(this.voiceURI && list.some(v=>v.voiceURI===this.voiceURI)) return;
+    this.voiceURI=list[0].voiceURI;
+  },
+  applyHint(){
+    const h=document.getElementById("applyHint");
+    if(h) h.textContent = (this.playing && this.mode==='speech')
+      ? "Applied from the next paragraph — no need to restart."
+      : "Saved.";
   },
   setVoice(uri){
-    const v=this.loadVoices().find(x=>x.voiceURI===uri); if(!v) return;
-    this.voice=v; audioPrefs.voiceURI=uri; store.set("audio",audioPrefs);
-    if(this.playing && !this.paused) this.speakCurrent();
-    this.paint();
+    this.voiceURI=uri; audioPrefs.voiceURI=uri; store.set("audio",audioPrefs);
+    this.applyHint(); this.paint();
   },
   setRate(r){
     this.rate=parseFloat(r); audioPrefs.rate=this.rate; store.set("audio",audioPrefs);
-    document.getElementById("speedVal").textContent=this.rate.toFixed(2).replace(/0$/,"")+"×";
-    if(this.playing && !this.paused) this.speakCurrent();
+    const sv=document.getElementById("speedVal");
+    if(sv) sv.textContent=this.rate.toFixed(2).replace(/0$/,"")+"×";
+    this.applyHint();
   },
   /* ---- wake lock (keeps screen alive while playing) ---- */
   async requestWake(){
@@ -1861,7 +1966,7 @@ function populateVoiceList(){
   if(!list.length){
     sel.innerHTML='<option>— tap ▶ Listen once, then reopen —</option>';
   } else {
-    sel.innerHTML=list.map(v=>'<option value="'+v.voiceURI+'"'+(TTS.voice&&v.voiceURI===TTS.voice.voiceURI?" selected":"")+'>'+v.name+' — '+v.lang+'</option>').join("");
+    sel.innerHTML=list.map(v=>'<option value="'+v.voiceURI+'"'+(v.voiceURI===TTS.voiceURI?" selected":"")+'>'+v.name+' — '+v.lang+'</option>').join("");
   }
   const cnt=document.getElementById("voiceCount");
   if(cnt) cnt.textContent = list.length ? (list.length+" voice"+(list.length===1?"":"s")+" available on this device") : "0 voices loaded yet — iOS wakes them after the first play";
@@ -1882,8 +1987,8 @@ if(TTS.supported){
   TTS.pickDefault();
   if(synth.onvoiceschanged !== undefined){
     synth.onvoiceschanged = ()=>{
-      if(!TTS.voice) TTS.pickDefault();
-      const ab=document.getElementById("abVoice"); if(ab && TTS.voice && TTS.mode!=='audio') ab.textContent=TTS.voice.name.replace(/\(.*\)/,"").trim();
+      TTS.pickDefault();
+      const ab=document.getElementById("abVoice"); if(ab && TTS.mode!=='audio') ab.textContent=TTS.voiceLabel();
       const sw=document.getElementById("sheetWrap"); if(sw && sw.classList.contains("show")) populateVoiceList();
     };
   }
