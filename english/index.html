@@ -1,0 +1,2368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Husay — Everyday English for Work</title>
+<meta name="description" content="Polish your everyday English for work: grammar, emails, lectures, reading and speaking — with exercises, scenarios and tools.">
+<meta name="theme-color" content="#6C5CE7">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Husay">
+<style>
+:root{
+  --bg:#F7F5FF;
+  --card:#FFFFFF;
+  --ink:#241E4E;
+  --ink-soft:#575180;
+  --ink-faint:#928DB5;
+  --rule:#E9E5F8;
+  --violet:#6C5CE7; --violet-deep:#4B3BC4; --violet-tint:#EEEBFF;
+  --teal:#00B8A9;   --teal-deep:#00897E;   --teal-tint:#DDF6F3;
+  --coral:#FF6B6B;  --coral-deep:#D94F4F;  --coral-tint:#FFE9E9;
+  --amber:#FF9F1A;  --amber-deep:#CC7A00;  --amber-tint:#FFF0D9;
+  --pink:#F368E0;   --pink-deep:#C43BAF;   --pink-tint:#FDE8F9;
+  --green:#20BF6B;  --green-deep:#168F4E;  --green-tint:#E0F7EA;
+  --red:#EE5253;    --red-tint:#FDE4E4;
+  --gold:#FFD32A;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --mono:ui-monospace,"SF Mono",SFMono-Regular,Menlo,Consolas,monospace;
+  --radius:18px;
+  --nav-h:66px;
+  --shadow:0 4px 18px rgba(76,59,196,0.09);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);background:var(--bg);color:var(--ink);
+  font-size:16px;line-height:1.6;
+  padding-bottom:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;color:inherit}
+
+/* ============ masthead ============ */
+.masthead{
+  position:relative;overflow:hidden;
+  padding:calc(16px + env(safe-area-inset-top)) 20px 18px;
+  background:linear-gradient(118deg,var(--violet-deep),var(--violet) 38%,#9B6BF2 62%,var(--pink) 92%,#FF8FB8);
+  background-size:230% 230%;
+  animation:aurora 16s ease-in-out infinite alternate;
+  color:#fff;
+  display:flex;align-items:center;gap:14px;
+  box-shadow:0 3px 16px rgba(76,59,196,0.35);
+}
+@keyframes aurora{from{background-position:0% 40%}to{background-position:100% 60%}}
+.mh-left{flex:1;min-width:0;position:relative;z-index:2}
+.masthead h1{font-family:var(--serif);font-weight:600;font-size:28px;line-height:1.1;letter-spacing:-0.01em}
+.masthead .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:0.09em;text-transform:uppercase;opacity:0.88;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mh-right{display:flex;flex-direction:column;align-items:flex-end;gap:6px;position:relative;z-index:2}
+.mh-chip{
+  font-family:var(--mono);font-size:11px;letter-spacing:0.04em;font-weight:700;
+  background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.4);
+  border-radius:99px;padding:3px 11px;color:#fff;white-space:nowrap;
+  font-variant-numeric:tabular-nums;backdrop-filter:blur(4px);
+}
+.mh-chip .flame{display:inline-block}
+.mh-chip.hot .flame{animation:flick 1s ease-in-out infinite alternate}
+@keyframes flick{from{transform:rotate(-8deg) scale(1)}to{transform:rotate(8deg) scale(1.18)}}
+.mh-float{position:absolute;font-family:var(--serif);font-weight:700;color:rgba(255,255,255,0.14);pointer-events:none;user-select:none;z-index:1}
+.mh-float.f1{font-size:64px;top:-6px;right:88px;animation:bob 7s ease-in-out infinite alternate}
+.mh-float.f2{font-size:34px;bottom:-8px;left:34%;animation:bob 9s 1s ease-in-out infinite alternate-reverse}
+.mh-float.f3{font-size:26px;top:8px;left:52%;animation:bob 6s .5s ease-in-out infinite alternate}
+@keyframes bob{from{transform:translateY(0) rotate(-6deg)}to{transform:translateY(10px) rotate(8deg)}}
+
+main{max-width:640px;margin:0 auto;padding:18px 16px 34px}
+
+/* ============ shared bits ============ */
+.rise{animation:rise .45s cubic-bezier(.2,.8,.3,1) both}
+.rise.d1{animation-delay:.06s}.rise.d2{animation-delay:.12s}.rise.d3{animation-delay:.18s}.rise.d4{animation-delay:.24s}
+@keyframes rise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.sectionlabel{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--ink-faint);margin:24px 0 10px;display:flex;align-items:center;gap:10px;
+}
+.sectionlabel::after{content:"";flex:1;height:1px;background:var(--rule)}
+.card{
+  background:var(--card);border-radius:var(--radius);padding:18px;
+  box-shadow:var(--shadow);border:1px solid rgba(233,229,248,0.8);
+  margin-bottom:14px;
+}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--violet);color:#fff;border:none;border-radius:99px;
+  font-weight:700;font-size:15px;padding:13px 26px;cursor:pointer;
+  box-shadow:0 4px 12px rgba(108,92,231,0.35);
+  transition:transform .12s ease,box-shadow .12s ease;
+}
+.btn:active{transform:scale(0.95)}
+.btn:disabled{opacity:0.35;cursor:default;box-shadow:none}
+.btn.coral{background:var(--coral);box-shadow:0 4px 12px rgba(255,107,107,0.35)}
+.btn.amber{background:var(--amber);box-shadow:0 4px 12px rgba(255,159,26,0.35)}
+.btn.teal{background:var(--teal);box-shadow:0 4px 12px rgba(0,184,169,0.35)}
+.btn.green{background:var(--green);box-shadow:0 4px 12px rgba(32,191,107,0.35)}
+.btn.ghost{background:transparent;color:var(--ink-soft);border:1.5px solid var(--rule);box-shadow:none;font-weight:600}
+.btn.small{font-size:13px;padding:8px 16px}
+.icn{
+  display:grid;place-items:center;flex:0 0 auto;
+  width:46px;height:46px;border-radius:15px;font-size:23px;
+  background:var(--violet-tint);
+}
+.icn.teal{background:var(--teal-tint)}.icn.coral{background:var(--coral-tint)}
+.icn.amber{background:var(--amber-tint)}.icn.pink{background:var(--pink-tint)}
+.icn.green{background:var(--green-tint)}
+.prog{height:8px;border-radius:99px;background:var(--rule);overflow:hidden}
+.progfill{
+  height:100%;border-radius:99px;width:0;
+  background:linear-gradient(90deg,var(--violet),var(--pink));
+  transition:width .8s cubic-bezier(.2,.8,.3,1);
+}
+.progfill.teal{background:linear-gradient(90deg,var(--teal),#5EE0D4)}
+.progfill.coral{background:linear-gradient(90deg,var(--coral),#FFA26B)}
+.progfill.amber{background:linear-gradient(90deg,var(--amber),var(--gold))}
+.pill{
+  display:inline-block;font-family:var(--mono);font-size:10.5px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;border-radius:99px;padding:3px 10px;
+}
+.pill.violet{background:var(--violet-tint);color:var(--violet-deep)}
+.pill.teal{background:var(--teal-tint);color:var(--teal-deep)}
+.pill.coral{background:var(--coral-tint);color:var(--coral-deep)}
+.pill.amber{background:var(--amber-tint);color:var(--amber-deep)}
+.pill.pink{background:var(--pink-tint);color:var(--pink-deep)}
+.pill.green{background:var(--green-tint);color:var(--green-deep)}
+.note{
+  background:var(--violet-tint);border-left:4px solid var(--violet);
+  border-radius:10px;padding:10px 14px;font-size:14.5px;color:var(--ink-soft);margin:12px 0;
+}
+.divider{height:1px;background:var(--rule);margin:14px 0}
+
+/* ============ tiles (lesson / activity cards) ============ */
+.tile{
+  display:flex;align-items:center;gap:14px;width:100%;text-align:left;
+  background:var(--card);border:1px solid rgba(233,229,248,0.8);border-radius:var(--radius);
+  padding:14px 16px;margin-bottom:11px;cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .13s ease;
+}
+.tile:active{transform:scale(0.975)}
+.tile .tt{display:block;font-weight:750;font-size:15.5px;line-height:1.3}
+.tile .tb{display:block;font-size:13px;color:var(--ink-soft);margin-top:2px;line-height:1.45}
+.tile .tmid{flex:1;min-width:0}
+.tile .done{
+  flex:0 0 auto;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  font-size:14px;font-weight:800;color:#fff;background:var(--green);
+  animation:popin .4s cubic-bezier(.34,1.56,.64,1) both;
+}
+.tile .todo{flex:0 0 auto;width:26px;height:26px;border-radius:50%;border:2px dashed var(--rule)}
+@keyframes popin{from{transform:scale(0)}to{transform:scale(1)}}
+
+/* ============ home ============ */
+.hero{
+  background:linear-gradient(135deg,#FFFFFF,#F4F0FF);
+  border-radius:var(--radius);padding:18px;box-shadow:var(--shadow);
+  border:1px solid rgba(233,229,248,0.9);margin-bottom:14px;
+}
+.hero h2{font-family:var(--serif);font-size:21px;font-weight:650;line-height:1.25}
+.hero .sub{color:var(--ink-soft);font-size:14px;margin-top:4px}
+.statrow{display:flex;gap:10px;margin-bottom:14px}
+.stat{
+  flex:1;background:var(--card);border-radius:16px;padding:12px 8px;text-align:center;
+  box-shadow:var(--shadow);border:1px solid rgba(233,229,248,0.8);
+}
+.stat .big{font-family:var(--mono);font-weight:800;font-size:21px;font-variant-numeric:tabular-nums;line-height:1.15}
+.stat .lbl{font-family:var(--mono);font-size:9.5px;letter-spacing:0.08em;text-transform:uppercase;color:var(--ink-faint);margin-top:2px}
+.stat .em{font-size:17px;display:block;margin-bottom:1px}
+.lvlbar{display:flex;align-items:center;gap:10px;margin-top:12px}
+.lvlbar .prog{flex:1}
+.lvlbar .lv{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--violet-deep);white-space:nowrap}
+.planrow{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.planitem{
+  display:flex;align-items:center;gap:11px;background:var(--card);
+  border:1px solid var(--rule);border-radius:14px;padding:10px 13px;cursor:pointer;
+  font-size:14px;font-weight:600;text-align:left;width:100%;
+  transition:transform .12s ease;
+}
+.planitem:active{transform:scale(0.97)}
+.planitem .pi-ic{font-size:20px}
+.planitem .pi-go{margin-left:auto;color:var(--ink-faint);font-weight:800}
+.wotd{background:linear-gradient(135deg,var(--teal-tint),#FFFFFF)}
+.wotd .w{font-family:var(--serif);font-size:26px;font-weight:700;color:var(--teal-deep)}
+.wotd .pos{font-family:var(--mono);font-size:11px;color:var(--ink-faint);margin-left:8px}
+.wotd .def{margin-top:6px;font-size:15px}
+.wotd .ex{margin-top:6px;font-size:14px;color:var(--ink-soft);font-style:italic}
+.tipcard{background:linear-gradient(135deg,var(--amber-tint),#FFFFFF)}
+.tipcard .tiptext{font-size:15px;margin-top:4px}
+.badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+.badge{
+  flex:0 0 auto;width:76px;text-align:center;padding:10px 4px 8px;border-radius:16px;
+  background:var(--card);border:1px solid var(--rule);position:relative;overflow:hidden;
+}
+.badge .bic{font-size:26px;display:block}
+.badge .bnm{font-size:9.5px;font-family:var(--mono);font-weight:700;letter-spacing:0.02em;color:var(--ink-soft);margin-top:4px;line-height:1.3;display:block}
+.badge.locked{opacity:0.38;filter:grayscale(1)}
+.badge.earned::after{
+  content:"";position:absolute;top:0;left:-80%;width:50%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,0.85),transparent);
+  animation:shine 3.2s ease-in-out infinite;
+}
+@keyframes shine{0%{left:-80%}45%{left:130%}100%{left:130%}}
+
+/* ============ quiz ============ */
+.qhead{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.qhead .prog{flex:1}
+.qcount{font-family:var(--mono);font-size:11.5px;font-weight:700;color:var(--ink-faint);white-space:nowrap}
+.qtext{font-size:17px;font-weight:650;line-height:1.45;margin-bottom:14px}
+.qtext .blank{border-bottom:2px solid var(--violet);color:var(--violet);padding:0 4px;font-family:var(--mono)}
+.opt{
+  display:block;width:100%;text-align:left;background:var(--card);
+  border:1.8px solid var(--rule);border-radius:14px;padding:12px 15px;margin-bottom:10px;
+  font-size:15px;font-weight:550;cursor:pointer;line-height:1.4;
+  transition:transform .12s ease,border-color .15s,background .15s;
+}
+.opt:active{transform:scale(0.98)}
+.opt.correct{border-color:var(--green);background:var(--green-tint);animation:popopt .35s cubic-bezier(.34,1.56,.64,1)}
+.opt.wrong{border-color:var(--red);background:var(--red-tint);animation:shake .4s ease}
+.opt.reveal{border-color:var(--green);background:var(--green-tint)}
+.opt:disabled{cursor:default}
+@keyframes popopt{0%{transform:scale(1)}45%{transform:scale(1.035)}100%{transform:scale(1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+.why{
+  background:var(--violet-tint);border-radius:12px;padding:11px 14px;font-size:14px;
+  color:var(--ink-soft);margin:4px 0 12px;animation:rise .3s ease both;
+}
+.why b{color:var(--violet-deep)}
+.scorecard{text-align:center;padding:28px 18px}
+.scorecard .bigscore{font-family:var(--mono);font-weight:800;font-size:44px;color:var(--violet-deep);line-height:1.1}
+.scorecard .msg{font-size:16px;font-weight:650;margin-top:6px}
+.scorecard .submsg{font-size:14px;color:var(--ink-soft);margin-top:4px;margin-bottom:18px}
+
+/* ============ detail overlay ============ */
+.detail{
+  position:fixed;inset:0;background:var(--bg);z-index:90;display:none;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+  padding-bottom:calc(30px + env(safe-area-inset-bottom));
+}
+.detail.open{display:block;animation:slidein .28s cubic-bezier(.2,.8,.3,1) both}
+@keyframes slidein{from{opacity:0;transform:translateX(7%)}to{opacity:1;transform:none}}
+.dethead{
+  position:sticky;top:0;z-index:5;
+  display:flex;align-items:center;gap:12px;
+  padding:calc(12px + env(safe-area-inset-top)) 16px 12px;
+  background:rgba(247,245,255,0.92);backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.backbtn{
+  width:38px;height:38px;border-radius:12px;border:1px solid var(--rule);
+  background:var(--card);font-size:17px;font-weight:800;cursor:pointer;color:var(--violet-deep);
+  display:grid;place-items:center;flex:0 0 auto;box-shadow:var(--shadow);
+  transition:transform .12s ease;
+}
+.backbtn:active{transform:scale(0.92)}
+.dethead .dt{font-weight:750;font-size:16.5px;line-height:1.25;flex:1;min-width:0}
+.detbody{max-width:640px;margin:0 auto;padding:18px 16px 30px}
+
+/* ============ lesson body typography ============ */
+.lesson h3{font-family:var(--serif);font-size:19px;font-weight:650;margin:20px 0 8px}
+.lesson p{margin:0 0 12px;font-size:15.5px}
+.lesson .goodline,.lesson .badline{
+  display:block;border-radius:12px;padding:9px 13px;margin:7px 0;font-size:14.5px;line-height:1.45;
+}
+.lesson .goodline{background:var(--green-tint);border-left:4px solid var(--green)}
+.lesson .badline{background:var(--red-tint);border-left:4px solid var(--red);text-decoration:none}
+.lesson .badline s{text-decoration-color:rgba(238,82,83,0.6)}
+.extable{width:100%;border-collapse:collapse;margin:12px 0;font-size:14px;border-radius:12px;overflow:hidden}
+.extable th{background:var(--violet-tint);color:var(--violet-deep);font-family:var(--mono);font-size:11px;letter-spacing:0.05em;text-transform:uppercase;padding:8px 10px;text-align:left}
+.extable td{border-bottom:1px solid var(--rule);padding:8px 10px;vertical-align:top}
+.extable tr:last-child td{border-bottom:none}
+
+/* ============ reading ============ */
+.paper{
+  background:linear-gradient(180deg,#FFFDF6,#FFF9EC);
+  border:1px solid #F0E6CC;border-radius:var(--radius);padding:20px;
+  font-family:var(--serif);font-size:16.5px;line-height:1.75;box-shadow:var(--shadow);
+  margin-bottom:16px;
+}
+.paper h3{font-size:20px;margin-bottom:10px}
+.paper p{margin-bottom:12px}
+.vocabchip{
+  display:inline-flex;align-items:center;gap:6px;background:var(--teal-tint);color:var(--teal-deep);
+  border:1px solid rgba(0,184,169,0.3);border-radius:99px;padding:6px 14px;margin:0 8px 8px 0;
+  font-weight:700;font-size:14px;cursor:pointer;transition:transform .12s ease;
+}
+.vocabchip:active{transform:scale(0.94)}
+.vocabdef{
+  background:var(--teal-tint);border-radius:12px;padding:12px 15px;font-size:14.5px;
+  margin:4px 0 12px;animation:rise .25s ease both;color:var(--ink-soft);
+}
+.vocabdef b{color:var(--teal-deep)}
+
+/* ============ write / scenario ============ */
+.mailpreview{
+  background:#FFFFFF;border:1.5px solid var(--rule);border-radius:14px;overflow:hidden;margin:12px 0;
+  box-shadow:var(--shadow);
+}
+.mailpreview .mp-sub{
+  background:var(--violet-tint);padding:10px 15px;font-weight:750;font-size:14.5px;
+  border-bottom:1px solid var(--rule);
+}
+.mailpreview .mp-body{padding:14px 15px;font-size:14.5px;line-height:1.65;white-space:pre-line}
+.mailline{animation:rise .35s ease both}
+.steplbl{font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--coral-deep);margin-bottom:6px}
+.tpl .tplbody{
+  background:var(--bg);border:1px dashed var(--rule);border-radius:12px;padding:13px 15px;
+  font-size:14px;line-height:1.6;white-space:pre-line;margin-top:10px;color:var(--ink-soft);
+}
+.copychip{
+  display:inline-flex;align-items:center;gap:6px;border:none;background:var(--violet-tint);
+  color:var(--violet-deep);font-weight:700;font-size:13px;border-radius:99px;padding:8px 16px;
+  cursor:pointer;margin-top:10px;transition:transform .12s ease;
+}
+.copychip:active{transform:scale(0.94)}
+.tonebox{border-radius:12px;padding:11px 14px;margin:8px 0;font-size:14.5px}
+.tonebox .tl{font-family:var(--mono);font-size:10px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;display:block;margin-bottom:3px}
+.tonebox.casual{background:var(--red-tint)}.tonebox.casual .tl{color:var(--red)}
+.tonebox.right{background:var(--green-tint)}.tonebox.right .tl{color:var(--green-deep)}
+.tonebox.stiff{background:var(--amber-tint)}.tonebox.stiff .tl{color:var(--amber-deep)}
+
+/* ============ speak ============ */
+.phr{
+  display:flex;align-items:center;gap:10px;padding:11px 4px;border-bottom:1px solid var(--rule);
+}
+.phr:last-child{border-bottom:none}
+.phr .ptxt{flex:1;font-size:14.5px;line-height:1.45}
+.phr .pnote{display:block;font-size:12px;color:var(--ink-faint);margin-top:1px}
+.roundbtn{
+  width:36px;height:36px;border-radius:50%;border:none;cursor:pointer;flex:0 0 auto;
+  display:grid;place-items:center;font-size:15px;transition:transform .12s ease;
+}
+.roundbtn:active{transform:scale(0.88)}
+.roundbtn.play{background:var(--amber-tint);color:var(--amber-deep)}
+.roundbtn.copy{background:var(--violet-tint);color:var(--violet-deep)}
+.roundbtn.mic{background:var(--coral-tint);color:var(--coral-deep);font-size:17px}
+.roundbtn.mic.listening{background:var(--coral);color:#fff;animation:pulse 1s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(255,107,107,0.5)}50%{transform:scale(1.08);box-shadow:0 0 0 10px rgba(255,107,107,0)}}
+.pronword{display:flex;align-items:center;gap:10px;padding:12px 4px;border-bottom:1px solid var(--rule)}
+.pronword:last-child{border-bottom:none}
+.pronword .pw{font-weight:750;font-size:16px}
+.pronword .ph{font-family:var(--mono);font-size:12px;color:var(--amber-deep);display:block;margin-top:1px}
+.pronword .ptip{font-size:12.5px;color:var(--ink-faint);display:block;margin-top:2px}
+.pronword .pmid{flex:1;min-width:0}
+.sayresult{font-size:13px;font-weight:700;margin:6px 0 4px;animation:rise .25s ease both}
+.sayresult.good{color:var(--green-deep)}
+.sayresult.tryagain{color:var(--coral-deep)}
+.bigword{
+  text-align:center;font-family:var(--serif);font-size:34px;font-weight:700;
+  padding:26px 10px;color:var(--amber-deep);
+}
+.pairbtns{display:flex;gap:12px}
+.pairbtns .opt{flex:1;text-align:center;font-size:19px;font-weight:750;padding:20px 10px}
+.speedrow{display:flex;gap:8px;margin:10px 0}
+.speedchip{
+  border:1.5px solid var(--rule);background:var(--card);border-radius:99px;padding:6px 15px;
+  font-size:13px;font-weight:700;cursor:pointer;color:var(--ink-soft);
+}
+.speedchip.on{background:var(--amber);border-color:var(--amber);color:#fff}
+.shadowline{
+  display:flex;align-items:flex-start;gap:10px;padding:10px 4px;border-bottom:1px solid var(--rule);
+  font-size:15px;line-height:1.55;
+}
+.shadowline:last-child{border-bottom:none}
+
+/* ============ tools ============ */
+.search{
+  width:100%;border:1.8px solid var(--rule);border-radius:14px;padding:12px 16px;
+  font-size:15px;font-family:inherit;background:var(--card);color:var(--ink);
+  outline:none;margin-bottom:14px;box-shadow:var(--shadow);
+}
+.search:focus{border-color:var(--violet)}
+.swap{display:flex;align-items:center;gap:10px;padding:10px 4px;border-bottom:1px solid var(--rule);font-size:14.5px;flex-wrap:wrap}
+.swap:last-child{border-bottom:none}
+.swap .from{color:var(--red);text-decoration:line-through;text-decoration-color:rgba(238,82,83,0.55)}
+.swap .arrow{color:var(--ink-faint);font-weight:800}
+.swap .to{color:var(--green-deep);font-weight:700}
+.swap .snote{flex-basis:100%;font-size:12.5px;color:var(--ink-faint)}
+.confu{padding:12px 4px;border-bottom:1px solid var(--rule)}
+.confu:last-child{border-bottom:none}
+.confu .cpair{font-weight:800;font-size:15.5px;color:var(--violet-deep)}
+.confu .crule{font-size:13.5px;color:var(--ink-soft);margin-top:2px}
+.confu .cex{font-size:13.5px;margin-top:4px;font-style:italic;color:var(--ink-faint)}
+.checkitem{
+  display:flex;align-items:flex-start;gap:12px;padding:11px 4px;border-bottom:1px solid var(--rule);
+  cursor:pointer;font-size:14.5px;line-height:1.5;
+}
+.checkitem:last-child{border-bottom:none}
+.checkbox{
+  flex:0 0 auto;width:24px;height:24px;border-radius:8px;border:2px solid var(--rule);
+  display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;margin-top:1px;
+  transition:background .15s,border-color .15s;
+}
+.checkitem.on .checkbox{background:var(--green);border-color:var(--green);animation:popin .3s cubic-bezier(.34,1.56,.64,1)}
+.checkitem.on{color:var(--ink-faint)}
+.slider{width:100%;accent-color:var(--violet);margin:8px 0}
+
+/* ============ floaters / confetti ============ */
+.xpfloat{
+  position:fixed;z-index:300;font-family:var(--mono);font-weight:800;font-size:15px;
+  color:var(--violet-deep);pointer-events:none;text-shadow:0 1px 0 #fff;
+  animation:floatup 1.1s ease-out both;
+}
+@keyframes floatup{from{opacity:1;transform:translateY(0) scale(1)}to{opacity:0;transform:translateY(-70px) scale(1.25)}}
+.confetti-bit{position:fixed;z-index:400;top:-14px;width:9px;height:13px;border-radius:2px;pointer-events:none}
+@keyframes cfall{to{transform:translateY(105vh) rotate(720deg)}}
+
+/* ============ tab bar ============ */
+.tabbar{
+  position:fixed;left:0;right:0;bottom:0;z-index:80;
+  height:calc(var(--nav-h) + env(safe-area-inset-bottom));
+  padding-bottom:env(safe-area-inset-bottom);
+  background:rgba(255,255,255,0.94);backdrop-filter:blur(12px);
+  border-top:1px solid var(--rule);
+  display:flex;justify-content:space-around;align-items:stretch;
+}
+.tabbtn{
+  flex:1;border:none;background:none;cursor:pointer;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
+  color:var(--ink-faint);position:relative;
+}
+.tabbtn .ti{font-size:21px;transition:transform .18s cubic-bezier(.34,1.56,.64,1)}
+.tabbtn .tl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase}
+.tabbtn.active{color:var(--violet-deep)}
+.tabbtn.active .ti{transform:translateY(-3px) scale(1.15)}
+.tabbtn.active::before{
+  content:"";position:absolute;top:6px;width:34px;height:34px;border-radius:12px;
+  background:var(--violet-tint);z-index:-1;animation:popin .25s cubic-bezier(.34,1.56,.64,1);
+}
+section.screen{display:none}
+section.screen.active{display:block}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <span class="mh-float f1">Aa</span>
+  <span class="mh-float f2">&amp;</span>
+  <span class="mh-float f3">?!</span>
+  <div class="mh-left">
+    <h1>Husay</h1>
+    <div class="tag">Everyday English · Polished for Work</div>
+  </div>
+  <div class="mh-right">
+    <span class="mh-chip" id="streakChip"><span class="flame">🔥</span> <span id="streakNum">0</span>-day</span>
+    <span class="mh-chip" id="xpChip">✨ 0 XP</span>
+  </div>
+</header>
+
+<main>
+  <section class="screen" id="scr-home"></section>
+  <section class="screen" id="scr-learn"></section>
+  <section class="screen" id="scr-write"></section>
+  <section class="screen" id="scr-speak"></section>
+  <section class="screen" id="scr-tools"></section>
+</main>
+
+<div class="detail" id="detail">
+  <div class="dethead">
+    <button class="backbtn" id="backBtn" aria-label="Back">←</button>
+    <div class="dt" id="detTitle"></div>
+  </div>
+  <div class="detbody" id="detBody"></div>
+</div>
+
+<nav class="tabbar">
+  <button class="tabbtn active" data-tab="home"><span class="ti">🏠</span><span class="tl">Home</span></button>
+  <button class="tabbtn" data-tab="learn"><span class="ti">📖</span><span class="tl">Learn</span></button>
+  <button class="tabbtn" data-tab="write"><span class="ti">✉️</span><span class="tl">Write</span></button>
+  <button class="tabbtn" data-tab="speak"><span class="ti">🎤</span><span class="tl">Speak</span></button>
+  <button class="tabbtn" data-tab="tools"><span class="ti">🧰</span><span class="tl">Tools</span></button>
+</nav>
+
+<script>
+"use strict";
+/* ================================================================
+   GRAMMAR LESSONS
+   ================================================================ */
+const LESSONS = [
+{
+id:"articles", icon:"🅰️", color:"violet", title:"A, an & the — sounding natural",
+blurb:"The tiny words that make the biggest difference.",
+body:`
+<p>Articles are the little words <b>a</b>, <b>an</b> and <b>the</b>. Many languages (including Tagalog) manage without them, so they are the most common thing to slip on — and readers notice them straight away in emails.</p>
+<h3>The one-second rule</h3>
+<p><b>A / an</b> = one of many, first mention, not specific. <b>The</b> = you and your reader both know which one. <b>No article</b> = plural or uncountable things in general.</p>
+<span class="goodline">✓ I saw <b>a</b> patient this morning. <b>The</b> patient was anxious. <i>(first mention → a; second mention → the)</i></span>
+<span class="goodline">✓ <b>The</b> meeting room on level 2 is free. <i>(we both know which room)</i></span>
+<span class="goodline">✓ I love <b>coffee</b>. <b>Nurses</b> work hard. <i>(things in general → no article)</i></span>
+<h3>A or an? Listen, don't look</h3>
+<p>Use <b>an</b> before a vowel <i>sound</i>, not a vowel letter: <b>an</b> hour, <b>an</b> honest answer, <b>an</b> X-ray — but <b>a</b> university, <b>a</b> one-off, <b>a</b> UK passport.</p>
+<h3>Traps to watch</h3>
+<span class="badline">✗ <s>I will send you email later.</s></span>
+<span class="goodline">✓ I will send you <b>an</b> email later.</span>
+<span class="badline">✗ <s>Can you check the my report?</s> — never two determiners together.</span>
+<span class="goodline">✓ Can you check <b>my</b> report?</span>
+<span class="badline">✗ <s>She is in the hospital as a nurse.</s> <i>(UK English: at work there, not a patient)</i></span>
+<span class="goodline">✓ She works <b>in hospital</b> / She is <b>at the hospital</b> for her shift.</span>
+<p>Quick email check: every singular countable noun (report, meeting, patient, form) almost always needs <b>a/an</b>, <b>the</b>, or a word like <b>my/this/each</b> in front of it.</p>
+`,
+quiz:[
+{q:"Please could you send me ___ agenda before the meeting?", opts:["a","an","the","(nothing)"], a:1, why:"Agenda starts with a vowel sound, and it's the first mention — so “an agenda”."},
+{q:"I spoke to ___ ward manager you mentioned yesterday.", opts:["a","an","the","(nothing)"], a:2, why:"You both know exactly which manager — “the ward manager you mentioned”."},
+{q:"She has ___ MSc in public health.", opts:["a","an","the","(nothing)"], a:1, why:"MSc is pronounced “em-es-see” — it starts with a vowel sound, so “an MSc”."},
+{q:"___ good communication is essential on the ward.", opts:["A","An","The","(nothing)"], a:3, why:"“Communication” is uncountable and we mean it in general — no article needed."},
+{q:"It took me ___ hour to finish the audit.", opts:["a","an","the","(nothing)"], a:1, why:"The h in “hour” is silent — it starts with a vowel sound: “an hour”."},
+{q:"Which sentence is correct?", opts:["I attached report for your review.","I attached the report for your review.","I attached a the report for your review."], a:1, why:"“Report” is singular and specific (you both know which one), so it needs “the”. Never stack two articles."},
+]},
+
+{
+id:"prepositions", icon:"📍", color:"violet", title:"In, on, at — time & place",
+blurb:"Stop guessing which little word to use.",
+body:`
+<p>Think of <b>in / on / at</b> as zooming in: <b>in</b> a big space or period → <b>on</b> a surface or day → <b>at</b> an exact point.</p>
+<h3>Time</h3>
+<table class="extable"><tr><th>Word</th><th>Use for</th><th>Examples</th></tr>
+<tr><td><b>in</b></td><td>months, years, seasons, parts of day</td><td>in July, in 2026, in the morning</td></tr>
+<tr><td><b>on</b></td><td>days and dates</td><td>on Monday, on 3 May, on my birthday</td></tr>
+<tr><td><b>at</b></td><td>clock times, exact points</td><td>at 9 a.m., at noon, at night, at the weekend (UK)</td></tr></table>
+<h3>Place</h3>
+<table class="extable"><tr><th>Word</th><th>Use for</th><th>Examples</th></tr>
+<tr><td><b>in</b></td><td>enclosed spaces, cities, countries</td><td>in the office, in London, in the UK</td></tr>
+<tr><td><b>on</b></td><td>surfaces, floors, transport</td><td>on the desk, on the third floor, on the bus, on the ward</td></tr>
+<tr><td><b>at</b></td><td>specific points, events, addresses</td><td>at reception, at the meeting, at work</td></tr></table>
+<h3>The ones people mix up</h3>
+<span class="goodline">✓ The meeting is <b>on</b> Tuesday <b>at</b> 2 p.m. <b>in</b> Room 4.</span>
+<span class="badline">✗ <s>I will discuss it with you on Monday morning at the office in 9 a.m.</s></span>
+<span class="goodline">✓ I will discuss it with you <b>on</b> Monday morning <b>at</b> the office <b>at</b> 9 a.m.</span>
+<p>Handy extras for work: <b>on</b> annual leave, <b>on</b> call, <b>at</b> short notice, <b>in</b> a meeting, deadline <b>on</b> Friday, back <b>in</b> ten minutes.</p>
+`,
+quiz:[
+{q:"The training session is ___ Thursday ___ 10 a.m.", opts:["in / at","on / at","at / on","on / in"], a:1, why:"Days take “on”; clock times take “at”: on Thursday at 10 a.m."},
+{q:"I'll be ___ annual leave next week.", opts:["in","on","at"], a:1, why:"The fixed phrase is “on annual leave” (also: on call, on duty, on a break)."},
+{q:"She's ___ a meeting right now — can I take a message?", opts:["in","on","at"], a:0, why:"You are “in a meeting” while it happens; you are “at a meeting” to say where you are."},
+{q:"I started working here ___ 2021.", opts:["in","on","at"], a:0, why:"Years take “in”: in 2021, in March, in the summer."},
+{q:"Leave the forms ___ my desk, please.", opts:["in","on","at"], a:1, why:"A desk top is a surface — “on my desk”."},
+{q:"Which sentence is correct?", opts:["See you at Monday in the clinic.","See you on Monday at the clinic.","See you in Monday on the clinic."], a:1, why:"Day → on Monday; specific place/point → at the clinic."},
+]},
+
+{
+id:"perfect", icon:"⏳", color:"violet", title:"Past simple vs present perfect",
+blurb:"“I worked” or “I have worked”? Finally clear.",
+body:`
+<p>This is the tense pair UK colleagues use constantly — and the difference is about <b>whether the time is finished</b>.</p>
+<h3>Past simple — finished time</h3>
+<p>Use it when the action sits in a closed time period, often with <i>yesterday, last week, in 2021, two hours ago</i>.</p>
+<span class="goodline">✓ I <b>moved</b> to the UK in 2021.</span>
+<span class="goodline">✓ I <b>sent</b> the report yesterday.</span>
+<h3>Present perfect — connected to now</h3>
+<p>Use <b>have/has + past participle</b> when the time is open or the result matters now. Signal words: <i>already, yet, just, ever, never, since, for, so far, recently</i>.</p>
+<span class="goodline">✓ I <b>have been</b> in the UK <b>for</b> five years. <i>(and I'm still here)</i></span>
+<span class="goodline">✓ I <b>have just sent</b> the report. <i>(hot news — it's in your inbox now)</i></span>
+<span class="goodline">✓ <b>Have</b> you <b>ever given</b> a lecture? <i>(any time in your life up to now)</i></span>
+<h3>For vs since</h3>
+<p><b>For</b> + a length of time (for five years, for two hours). <b>Since</b> + a starting point (since 2021, since Monday, since I arrived).</p>
+<h3>The classic slip</h3>
+<span class="badline">✗ <s>I am here since five years.</s> / <s>I am working here since 2021.</s></span>
+<span class="goodline">✓ I <b>have been</b> here <b>for</b> five years. / I <b>have worked</b> here <b>since</b> 2021.</span>
+<span class="badline">✗ <s>I have seen him yesterday.</s> <i>(“yesterday” is finished time → past simple)</i></span>
+<span class="goodline">✓ I <b>saw</b> him yesterday.</span>
+`,
+quiz:[
+{q:"I ___ in the UK for nearly five years.", opts:["am","was","have been","have be"], a:2, why:"Started in the past, still true now → present perfect: “have been … for five years”."},
+{q:"She ___ the handover notes an hour ago.", opts:["has written","wrote","has wrote","writes"], a:1, why:"“An hour ago” is a finished time — past simple: “wrote”."},
+{q:"___ you ever presented at a conference?", opts:["Did","Have","Do","Were"], a:1, why:"Any time in your life up to now → present perfect: “Have you ever presented…?”"},
+{q:"I've worked on this ward ___ 2022.", opts:["for","since","from","during"], a:1, why:"“Since” + starting point (2022); “for” + length of time (three years)."},
+{q:"Sorry, I ___ your email — my inbox was overflowing!", opts:["have just seen","just see","have seen yesterday","am just seeing"], a:0, why:"Hot news with a result now → “I have just seen your email”."},
+{q:"Which sentence is correct?", opts:["I have visited Manila last December.","I visited Manila last December.","I am visiting Manila last December."], a:1, why:"“Last December” is closed, finished time — use past simple: “visited”."},
+]},
+
+{
+id:"agreement", icon:"🤝", color:"violet", title:"Subject–verb agreement",
+blurb:"He works, they work — and the tricky ones between.",
+body:`
+<p>The rule is simple — one thing takes <b>-s</b> (she work<b>s</b>), many things don't (they work). The slips happen when the subject is hard to spot.</p>
+<h3>Don't be distracted by the words in between</h3>
+<span class="badline">✗ <s>One of my colleagues are off sick.</s></span>
+<span class="goodline">✓ <b>One</b> of my colleagues <b>is</b> off sick. <i>(the subject is “one”)</i></span>
+<span class="goodline">✓ The <b>list</b> of action points <b>is</b> attached. <i>(subject: list, not points)</i></span>
+<h3>Words that look plural but act singular</h3>
+<p><b>Everyone, everybody, each, either, nobody, something</b> all take a singular verb.</p>
+<span class="goodline">✓ Everyone <b>is</b> welcome. Each patient <b>has</b> a named nurse.</span>
+<h3>Uncountable nouns are singular</h3>
+<span class="goodline">✓ The information <b>is</b> correct. The equipment <b>was</b> delivered. Your feedback <b>is</b> helpful.</span>
+<h3>Team, staff, management</h3>
+<p>In UK English, group nouns can be singular or plural — just be consistent: “The team <b>is</b> meeting” and “the team <b>are</b> happy” are both heard. <b>Staff</b> usually takes a plural verb: “The staff <b>are</b> tired.”</p>
+<h3>There is / there are</h3>
+<span class="goodline">✓ There <b>is</b> a problem. / There <b>are</b> two problems.</span>
+<span class="badline">✗ <s>There's three forms to complete.</s> <i>(fine in speech, avoid in writing)</i></span>
+`,
+quiz:[
+{q:"One of the printers ___ broken again.", opts:["are","is","were","be"], a:1, why:"The subject is “one” (singular), not “printers” — “one … is broken”."},
+{q:"Everyone ___ invited to the away day.", opts:["are","were","is","have been"], a:2, why:"“Everyone” is singular: everyone is, everyone has, everyone wants."},
+{q:"The information you sent ___ really useful.", opts:["were","are","is","have been"], a:2, why:"“Information” is uncountable and singular: the information is useful."},
+{q:"There ___ several issues with the new rota.", opts:["is","are","was","be"], a:1, why:"“Several issues” is plural → “there are several issues”."},
+{q:"The list of attendees ___ on the shared drive.", opts:["are","is","were","being"], a:1, why:"The subject is “list” (singular) — the phrase “of attendees” doesn't change it."},
+{q:"Which sentence is correct?", opts:["Each of the wards have a fire warden.","Each of the wards has a fire warden.","Each of the ward have a fire warden."], a:1, why:"“Each” is singular: each … has. (And it's “each of the wards”, plural after “of the”.)"},
+]},
+
+{
+id:"countable", icon:"🧮", color:"violet", title:"Countable & uncountable",
+blurb:"Advice, information, equipment — and much vs many.",
+body:`
+<p>Some English nouns refuse to be counted. You can't say <s>two advices</s> — advice is a substance, like water. Getting these right instantly lifts your writing.</p>
+<h3>The big uncountables at work</h3>
+<p><b>advice · information · feedback · equipment · training · research · evidence · progress · work · staff (as a body) · furniture · knowledge</b></p>
+<span class="badline">✗ <s>Thank you for your advices. I received many informations.</s></span>
+<span class="goodline">✓ Thank you for your <b>advice</b>. I received <b>a lot of information</b>.</span>
+<p>Need to count one? Use <b>a piece of</b> advice, <b>an item of</b> equipment, <b>a training session</b>.</p>
+<h3>Much, many, a lot of</h3>
+<table class="extable"><tr><th>Use</th><th>With</th><th>Example</th></tr>
+<tr><td><b>many</b></td><td>countable plurals</td><td>How many patients? Not many chairs.</td></tr>
+<tr><td><b>much</b></td><td>uncountables</td><td>How much time? Not much information.</td></tr>
+<tr><td><b>a lot of</b></td><td>both (safe choice)</td><td>a lot of patients, a lot of time</td></tr></table>
+<h3>Fewer vs less</h3>
+<span class="goodline">✓ <b>Fewer</b> beds, <b>fewer</b> errors <i>(you can count them)</i></span>
+<span class="goodline">✓ <b>Less</b> time, <b>less</b> paperwork <i>(you can't)</i></span>
+<h3>Some & any</h3>
+<p><b>Some</b> in positive sentences and offers; <b>any</b> in negatives and most questions: “I have <b>some</b> feedback.” “I don't have <b>any</b> questions.” “Do you have <b>any</b> concerns?”</p>
+`,
+quiz:[
+{q:"Could you give me some ___ about the new referral system?", opts:["informations","information","informs","information's"], a:1, why:"“Information” is uncountable — it never takes an s."},
+{q:"How ___ time do we have for questions?", opts:["many","much","lot","few"], a:1, why:"Time is uncountable → “how much time”. Countables take “many” (how many minutes)."},
+{q:"We need ___ staff on nights this winter.", opts:["much","more","a more","many more of"], a:1, why:"“More” works with both countable and uncountable nouns — “more staff”."},
+{q:"There are ___ errors in this draft than the last one. Well done!", opts:["less","fewer","lesser","few"], a:1, why:"Errors can be counted → “fewer errors”. “Less” is for uncountables (less noise)."},
+{q:"She gave me a useful piece of ___ before my presentation.", opts:["advices","advise","advice","advising"], a:2, why:"“A piece of advice” — advice is the noun; advise (with s sound) is the verb."},
+{q:"Which sentence is correct?", opts:["The new equipments have arrived.","The new equipment has arrived.","The new equipment have arrived."], a:1, why:"“Equipment” is uncountable and singular: the equipment has arrived."},
+]},
+
+{
+id:"questions", icon:"❓", color:"violet", title:"Questions & word order",
+blurb:"Direct questions, polite indirect ones, and where words go.",
+body:`
+<p>English questions need a helper verb and a fixed order. And in polite workplace English, we often wrap the question inside another sentence — which changes the order again.</p>
+<h3>Direct questions: QASV</h3>
+<p><b>Q</b>uestion word → <b>A</b>uxiliary → <b>S</b>ubject → <b>V</b>erb.</p>
+<span class="goodline">✓ <b>Where do</b> you keep the spare forms?</span>
+<span class="goodline">✓ <b>What time does</b> the clinic open?</span>
+<span class="badline">✗ <s>Where you keep the forms?</s> / <s>What time the clinic opens?</s></span>
+<h3>Indirect questions: back to normal order</h3>
+<p>After openers like <i>Could you tell me… / Do you know… / I was wondering…</i>, the word order goes back to a normal statement — and drop do/does/did.</p>
+<span class="goodline">✓ Could you tell me <b>where you keep</b> the forms?</span>
+<span class="goodline">✓ Do you know <b>what time the clinic opens</b>?</span>
+<span class="badline">✗ <s>Could you tell me where do you keep the forms?</s></span>
+<p>Indirect questions sound noticeably more polite in emails — perfect for asking managers or people you don't know well.</p>
+<h3>Adverbs: where does “always” go?</h3>
+<p>Frequency adverbs (always, usually, often, never) go <b>before</b> the main verb but <b>after</b> “be”.</p>
+<span class="goodline">✓ I <b>usually check</b> emails at 8. / She <b>is always</b> on time.</span>
+<span class="badline">✗ <s>I check usually emails at 8.</s></span>
+`,
+quiz:[
+{q:"Which is the correct direct question?", opts:["Why the meeting was cancelled?","Why was the meeting cancelled?","Why the meeting cancelled was?"], a:1, why:"Question word + auxiliary + subject: “Why was the meeting cancelled?”"},
+{q:"Could you tell me ___?", opts:["when does the audit start","when the audit starts","when starts the audit"], a:1, why:"Indirect questions use normal statement order: “…when the audit starts”."},
+{q:"___ she work weekends?", opts:["Do","Is","Does","Has"], a:2, why:"Third person singular questions take “does”: Does she work weekends?"},
+{q:"Do you know ___ the incident form is saved?", opts:["where","where does","where is","that where"], a:0, why:"“Do you know where the incident form is saved?” — no extra auxiliary inside."},
+{q:"Choose the correct sentence:", opts:["She always is polite with relatives.","She is always polite with relatives.","Always she is polite with relatives."], a:1, why:"Frequency adverbs come after the verb “be”: she is always polite."},
+{q:"Which is the most polite way to ask a senior colleague?", opts:["Where is the audit data?","Tell me where the audit data is.","Could you tell me where the audit data is?"], a:2, why:"Indirect questions (“Could you tell me…”) soften the request — ideal for email."},
+]},
+
+{
+id:"modals", icon:"🎩", color:"violet", title:"Could, would, might — polite power",
+blurb:"The secret of sounding professional, not pushy.",
+body:`
+<p>British workplace English runs on <b>softening</b>. The grammar of politeness is mostly modal verbs — could, would, may, might — plus a few magic phrases.</p>
+<h3>Requests: climb the politeness ladder</h3>
+<table class="extable"><tr><th>Level</th><th>Sounds like</th></tr>
+<tr><td>Direct</td><td>Send me the rota.</td></tr>
+<tr><td>Neutral</td><td>Can you send me the rota?</td></tr>
+<tr><td>Polite</td><td><b>Could</b> you send me the rota, please?</td></tr>
+<tr><td>Extra polite</td><td><b>Would you mind</b> send<b>ing</b> me the rota?</td></tr>
+<tr><td>Formal email</td><td><b>I would be grateful if you could</b> send me the rota.</td></tr></table>
+<p>⚠️ After <b>Would you mind…</b> use the <b>-ing</b> form: “Would you mind checking…?” — and the polite answer to it is “Not at all” (= yes, I'll do it!).</p>
+<h3>Suggestions & opinions, softly</h3>
+<span class="goodline">✓ We <b>could</b> try moving the meeting. / It <b>might</b> be worth reviewing the rota.</span>
+<span class="goodline">✓ I <b>would suggest</b> starting with the audit. / Perhaps we <b>should</b> ask pharmacy.</span>
+<span class="badline">✗ <s>You must change the rota.</s> <i>(very strong — keep “must” for rules and safety)</i></span>
+<h3>Permission & offers</h3>
+<span class="goodline">✓ <b>May I</b> leave five minutes early? / <b>Could I</b> take Friday off?</span>
+<span class="goodline">✓ <b>Shall I</b> book the room? / <b>Would you like</b> me to draft the reply?</span>
+`,
+quiz:[
+{q:"Would you mind ___ the door? It's quite noisy.", opts:["to close","close","closing","closed"], a:2, why:"“Would you mind” is always followed by the -ing form: “closing”."},
+{q:"Pick the most email-appropriate request to a manager:", opts:["Send me the figures today.","I would be grateful if you could send me the figures today.","You must send me the figures today."], a:1, why:"“I would be grateful if you could…” is the classic polite formal request."},
+{q:"It ___ be worth double-checking the dosage table before we print.", opts:["might","must","can't","need"], a:0, why:"“It might be worth + -ing” politely suggests without ordering anyone."},
+{q:"___ I take next Friday as annual leave?", opts:["Must","Could","Would","Shall"], a:1, why:"“Could I…?” politely asks permission. (“Shall I…?” offers to do something.)"},
+{q:"___ I book the meeting room for us?", opts:["Would","Am","Shall","Do"], a:2, why:"“Shall I…?” is the natural way to offer to do something helpful."},
+{q:"Your colleague asks “Would you mind covering my break?” You're happy to help. You say:", opts:["Yes, I would.","Not at all.","I mind."], a:1, why:"“Not at all” = I don't mind = happy to help. Answering “yes” literally means you object!"},
+]},
+
+{
+id:"confuse1", icon:"👯", color:"violet", title:"Confusables I — the classics",
+blurb:"Its/it's, their/there, then/than, affect/effect.",
+body:`
+<p>These pairs sound identical but mean different things — spellcheck won't save you, because both spellings are real words.</p>
+<h3>its vs it's</h3>
+<p><b>it's</b> = it is / it has. <b>its</b> = belonging to it. Test: read it aloud as “it is” — if the sentence still works, use the apostrophe.</p>
+<span class="goodline">✓ <b>It's</b> been a long shift. The trust updated <b>its</b> policy.</span>
+<h3>their / there / they're</h3>
+<p><b>their</b> = belonging to them · <b>there</b> = a place / “there is” · <b>they're</b> = they are.</p>
+<span class="goodline">✓ <b>They're</b> bringing <b>their</b> laptops over <b>there</b>.</span>
+<h3>then vs than</h3>
+<p><b>then</b> = time or sequence · <b>than</b> = comparison.</p>
+<span class="goodline">✓ Finish the notes, <b>then</b> go home. This template is clearer <b>than</b> the old one.</span>
+<h3>affect vs effect</h3>
+<p><b>Affect</b> is usually the verb (to change something); <b>effect</b> is usually the noun (the result). Memory hook: <b>A</b>ffect = <b>A</b>ction, <b>E</b>ffect = <b>E</b>nd result.</p>
+<span class="goodline">✓ The delay didn't <b>affect</b> patients. The new rota had a positive <b>effect</b>.</span>
+<h3>your vs you're · to/too/two · lose/loose</h3>
+<span class="goodline">✓ <b>You're</b> presenting after <b>your</b> break.</span>
+<span class="goodline">✓ It's <b>too</b> late <b>to</b> book <b>two</b> rooms.</span>
+<span class="goodline">✓ Don't <b>lose</b> the key — the handle is <b>loose</b>.</span>
+`,
+quiz:[
+{q:"___ been a busy morning on the unit.", opts:["Its","It's","Its'"], a:1, why:"“It's been” = “It has been” — the apostrophe version. “Its” shows belonging."},
+{q:"The department reviewed ___ visiting policy.", opts:["it's","its","its'"], a:1, why:"Belonging to the department → “its policy”, no apostrophe."},
+{q:"This draft reads much better ___ the first one.", opts:["then","than","that"], a:1, why:"A comparison → “than”. “Then” is for time: “first this, then that”."},
+{q:"Will the roadworks ___ your commute?", opts:["effect","affect","affects"], a:1, why:"You need the verb (to change something) → “affect”. The noun is “effect”."},
+{q:"___ waiting for the results of ___ blood tests.", opts:["Their / they're","They're / their","There / their"], a:1, why:"“They're waiting” (they are) … “their blood tests” (belonging to them)."},
+{q:"Which sentence is correct?", opts:["Your going to love the new tea room.","You're going to love the new tea room.","Youre going to love the new tea room."], a:1, why:"“You're” = you are. “Your” shows possession: your mug, your desk."},
+]},
+
+{
+id:"confuse2", icon:"🎭", color:"violet", title:"Confusables II — verb traps",
+blurb:"Borrow/lend, say/tell, do/make, bring/take.",
+body:`
+<p>These verb pairs trip up even confident speakers, because many languages use one word where English insists on two.</p>
+<h3>borrow vs lend</h3>
+<p>You <b>borrow</b> something <i>from</i> someone (you take it). You <b>lend</b> something <i>to</i> someone (you give it, temporarily).</p>
+<span class="goodline">✓ Could I <b>borrow</b> your charger? / Could you <b>lend</b> me your charger?</span>
+<span class="badline">✗ <s>Can you borrow me your pen?</s></span>
+<h3>say vs tell</h3>
+<p><b>Tell</b> needs a person straight after it; <b>say</b> doesn't.</p>
+<span class="goodline">✓ She <b>told me</b> the clinic was cancelled. / She <b>said</b> the clinic was cancelled.</span>
+<span class="badline">✗ <s>She said me the clinic was cancelled.</s> / <s>She told that…</s></span>
+<h3>do vs make</h3>
+<p>Rough rule: <b>do</b> = work, tasks, duties · <b>make</b> = create or produce something new.</p>
+<table class="extable"><tr><th>do</th><th>make</th></tr>
+<tr><td>do the audit, do your best, do overtime, do the washing-up, do a course</td><td>make a decision, make a mistake, make an appointment, make progress, make a suggestion, make tea</td></tr></table>
+<h3>bring vs take · remember vs remind</h3>
+<p><b>Bring</b> = towards the speaker; <b>take</b> = away. <b>Remember</b> yourself; <b>remind</b> someone else.</p>
+<span class="goodline">✓ Please <b>bring</b> your ID badge to the session. I'll <b>take</b> these notes back to the office.</span>
+<span class="goodline">✓ I must <b>remember</b> to reply. Please <b>remind me</b> to reply.</span>
+`,
+quiz:[
+{q:"Could you ___ me your stapler for a minute?", opts:["borrow","lend","loan me from"], a:1, why:"You give it → lend. I take it → borrow: “Could you lend me…” = “Could I borrow…”."},
+{q:"He ___ me the results would be ready by Friday.", opts:["said","told","said to"], a:1, why:"A person comes straight after → “told me”. Without a person: “He said the results…”."},
+{q:"We need to ___ a decision about the rota today.", opts:["do","make","take up"], a:1, why:"It's “make a decision” — decisions, mistakes, suggestions and appointments are all made."},
+{q:"I did three night shifts, so I've ___ a lot of overtime this month.", opts:["made","done","taken"], a:1, why:"Work and tasks take “do”: do overtime, do an audit, do a course."},
+{q:"Please ___ me to send the minutes after lunch.", opts:["remember","remind","memorise"], a:1, why:"Someone else prompts you → “remind me”. You do it yourself → “I'll remember”."},
+{q:"Which sentence is correct?", opts:["Don't forget to bring your certificate to the interview tomorrow.","Don't forget to borrow your certificate to the interview tomorrow.","Don't forget to say them your certificate at the interview."], a:0, why:"“Bring” = carry it with you to the place you're going. The others misuse borrow/say."},
+]},
+
+{
+id:"punctuation", icon:"✒️", color:"violet", title:"Punctuation that earns respect",
+blurb:"Commas, apostrophes, capitals — and the run-on cure.",
+body:`
+<p>Punctuation is body language for writing. A few habits cover 90% of what emails need.</p>
+<h3>The run-on cure</h3>
+<p>Two complete sentences can't be glued with just a comma. Use a full stop, a semicolon, or a linking word.</p>
+<span class="badline">✗ <s>I reviewed the notes, the dosage was wrong.</s></span>
+<span class="goodline">✓ I reviewed the notes<b>.</b> The dosage was wrong.</span>
+<span class="goodline">✓ I reviewed the notes<b>, and</b> the dosage was wrong.</span>
+<h3>Commas that matter</h3>
+<p>After an opening phrase; around extra information; in lists.</p>
+<span class="goodline">✓ <b>After the meeting,</b> I'll circulate the notes.</span>
+<span class="goodline">✓ Dr Reyes<b>, our new registrar,</b> starts Monday.</span>
+<span class="goodline">✓ Please bring your badge<b>,</b> laptop <b>and</b> charger.</span>
+<h3>Apostrophes: two jobs only</h3>
+<p>1) Missing letters: don't, it's, we're. 2) Belonging: the nurse's rota (one nurse), the nurses' rota (many nurses). <b>Never</b> for plurals!</p>
+<span class="badline">✗ <s>Update's, photo's, the 1990's, two patient's</s></span>
+<span class="goodline">✓ updates, photos, the 1990s, two patients</span>
+<h3>Capital letters</h3>
+<p>Names, places, days, months, titles before names (Dr Cruz), and the word I. Not for seasons, job roles in general, or emphasis. WRITING IN CAPS READS AS SHOUTING.</p>
+<h3>Exclamation marks</h3>
+<p>Maximum one per email — and ideally zero in formal messages. Full stops feel calm and confident.</p>
+`,
+quiz:[
+{q:"Which is punctuated correctly?", opts:["The audit is complete, the results look good.","The audit is complete. The results look good.","The audit is complete the results look good."], a:1, why:"Two complete sentences need a full stop (or a linking word) — a comma alone can't join them."},
+{q:"Choose the correct apostrophe use:", opts:["Both nurse's completed they're training.","Both nurses completed their training.","Both nurses' completed their training."], a:1, why:"“Nurses” is just a plural — no apostrophe. Apostrophes mark missing letters or possession only."},
+{q:"Which greeting line is punctuated in standard UK style?", opts:["Dear Dr Patel,","dear dr patel,","Dear dr. Patel;"], a:0, why:"Capital D on Dear, capital on the title and name, and a comma at the end."},
+{q:"“The team met on ___ to plan the ___ conference.”", opts:["friday / summer","Friday / summer","Friday / Summer"], a:1, why:"Days are capitalised (Friday); seasons are not (summer)."},
+{q:"Which shows that one manager owns the office?", opts:["the managers office","the manager's office","the managers' office"], a:1, why:"One manager → apostrophe before the s: the manager's office."},
+{q:"The best number of exclamation marks in a formal email is…", opts:["One per paragraph — friendly!","As many as needed!!","Zero or one in the whole email"], a:2, why:"Formal UK emails stay calm: full stops carry authority; save “!” for genuine warmth."},
+]},
+
+{
+id:"linkers", icon:"🔗", color:"violet", title:"Linking words — flow like a native",
+blurb:"However, therefore, although — connect ideas smoothly.",
+body:`
+<p>Linking words are the signposts of writing. Used well, they make emails and reports feel effortless to read.</p>
+<h3>Adding & contrasting</h3>
+<table class="extable"><tr><th>Job</th><th>Words</th><th>Example</th></tr>
+<tr><td>Add</td><td>also, in addition, furthermore</td><td>In addition, we reviewed the fridge logs.</td></tr>
+<tr><td>Contrast</td><td>however, although, despite</td><td>However, two forms were missing.</td></tr>
+<tr><td>Result</td><td>therefore, as a result, so</td><td>Therefore, I have updated the checklist.</td></tr>
+<tr><td>Example</td><td>for example, such as</td><td>…key metrics, such as waiting times.</td></tr></table>
+<h3>However — the comma trap</h3>
+<p><b>However</b> starting a sentence takes a comma after it. It cannot glue two sentences with just commas.</p>
+<span class="badline">✗ <s>The clinic was busy, however, we saw everyone.</s></span>
+<span class="goodline">✓ The clinic was busy. <b>However,</b> we saw everyone.</span>
+<span class="goodline">✓ The clinic was busy<b>;</b> however, we saw everyone.</span>
+<h3>Although vs despite</h3>
+<p><b>Although</b> + a full clause (subject + verb). <b>Despite</b> + a noun or -ing.</p>
+<span class="goodline">✓ <b>Although</b> we were short-staffed, we finished on time.</span>
+<span class="goodline">✓ <b>Despite</b> the shortage / <b>Despite</b> being short-staffed, we finished on time.</span>
+<span class="badline">✗ <s>Despite we were short-staffed…</s></span>
+<h3>Don't overdo it</h3>
+<p>One linker per sentence is plenty. Short sentences with the occasional “however” read better than long chains of “moreover… furthermore… nevertheless…”.</p>
+`,
+quiz:[
+{q:"The ward was full. ___, no appointments were cancelled.", opts:["Despite","However","Although"], a:1, why:"A new sentence contrasting the last one → “However,” + comma."},
+{q:"___ the heavy workload, the team hit every target.", opts:["Although","However","Despite"], a:2, why:"“Despite” + noun phrase (the heavy workload). “Although” would need a full clause."},
+{q:"___ we started late, we still covered the whole agenda.", opts:["Despite","Although","Therefore"], a:1, why:"A full clause follows (we started late) → “Although”."},
+{q:"Two fridges failed overnight. ___, all vaccines were moved to the pharmacy.", opts:["As a result","In addition","For example"], a:0, why:"The second sentence is the consequence of the first → “As a result”."},
+{q:"We track several metrics, ___ waiting times and readmissions.", opts:["however","such as","therefore"], a:1, why:"You're giving examples of the metrics → “such as”."},
+{q:"Which sentence is correct?", opts:["The results were late, however we proceeded.","The results were late; however, we proceeded.","The results were late however, we proceeded."], a:1, why:"“However” joining two sentences needs a semicolon before it and a comma after."},
+]},
+];
+/* ================================================================
+   READING ROOM
+   ================================================================ */
+const READINGS = [
+{
+id:"rota", icon:"🗓️", title:"Staff email: the new rota",
+blurb:"A typical all-staff email — read it like a manager.",
+text:`
+<h3>Subject: Changes to the ward rota from 1 September</h3>
+<p>Dear all,</p>
+<p>From 1 September, we will be moving to a six-week rolling rota. The aim is to give everyone more notice of their shifts and to spread weekend work more fairly across the team.</p>
+<p>Under the new system, rotas will be published six weeks in advance rather than four. Requests for specific days off should be submitted through the online portal at least eight weeks ahead. Late requests will still be considered, but they cannot be guaranteed.</p>
+<p>We appreciate that any change to working patterns can be unsettling. Nothing in this change affects your contracted hours, your banding, or your annual leave entitlement. If you have caring responsibilities or fixed commitments, please speak to your line manager by 15 August so these can be built into the template.</p>
+<p>A drop-in session will be held in the seminar room on Tuesday 12 August between 2 p.m. and 4 p.m. for anyone who would like to talk the changes through.</p>
+<p>Kind regards,<br>Sam Torres, Ward Manager</p>`,
+vocab:[
+{w:"rolling rota", def:"a repeating shift pattern that continues in cycles — here, it repeats every six weeks."},
+{w:"in advance", def:"before something happens; ahead of time. “Six weeks in advance” = six weeks before."},
+{w:"entitlement", def:"something you have an official right to receive — like your annual leave days."},
+{w:"unsettling", def:"making people feel slightly worried or uncomfortable."},
+{w:"drop-in session", def:"an informal meeting you can attend at any time during the stated hours, without booking."},
+],
+quiz:[
+{q:"How far ahead will rotas be published under the new system?", opts:["Four weeks","Six weeks","Eight weeks"], a:1, why:"“Rotas will be published six weeks in advance rather than four.”"},
+{q:"What should staff with caring responsibilities do?", opts:["Attend the drop-in session","Email HR before September","Speak to their line manager by 15 August"], a:2, why:"The email asks them to speak to their line manager by 15 August so commitments can be built into the template."},
+{q:"What does the email say about late day-off requests?", opts:["They will be refused","They will be considered but not guaranteed","They must go through the ward manager"], a:1, why:"“Late requests will still be considered, but they cannot be guaranteed.”"},
+{q:"Which of these will change on 1 September?", opts:["Contracted hours","Annual leave entitlement","How far ahead shifts are known"], a:2, why:"The rota notice period changes; the email explicitly says hours, banding and leave do not."},
+]},
+
+{
+id:"leaflet", icon:"💊", title:"Patient leaflet: after your procedure",
+blurb:"Instructional writing — clear, calm, and direct.",
+text:`
+<h3>Going home after your day-case procedure</h3>
+<p>You have had a procedure under sedation. Although you may feel alert, the medicine stays in your body for up to 24 hours and can slow your reactions without you noticing.</p>
+<p><b>For the next 24 hours, please do not:</b> drive or cycle; operate machinery; sign legal documents; drink alcohol; or be the only adult caring for small children.</p>
+<p>You should arrange for a responsible adult to take you home and stay with you overnight. Most people feel back to normal by the following day, but everyone recovers at a different pace, so do not be concerned if you feel tired for a little longer.</p>
+<p>Eat light meals for the rest of today and drink plenty of fluids. You may remove the dressing tomorrow morning and shower as usual. A small amount of bruising around the site is common and should fade within a week.</p>
+<p><b>Contact the unit</b> on the number below if you notice increasing pain, swelling, bleeding that does not stop with gentle pressure, or a temperature above 38°C. In an emergency, call 999.</p>`,
+vocab:[
+{w:"sedation", def:"medicine that makes you relaxed and sleepy during a procedure — lighter than general anaesthetic."},
+{w:"operate machinery", def:"use powered equipment or tools — forbidden after sedation because reactions are slower."},
+{w:"responsible adult", def:"a grown-up who can look after you and act sensibly if something goes wrong."},
+{w:"dressing", def:"the protective covering placed over a wound."},
+{w:"fade", def:"to gradually disappear or become less visible — bruises fade over days."},
+],
+quiz:[
+{q:"Why must patients avoid driving for 24 hours?", opts:["It is against the law after any procedure","Sedation can slow reactions without the patient noticing","The dressing makes it uncomfortable"], a:1, why:"“The medicine stays in your body for up to 24 hours and can slow your reactions without you noticing.”"},
+{q:"What should the patient do about the dressing?", opts:["Keep it on for a week","Remove it tomorrow morning","Remove it before bed tonight"], a:1, why:"“You may remove the dressing tomorrow morning and shower as usual.”"},
+{q:"Which symptom means the patient should contact the unit?", opts:["A small bruise near the site","Feeling tired the next day","A temperature above 38°C"], a:2, why:"Bruising and tiredness are described as normal; a temperature above 38°C is on the contact list."},
+{q:"The tone of this leaflet is best described as…", opts:["Calm and reassuring, with clear rules","Strict and legal","Casual and chatty"], a:0, why:"It mixes firm safety instructions (“please do not”) with reassurance (“do not be concerned”). That balance is the leaflet style to copy."},
+]},
+
+{
+id:"minutes", icon:"📋", title:"Minutes of a team meeting",
+blurb:"Decode the compressed language of meeting notes.",
+text:`
+<h3>Quality & Safety Meeting — minutes, 14 July</h3>
+<p><b>Present:</b> A. Cruz (chair), J. Okafor, L. Reyes, M. Whitfield. <b>Apologies:</b> S. Devi.</p>
+<p><b>1. Matters arising.</b> The action from June — updating the falls poster — has been completed. All other actions were closed.</p>
+<p><b>2. Incident review.</b> JO presented the monthly figures. Reported incidents rose from 12 to 15; however, the increase was attributed to better reporting rather than more harm. Two medication near-misses were discussed, and it was agreed that the double-checking procedure would be re-circulated to all staff.</p>
+<p><b>3. Audit update.</b> The hand hygiene audit achieved 94% compliance, up from 89%. LR was congratulated on leading the drive. It was noted that night shifts remain below target; LR to arrange additional dispensers by the rear station. <b>Action: LR, by 31 July.</b></p>
+<p><b>4. Any other business.</b> MW raised the broken hoist in bay 3; estates have been informed and repair is expected this week.</p>
+<p><b>Date of next meeting:</b> 11 August, 2 p.m., seminar room.</p>`,
+vocab:[
+{w:"matters arising", def:"updates on action points from the previous meeting — usually the first agenda item."},
+{w:"apologies", def:"in minutes, the list of people who told the meeting in advance that they could not attend."},
+{w:"near-miss", def:"an error that was caught before it caused harm — important to report and learn from."},
+{w:"compliance", def:"the extent to which people follow a rule or standard, often shown as a percentage."},
+{w:"any other business (AOB)", def:"the final agenda slot for topics not on the printed agenda."},
+],
+quiz:[
+{q:"Why did reported incidents rise from 12 to 15?", opts:["More harm occurred on the ward","Better reporting was believed to be the cause","The figures were miscounted"], a:1, why:"“The increase was attributed to better reporting rather than more harm.”"},
+{q:"Who must arrange extra dispensers, and by when?", opts:["J. Okafor, by 11 August","L. Reyes, by 31 July","A. Cruz, this week"], a:1, why:"“LR to arrange additional dispensers… Action: LR, by 31 July.” Initials in minutes point back to the names at the top."},
+{q:"What does “Apologies: S. Devi” mean?", opts:["S. Devi said sorry for a mistake","S. Devi could not attend and sent notice","S. Devi arrived late"], a:1, why:"“Apologies” in minutes = advance notice of absence, nothing to do with saying sorry."},
+{q:"What happened about the broken hoist?", opts:["It was repaired during the meeting","Estates were informed; repair expected this week","It was added to next month's agenda"], a:1, why:"“Estates have been informed and repair is expected this week.”"},
+]},
+
+{
+id:"news", icon:"📰", title:"News brief: winter pressures",
+blurb:"Newspaper style — dense sentences, formal vocabulary.",
+text:`
+<h3>Hospitals urged to plan earlier as winter pressures mount</h3>
+<p>Health leaders have called on trusts to begin winter planning months earlier than usual, warning that a combination of rising flu admissions and workforce shortages could leave services stretched to capacity by December.</p>
+<p>In previous years, escalation plans were typically finalised in late autumn. This year, national guidance asks every trust to identify additional surge capacity, confirm staffing for extra beds, and set out how routine operations will be protected if demand spikes.</p>
+<p>The guidance also places new emphasis on keeping people well at home. Trusts are expected to expand virtual wards, which allow selected patients to be monitored remotely, and to work with community teams so that patients who are medically fit are discharged without delay.</p>
+<p>Frontline staff broadly welcomed the earlier start but cautioned that plans alone would not solve underlying gaps. “You cannot open beds without people,” one senior nurse said. “Recruitment and retention remain the real challenge.”</p>`,
+vocab:[
+{w:"urged", def:"strongly encouraged — a common newspaper verb: “urged to plan” = told firmly they should plan."},
+{w:"stretched to capacity", def:"working at the absolute limit of what the service can handle."},
+{w:"surge capacity", def:"extra beds and staff that can be opened quickly when demand suddenly rises."},
+{w:"discharged", def:"officially allowed to leave hospital when treatment is complete."},
+{w:"retention", def:"keeping existing staff in their jobs, rather than losing them to other employers."},
+],
+quiz:[
+{q:"What are trusts being asked to do differently this year?", opts:["Cancel routine operations in winter","Start winter planning much earlier","Close virtual wards"], a:1, why:"Health leaders “called on trusts to begin winter planning months earlier than usual”."},
+{q:"What is a “virtual ward”?", opts:["A ward run entirely by agency staff","A system for monitoring selected patients at home","An online training programme"], a:1, why:"The article defines it: virtual wards “allow selected patients to be monitored remotely”."},
+{q:"How did frontline staff respond to the guidance?", opts:["They rejected it completely","They welcomed it but pointed to staffing gaps","They asked for it to be delayed"], a:1, why:"“Broadly welcomed… but cautioned that plans alone would not solve underlying gaps.”"},
+{q:"“You cannot open beds without people” refers to which problem?", opts:["Recruitment and retention of staff","A shortage of physical beds","Delayed discharges"], a:0, why:"The quote is about workforce: hiring staff and keeping them (“recruitment and retention remain the real challenge”)."},
+]},
+];
+/* ================================================================
+   WRITE — email builder scenarios
+   Each step: pick the best line; the winning lines assemble the email.
+   ================================================================ */
+const SCENARIOS = [
+{
+id:"leave", icon:"🏖️", title:"Requesting annual leave",
+blurb:"Ask for two weeks off — clearly and confidently.",
+steps:[
+{label:"Subject line", prompt:"You want 2–13 March off for a family visit to the Philippines. Which subject line works best?",
+opts:[
+{t:"Holiday!!!", good:false, why:"Too vague and too excited — a manager scanning an inbox learns nothing from it."},
+{t:"Annual leave request: 2–13 March", good:true, why:"Perfect: says what it is and the exact dates, all in one glance."},
+{t:"A small question about something", good:false, why:"Mysterious subject lines get opened last. Say what the email is about."},
+]},
+{label:"Greeting", prompt:"Your manager is Sarah. You know her well but this is a formal request. Open with…",
+opts:[
+{t:"Hi Sarah,", good:true, why:"“Hi + first name” is the standard friendly-professional UK opener for someone you know."},
+{t:"Dear Madam,", good:false, why:"Far too distant for a manager you speak to daily — it reads cold, almost sarcastic."},
+{t:"Hey!", good:false, why:"Too casual for a request email, and greetings without a name feel abrupt."},
+]},
+{label:"Opening line", prompt:"Get to the point politely. Which first line?",
+opts:[
+{t:"I hope you're well. I would like to request annual leave from Monday 2 March to Friday 13 March (10 working days).", good:true, why:"One warm line, then the request with exact dates and the total — everything Sarah needs to check the rota."},
+{t:"I know this is probably a bad time and I'm really sorry to ask, but I was maybe thinking about possibly taking some leave…", good:false, why:"Over-apologising buries the request and makes it easier to say no. Be politely direct."},
+{t:"I am writing to inform you that I will be absent in March.", good:false, why:"This announces rather than asks — leave is requested, not declared."},
+]},
+{label:"Helpful detail", prompt:"Add one line that makes it easy for Sarah to say yes:",
+opts:[
+{t:"My family situation means I really deserve this after everything I've done this year.", good:false, why:"Justifying with emotion invites debate. Practical reassurance works better."},
+{t:"I have checked the rota and no one else in the team has requested those dates. I'm happy to complete the medication audit before I go.", good:true, why:"You've done the manager's homework for her and pre-solved the coverage worry — this is what gets requests approved."},
+{t:"Please note I have already booked the flights.", good:false, why:"This pressures the reader and suggests the answer doesn't matter — risky and a little rude."},
+]},
+{label:"Closing", prompt:"Finish the email:",
+opts:[
+{t:"Please could you confirm at your convenience? Many thanks,\nMaria", good:true, why:"A clear, gentle call to action, a warm sign-off, done. “At your convenience” removes pressure."},
+{t:"Get back to me ASAP.\nMaria", good:false, why:"“ASAP” to your manager reads as an order. Save urgency for genuine emergencies."},
+{t:"Thanking you in anticipation of your kind consideration of my humble request.\nYours faithfully, Maria", good:false, why:"Extremely old-fashioned — modern UK emails keep closings short and natural."},
+]},
+]},
+
+{
+id:"sick", icon:"🤒", title:"Reporting sickness absence",
+blurb:"Call in sick by email — brief, responsible, professional.",
+steps:[
+{label:"Subject line", prompt:"You woke up with a fever and can't come in. Subject line?",
+opts:[
+{t:"Not coming in", good:false, why:"Reads blunt, and doesn't identify you or the day in a shared inbox."},
+{t:"Sickness absence — Maria Santos, today (Tue 4 Feb)", good:true, why:"Instantly clear who, what, and when — exactly what a busy coordinator needs at 6 a.m."},
+{t:"Feeling terrible :(", good:false, why:"Emotions and emoticons don't belong in an absence notification."},
+]},
+{label:"First line", prompt:"Open the message:",
+opts:[
+{t:"I am so so sorry and I feel awful about letting everyone down, I know the ward is short today of all days…", good:false, why:"One apology is plenty. Long guilt paragraphs make the reader manage your feelings as well as the rota."},
+{t:"I'm writing to let you know that I'm unwell this morning with a fever and won't be able to come in for my shift today.", good:true, why:"States the fact, the reason in brief, and the consequence — no drama, no oversharing."},
+{t:"I might not make it in today, we'll see how I feel later.", good:false, why:"“We'll see” leaves the rota in limbo. Decide, then inform clearly."},
+]},
+{label:"Practical help", prompt:"Add the line a good colleague adds:",
+opts:[
+{t:"My handover notes from yesterday are on the shared drive, and Priya kindly agreed to take my 10 a.m. teaching slot.", good:true, why:"You've protected the day's work. This single line is what separates a good absence email from a bare one."},
+{t:"Everything is in my head, I'll deal with it when I'm back.", good:false, why:"That's exactly what worries a manager. Hand over what you can."},
+{t:"Please don't contact me under any circumstances.", good:false, why:"Reasonable rest is fair, but this phrasing sounds hostile. Simply say you'll check messages once, later."},
+]},
+{label:"Closing", prompt:"Finish appropriately:",
+opts:[
+{t:"I'll keep you updated and let you know by 4 p.m. whether I'll be fit for tomorrow. Sorry for the short notice.\nBest wishes, Maria", good:true, why:"Promises an update at a specific time, one brief apology, warm close — model sickness email."},
+{t:"Wish me luck! 🤞", good:false, why:"Too jokey for the situation and gives the reader nothing useful."},
+{t:"As per company policy section 4.2 I am hereby notifying you of my incapacity.", good:false, why:"Quoting policy at your manager sounds defensive. Plain words work better."},
+]},
+]},
+
+{
+id:"clarify", icon:"🧭", title:"Asking for clarification",
+blurb:"You don't understand a task — ask without looking lost.",
+steps:[
+{label:"Subject line", prompt:"Your manager asked you to “refresh the induction pack” with no details. You need clarity. Subject?",
+opts:[
+{t:"Question", good:false, why:"Which question? Vague subjects sink to the bottom of the pile."},
+{t:"Induction pack — two quick questions before I start", good:true, why:"Names the task, promises the email is short, and signals you're ready to begin."},
+{t:"I don't understand the task you gave me", good:false, why:"True but self-undermining — frame it as sharpening the brief, not confusion."},
+]},
+{label:"Opening", prompt:"First line after “Hi Tom,”:",
+opts:[
+{t:"Thanks for trusting me with the induction pack — I'd like to check two things so I take it in the right direction.", good:true, why:"Positive, confident framing: you're aligning, not struggling. Managers love this email."},
+{t:"I'm confused about what you meant yesterday.", good:false, why:"Makes confusion the headline. Lead with the task, not the feeling."},
+{t:"Regarding the aforementioned matter discussed in our previous verbal communication…", good:false, why:"Nobody talks like this. Plain English builds more credibility than long words."},
+]},
+{label:"The questions", prompt:"Ask your two questions in the clearest shape:",
+opts:[
+{t:"Could you clarify: 1) Should the pack cover just our ward, or the whole department? 2) Is the deadline the end of this month?", good:true, why:"Numbered questions get numbered answers. Closed, specific questions take seconds to answer."},
+{t:"What exactly do you want? Also when?", good:false, why:"Reads as irritated. The words are short but the tone is sharp."},
+{t:"I was wondering if perhaps at some point you might be able to possibly give me a little more detail about various aspects of the task?", good:false, why:"So padded that Tom still doesn't know what you're asking. Softening is good; fog is not."},
+]},
+{label:"Closing", prompt:"End the email:",
+opts:[
+{t:"Once I have those, I'll get started straight away. Thanks, Maria", good:true, why:"Signals momentum: the answers unblock immediate action. Short, warm, effective."},
+{t:"Sorry for asking so many questions. I hope you are not angry.", good:false, why:"Two questions is not “so many” — and never suggest anger where there is none."},
+{t:"Awaiting your response.", good:false, why:"A classic cold ending — it reads impatient in modern UK email culture."},
+]},
+]},
+
+{
+id:"delay", icon:"⏰", title:"Apologising for a delay",
+blurb:"Your report is late. Own it, fix it, move on.",
+steps:[
+{label:"Subject line", prompt:"The audit report you promised for Friday isn't ready. It's Monday. Subject?",
+opts:[
+{t:"Audit report — revised delivery: Wednesday 12th", good:true, why:"Leads with the new commitment, not the failure. The reader's first question is “when will I get it?” — answer it in the subject."},
+{t:"Sorry!!!", good:false, why:"Apologetic energy, zero information."},
+{t:"Report", good:false, why:"Which report? What about it? One-word subjects create work for the reader."},
+]},
+{label:"Opening", prompt:"Open the email:",
+opts:[
+{t:"I'm sorry — the audit report I promised for Friday isn't ready. You'll have it by Wednesday midday at the latest.", good:true, why:"Apology, fact, new deadline — all in two sentences. This is the gold-standard shape for owning a delay."},
+{t:"Due to circumstances beyond my control and various unforeseen factors, the deliverable has been impacted.", good:false, why:"Passive fog. Everyone can see you're avoiding saying “it's late and it's on me”."},
+{t:"You may have noticed the report hasn't arrived. Anyway…", good:false, why:"“Anyway” waves the problem away — it lands as careless."},
+]},
+{label:"Brief reason", prompt:"Give the reason — how much detail?",
+opts:[
+{t:"The pharmacy data arrived three days late, and I underestimated how long the cross-checking would take.", good:true, why:"One honest sentence, including your own share (“I underestimated”). Enough context, no essay, no blaming."},
+{t:"It's honestly been the worst week — my boiler broke, then my neighbour's dog was ill, and then the trains…", good:false, why:"Personal sagas belong in conversation, not delay emails. Keep the reason professional and short."},
+{t:"The pharmacy team completely failed to do their job, as usual.", good:false, why:"Blaming colleagues in writing always travels further than you expect — and says more about you than them."},
+]},
+{label:"Closing", prompt:"Close it out:",
+opts:[
+{t:"I've built in extra time so this won't happen with the remaining sections. Thanks for your patience, Maria", good:true, why:"Shows you've fixed the cause, thanks the reader, ends. No grovelling loop."},
+{t:"Again, I am so incredibly sorry, I feel terrible, please forgive me.", good:false, why:"Repeat apologies force the reader to comfort you. Apologise once, properly, then act."},
+{t:"These things happen. Best, Maria", good:false, why:"Shrugging at your own delay reads as not caring. Own it lightly but genuinely."},
+]},
+]},
+
+{
+id:"concern", icon:"🚩", title:"Raising a concern",
+blurb:"Flag a problem to a senior — firm but fair.",
+steps:[
+{label:"Subject line", prompt:"Agency staff aren't getting log-ins on time, causing delays and workarounds. You're emailing the unit manager. Subject?",
+opts:[
+{t:"IT access for agency staff — recurring delays, suggested fix", good:true, why:"Neutral, specific, and it promises a solution, not just a complaint."},
+{t:"This is getting ridiculous", good:false, why:"Venting in a subject line guarantees a defensive reader before they even open it."},
+{t:"FYI", good:false, why:"FYI signals “no action needed” — the opposite of what you want."},
+]},
+{label:"Opening", prompt:"Open the concern:",
+opts:[
+{t:"I'd like to flag a recurring issue with IT access for agency staff, as I think it now carries a real safety risk.", good:true, why:"Calm, factual, and explains why it matters. “I'd like to flag” is the standard professional phrase for this."},
+{t:"I'm sick and tired of nobody sorting out the log-in situation.", good:false, why:"Frustration may be justified, but written anger gets forwarded — and remembered."},
+{t:"This is probably nothing and I'm sure you're too busy, but…", good:false, why:"If it's a safety issue, don't shrink it. Underselling a concern can be as harmful as overstating it."},
+]},
+{label:"Evidence", prompt:"Support it with facts:",
+opts:[
+{t:"In the past fortnight, three agency nurses waited over four hours for log-ins. Each time, regular staff shared their own accounts to keep the ward running — which breaches policy.", good:true, why:"Numbers, timeframe, consequence. Specific evidence turns a moan into a case."},
+{t:"Everyone is always waiting forever and it's total chaos every single time.", good:false, why:"“Always”, “everyone” and “forever” are easy to dismiss. Precise beats dramatic."},
+{t:"I attach seventeen screenshots documenting every incident since March.", good:false, why:"Overwhelming the reader looks obsessive. Two or three clear examples carry more weight."},
+]},
+{label:"Suggested fix", prompt:"Offer a way forward:",
+opts:[
+{t:"Could we ask IT to pre-create accounts when agency bookings are confirmed? I'm happy to draft the request if useful.", good:true, why:"A concrete, low-cost suggestion plus an offer to help — this is how concerns become changes."},
+{t:"Someone needs to sort this out immediately.", good:false, why:"“Someone” means no one. Vague demands rarely convert into action."},
+{t:"If this isn't fixed this week I'll be raising it with the director.", good:false, why:"Escalation threats belong only after normal routes have genuinely failed — not in a first email."},
+]},
+{label:"Closing", prompt:"Close the email:",
+opts:[
+{t:"Happy to discuss whenever suits. Best wishes, Maria", good:true, why:"Open, cooperative, unpressured — leaves the door open for a quick corridor chat or a reply."},
+{t:"I expect a response by end of play today.", good:false, why:"Deadline-setting for your own manager inverts the relationship and invites pushback."},
+{t:"Sorry again for bothering you with this.", good:false, why:"You raised a legitimate safety issue — don't apologise for doing your job well."},
+]},
+]},
+
+{
+id:"followup", icon:"📌", title:"Following up after a meeting",
+blurb:"Turn a discussion into actions people actually do.",
+steps:[
+{label:"Subject line", prompt:"You chaired a short meeting about the teaching programme. Send the follow-up. Subject?",
+opts:[
+{t:"Teaching programme — actions from today's meeting", good:true, why:"Findable in six months, clear in one second. “Actions from” tells everyone to look for their name."},
+{t:"Great meeting everyone!", good:false, why:"Nice sentiment, useless as a filing label — no topic, no purpose."},
+{t:"Minutes", good:false, why:"Minutes of what? Subjects should still make sense in a crowded inbox next month."},
+]},
+{label:"Opening", prompt:"Open the follow-up:",
+opts:[
+{t:"Thanks for your time this morning. Here's a summary of what we agreed, with actions and owners below.", good:true, why:"One line of thanks, then straight to the structure the reader is scanning for."},
+{t:"It was so lovely to see everyone and I really enjoyed our wide-ranging discussion about many topics.", good:false, why:"Warm but content-free — and it delays the part people actually need."},
+{t:"As you will recall, pursuant to our meeting, the following resolutions were adopted.", good:false, why:"Board-room legalese for a team catch-up. Match formality to the actual meeting."},
+]},
+{label:"The actions", prompt:"How do you write the action list?",
+opts:[
+{t:"1. Ben — draft the new rotation schedule by Fri 22nd. 2. Aisha — book the simulation room for w/c 8th. 3. Me — circulate the feedback form by Wednesday.", good:true, why:"Name → task → deadline. If any of the three is missing, the action quietly dies."},
+{t:"We agreed that the schedule should be looked at, the room situation needs consideration, and feedback would be good.", good:false, why:"Passive voice with no owners — in six weeks, nothing will have happened and nobody will know why."},
+{t:"Everyone knows what they're doing so I won't repeat it here.", good:false, why:"The follow-up email exists precisely because human memory doesn't work like that."},
+]},
+{label:"Closing", prompt:"Finish the email:",
+opts:[
+{t:"Shout if I've missed anything or got a deadline wrong. Next catch-up: Tues 26th, 3 p.m. Thanks all, Maria", good:true, why:"Invites corrections (people spot their own names fast), confirms the next date, done."},
+{t:"Failure to complete actions will be noted.", good:false, why:"Threats poison team culture — and you're a colleague, not a compliance officer."},
+{t:"No need to reply.", good:false, why:"You actually do want replies if something's wrong — don't close the door on corrections."},
+]},
+]},
+];
+
+/* ================================================================
+   FIX THE SENTENCE — rewrite drills
+   ================================================================ */
+const FIXES = [
+{bad:"Please revert back to me at the earliest.", opts:["Please revert back at your soonest.","Please reply as soon as you can.","Please do the needful and revert."], a:1, why:"“Revert back” is non-standard in UK English — “reply” or “get back to me” is what colleagues expect."},
+{bad:"I am writing this email to you because I wanted to ask if it would be okay to maybe take a half day.", opts:["Could I take a half day on Friday?","This email concerns the taking of a half day by myself.","I write to enquire regarding half-day possibilities."], a:0, why:"Twenty-two words melt down to seven. Polite ≠ long: one clear question is the politest thing you can send."},
+{bad:"Me and Jon will attend the training.", opts:["Jon and me will attend the training.","Jon and I will attend the training.","Myself and Jon will attend the training."], a:1, why:"Subjects take “I”: Jon and I will attend. Test it by removing Jon — “I will attend”, never “me will attend”."},
+{bad:"Attached herewith please find the requested document for your kind perusal.", opts:["Please find attached herewith the document.","I attach the document — do let me know if you need anything else.","The requested document is enclosed for perusal at your convenience."], a:1, why:"“Herewith”, “perusal” and “kind” are Victorian office English. Modern UK style: “I attach…” or “Please find attached…” and stop."},
+{bad:"Its important that every staff bring there own laptop.", opts:["It's important that every staff brings there own laptop.","It's important that all staff bring their own laptops.","Its important that all staffs bring their own laptop."], a:1, why:"Three fixes: it's (= it is), “all staff” (staff is a group noun — “every staff” doesn't work), and “their” for possession."},
+{bad:"I look forward to hear from you.", opts:["I look forward to hearing from you.","I am looking forward to hear from you.","I look forward for hearing you."], a:0, why:"“Look forward to” is followed by -ing: looking forward to hearing, to seeing, to meeting."},
+{bad:"The meeting has been preponed to 9 a.m.", opts:["The meeting has been preponed earlier to 9 a.m.","The meeting has been brought forward to 9 a.m.","The meeting has been anticipated to 9 a.m."], a:1, why:"“Prepone” isn't used in UK English — meetings are “brought forward” (earlier) or “pushed back” (later)."},
+{bad:"Kindly do the needful regarding the broken printer.", opts:["Please could you arrange for the printer to be repaired?","Kindly needful the printer repair.","Do the needful for the printer, please."], a:0, why:"“Do the needful” puzzles UK readers. Say specifically what you want done: arrange a repair."},
+{bad:"I have a doubt about the new rota.", opts:["I have a doubt regarding the rota.","I have a question about the new rota.","I am doubting the new rota."], a:1, why:"In UK English, “a doubt” suggests suspicion. For asking things, you have “a question” or you'd like to “check something”."},
+{bad:"Thanks God it's Friday, see you at the meeting.", opts:["Thank God it's Friday — see you at the meeting.","Thanks to God it is Friday, see you at the meeting.","Thanks god its friday, see you at the meeting."], a:0, why:"The set phrase is “Thank God” (no s). And the dash joins the two thoughts more cleanly than a comma splice."},
+{bad:"Please explain me the new referral process.", opts:["Please explain me about the new referral process.","Please could you explain the new referral process to me?","Please explain to I the new referral process."], a:1, why:"“Explain” never takes a person directly — you explain something *to* someone."},
+{bad:"We discussed about the budget in the meeting.", opts:["We discussed about budget in the meeting.","We discussed the budget in the meeting.","We made discussion of the budget in the meeting."], a:1, why:"“Discuss” already contains “about” — you discuss the budget, talk about the budget, but never discuss about."},
+];
+
+/* ================================================================
+   EMAIL TEMPLATES
+   ================================================================ */
+const TEMPLATES = [
+{icon:"🏖️", title:"Annual leave request", subject:"Annual leave request: [dates]",
+body:`Hi [Name],
+
+I hope you're well. I'd like to request annual leave from [start date] to [end date] ([X] working days).
+
+I've checked the rota and [note any cover arranged / no clashes]. I'll make sure [key task] is completed before I go.
+
+Please could you confirm when you get a chance?
+
+Many thanks,
+[Your name]`},
+{icon:"🤒", title:"Sickness absence", subject:"Sickness absence — [your name], [date]",
+body:`Hi [Name],
+
+I'm writing to let you know that I'm unwell this morning with [brief reason] and won't be able to come in for my shift today.
+
+[Handover line — where your notes are / who is covering what.]
+
+I'll let you know by [time] whether I'll be fit for tomorrow. Sorry for the short notice.
+
+Best wishes,
+[Your name]`},
+{icon:"🔁", title:"Shift swap request", subject:"Shift swap request — [date] for [date]",
+body:`Hi [Name],
+
+Would you be able to swap shifts with me? I'm rostered for [day, date, shift] and I'm hoping to swap it for your [day, date, shift].
+
+[One-line reason, optional.] If it works for you, I'll email [manager] to confirm so it's properly recorded.
+
+No worries at all if not — thanks for considering it!
+
+Best,
+[Your name]`},
+{icon:"📅", title:"Meeting request", subject:"[Topic] — 20 minutes this week?",
+body:`Hi [Name],
+
+Could we find 20 minutes this week to discuss [topic]? I'd particularly like your thoughts on [specific point].
+
+I'm free [option 1] and [option 2], but happy to work around you. [Room / Teams] — whichever is easier.
+
+Best wishes,
+[Your name]`},
+{icon:"🙏", title:"Thank-you note", subject:"Thank you — [what for]",
+body:`Hi [Name],
+
+Just a quick note to say thank you for [what they did]. [One line on the difference it made — e.g. “It made yesterday's clinic run far more smoothly than it would have.”]
+
+I really appreciate it.
+
+Best wishes,
+[Your name]`},
+{icon:"🤝", title:"Handover email", subject:"Handover — [your area], [dates you're away]",
+body:`Hi [Name],
+
+Ahead of my leave from [date] to [date], here's a short handover:
+
+• [Task 1] — current status, next step, where the files are.
+• [Task 2] — current status, who else is involved.
+• [Anything time-critical] — what must happen and by when.
+
+[Colleague] has kindly agreed to be the first contact for anything urgent. I'll pick everything else up when I'm back on [date].
+
+Many thanks,
+[Your name]`},
+{icon:"📌", title:"Post-meeting follow-up", subject:"[Topic] — actions from today's meeting",
+body:`Hi all,
+
+Thanks for your time today. A quick summary of what we agreed:
+
+1. [Name] — [task] by [date].
+2. [Name] — [task] by [date].
+3. [Name] — [task] by [date].
+
+Shout if I've missed anything or got a deadline wrong. Next meeting: [date, time, place].
+
+Best wishes,
+[Your name]`},
+];
+
+/* Tone examples for the tone mini-lesson */
+const TONES = [
+{topic:"Asking a colleague to resend a file",
+casual:"u got that file?? send again lol it's gone from my inbox 😅",
+right:"Hi Jo — could you resend the audit file when you get a moment? I can't seem to find it in my inbox. Thanks!",
+stiff:"Dear Ms Johnson, I write with reference to the aforementioned document, which regrettably appears to be absent from my correspondence. I should be most obliged if you would furnish me with a further copy."},
+{topic:"Declining a meeting time",
+casual:"nah can't do Tues, slammed. some other time",
+right:"Thanks for the invite — I'm afraid Tuesday clashes with clinic. Could we look at Wednesday afternoon or Thursday morning instead?",
+stiff:"I regret to inform you that attendance at the proposed juncture will not prove feasible owing to prior commitments of a clinical nature."},
+{topic:"Reminding someone about an overdue reply",
+casual:"hellooo?? did u see my email from last week or…",
+right:"Hi Sam — just floating this back to the top of your inbox. Any thoughts on the rota question below? No rush if this week is hectic.",
+stiff:"Further to my previous correspondence, to which no response has hitherto been received, I write to solicit your urgent attention to the matter therein."},
+];
+/* ================================================================
+   SPEAK — lecture signposts, pronunciation, pairs, shadowing
+   ================================================================ */
+const SIGNPOSTS = [
+{stage:"🎬 Opening", phrases:[
+"Good morning, everyone — thank you for coming.",
+"Today I'm going to talk about three things.",
+"By the end of this session, you'll be able to…",
+"Let me start with a quick question for you all.",
+"Feel free to stop me at any point if something isn't clear.",
+]},
+{stage:"🗺️ Outlining", phrases:[
+"I've divided this into three parts.",
+"First, we'll look at the background. Then I'll walk you through the data. Finally, we'll discuss what it means for us.",
+"This will take about twenty minutes, with time for questions at the end.",
+]},
+{stage:"➡️ Moving on", phrases:[
+"So, that's the background. Now let's turn to the results.",
+"Moving on to my second point…",
+"This brings me to the most important part.",
+"Before I move on, are there any questions so far?",
+]},
+{stage:"⭐ Emphasising", phrases:[
+"The key thing to remember here is this.",
+"I really want to stress this point.",
+"If you take away only one thing today, let it be this.",
+"Notice what happens when we compare these two figures.",
+]},
+{stage:"🖼️ Explaining a slide", phrases:[
+"As you can see on this slide…",
+"This chart shows the trend over the last twelve months.",
+"Let me draw your attention to the figure on the right.",
+"In other words, the numbers are moving in the right direction.",
+]},
+{stage:"🤔 Handling questions", phrases:[
+"That's a great question — let me think about that for a second.",
+"Could I come back to that at the end? I'd like to give it a proper answer.",
+"I'm not certain, but I'll find out and get back to you.",
+"Does that answer your question, or shall I go into more detail?",
+]},
+{stage:"🏁 Closing", phrases:[
+"So, to sum up: three key points.",
+"Let me leave you with one final thought.",
+"Thank you very much for listening — I'm happy to take questions.",
+"I'll send round the slides after the session.",
+]},
+];
+
+const PRON = [
+{w:"comfortable", hint:"KUMF-tuh-bul (3 beats)", tip:"The “or” almost disappears — not com-FOR-table."},
+{w:"vegetable", hint:"VEJ-tuh-bul (3 beats)", tip:"Like comfortable, a syllable vanishes: VEJ-tuh-bul."},
+{w:"colleague", hint:"KOL-eeg (2 beats)", tip:"Stress the first part; ends in a hard “g”, not “gew”."},
+{w:"queue", hint:"KYOO (1 beat)", tip:"All those vowels are just one sound — same as the letter Q."},
+{w:"anxiety", hint:"ang-ZY-uh-tee", tip:"The x becomes a “z” sound: ang-ZY-uh-tee."},
+{w:"medicine", hint:"MED-sin (2 beats in UK)", tip:"British speakers usually squeeze it to two syllables."},
+{w:"temperature", hint:"TEM-pruh-cher", tip:"Not tem-per-a-TURE — the ending is a soft “cher”."},
+{w:"thorough", hint:"THU-ruh", tip:"Very different from “through” (throo) and “though” (dhoh)."},
+{w:"procedure", hint:"pruh-SEE-jer", tip:"Stress the middle: pro-SEE-dure."},
+{w:"hierarchy", hint:"HY-uh-rar-kee", tip:"Starts like “high”: HIGH-er-ar-key."},
+{w:"develop", hint:"dih-VEL-up", tip:"Stress the middle — not DEV-el-op."},
+{w:"determine", hint:"dih-TER-min", tip:"Ends in “min”, not “mine”."},
+{w:"focus", hint:"FOH-kus", tip:"Long clear “oh” at the start — keep the vowel steady."},
+{w:"analysis", hint:"uh-NAL-uh-sis", tip:"Stress the second syllable. The verb “analyse” stresses the first."},
+{w:"presentation", hint:"prez-un-TAY-shun", tip:"Main stress lands on TAY."},
+{w:"photograph / photography", hint:"FOH-tuh-graf · fuh-TOG-ruh-fee", tip:"Watch the stress jump when the word grows!"},
+{w:"receipt", hint:"rih-SEET", tip:"The “p” is completely silent."},
+{w:"debt", hint:"DET", tip:"Silent “b” — same in “doubt” (dowt) and “subtle” (SUT-ul)."},
+{w:"February", hint:"FEB-ruh-ree", tip:"Most UK speakers soften the first r: FEB-yoo-ree is also fine."},
+{w:"Wednesday", hint:"WENZ-day (2 beats)", tip:"The middle “d” is silent: WENZ-day."},
+{w:"clothes", hint:"KLOHDHZ (1 beat)", tip:"Practically identical to “close” (the verb) — no klo-thes."},
+{w:"sixth", hint:"SIKSTH", tip:"The hardest cluster in English: s-k-s-th. Slow it right down, then speed up."},
+{w:"regularly", hint:"REG-yuh-luh-lee", tip:"Four beats, all quick. Try “REG-yuh-luh-lee” three times fast."},
+{w:"deteriorate", hint:"dih-TEER-ee-uh-rayt", tip:"Five beats, stress on TEER — common in handovers, worth mastering."},
+];
+
+const PAIRS = [
+{a:"ship", b:"sheep"},{a:"live", b:"leave"},{a:"full", b:"fool"},
+{a:"walk", b:"work"},{a:"pen", b:"pan"},{a:"price", b:"prize"},
+{a:"cot", b:"caught"},{a:"hat", b:"heart"},{a:"pull", b:"pool"},
+{a:"bet", b:"bat"},{a:"fan", b:"van"},{a:"berry", b:"very"},
+{a:"pig", b:"big"},{a:"sink", b:"think"},{a:"day", b:"they"},
+{a:"chair", b:"share"},{a:"west", b:"vest"},{a:"cheap", b:"jeep"},
+];
+
+const SHADOW = [
+{title:"Opening a teaching session", icon:"🎬", lines:[
+"Good morning, everyone, and thank you for making time today.",
+"Over the next twenty minutes, I'm going to cover three things.",
+"First, why hand hygiene audits matter more than we think.",
+"Second, what our own figures from last quarter actually show.",
+"And finally, three small changes that could lift our compliance above ninety-five per cent.",
+"Please do stop me at any point if you have a question.",
+]},
+{title:"Explaining a chart", icon:"📊", lines:[
+"Let's look at this chart for a moment.",
+"Along the bottom, you can see the twelve months of last year.",
+"The blue line shows our average waiting time, and the orange line shows staffing levels.",
+"Notice what happens in December: as staffing dips, waiting times rise sharply.",
+"In other words, the two are closely linked.",
+"This is the relationship I'd like us to focus on today.",
+]},
+{title:"Summing up and closing", icon:"🏁", lines:[
+"So, to sum up, we've covered three key points today.",
+"We've seen why the audit matters, what our figures show, and where the quick wins are.",
+"If you take away only one thing, let it be this: small habits, repeated daily, move the numbers.",
+"I'll send round the slides and the action list this afternoon.",
+"Thank you very much for listening.",
+"I'm happy to take any questions.",
+]},
+];
+
+/* ================================================================
+   TOOLS — phrase bank, swaps, confusables, checklist, spelling
+   ================================================================ */
+const PHRASES = [
+{cat:"✉️ Email openers", items:[
+{p:"I hope you're well."},{p:"I hope you had a good weekend."},
+{p:"Thank you for your email."},{p:"Thanks for getting back to me so quickly."},
+{p:"I'm writing to ask about…", note:"then get straight to the point"},
+{p:"Just a quick note about…", note:"for short, light emails"},
+{p:"Further to our conversation this morning…", note:"links email to a chat"},
+]},
+{cat:"🙋 Requests", items:[
+{p:"Please could you send me…"},{p:"Could you possibly…?"},
+{p:"Would you mind checking…?", note:"followed by -ing"},
+{p:"I'd be grateful if you could…", note:"formal, very common"},
+{p:"When you get a chance, could you…?", note:"low pressure"},
+{p:"Could I ask a quick favour?"},
+{p:"Is there any chance you could…?", note:"friendly, slightly informal"},
+]},
+{cat:"🪶 Softeners & diplomacy", items:[
+{p:"I may be wrong, but…"},{p:"Just to check my understanding…"},
+{p:"I wonder if we could look at this another way."},
+{p:"That's a fair point, although…", note:"agree first, then differ"},
+{p:"I see it slightly differently.", note:"polite disagreement"},
+{p:"Perhaps we could consider…"},
+{p:"To be honest, I have some reservations about…", note:"stronger, still polite"},
+]},
+{cat:"🗣️ Meetings", items:[
+{p:"Could I just come in here?", note:"polite interruption"},
+{p:"Sorry, could you say that again? I didn't quite catch it."},
+{p:"Just to build on what Sarah said…"},
+{p:"Can we park that for now and come back to it?", note:"defer a topic"},
+{p:"What are your thoughts on this?", note:"invite quieter colleagues"},
+{p:"Shall we move on to the next item?"},
+{p:"To summarise what we've agreed…"},
+]},
+{cat:"📞 Phone & voicemail", items:[
+{p:"Hi, this is Maria from Ward 6 — is now a good time?"},
+{p:"I'm calling about…"},
+{p:"Could you bear with me a moment while I check?"},
+{p:"Sorry, the line broke up — could you repeat the last part?"},
+{p:"Shall I read that back to you?", note:"confirming details"},
+{p:"Thanks for your help — have a good day."},
+]},
+{cat:"☕ Small talk", items:[
+{p:"How's your week going?"},{p:"Busy one today, isn't it?"},
+{p:"Did you get up to anything nice at the weekend?"},
+{p:"How was your holiday? Whereabouts did you go?"},
+{p:"This weather! Typical, isn't it?", note:"the eternal UK classic"},
+{p:"Right, I'd better get back to it.", note:"polite exit line"},
+]},
+{cat:"🚪 Email closings", items:[
+{p:"Many thanks,", note:"warm, safe default"},
+{p:"Best wishes,", note:"friendly-formal"},
+{p:"Kind regards,", note:"formal, external emails"},
+{p:"Thanks again for your help."},
+{p:"I look forward to hearing from you.", note:"note: to hearING"},
+{p:"Do let me know if you have any questions."},
+{p:"Speak soon,", note:"informal, colleagues you know well"},
+]},
+];
+
+const SWAPS = [
+{from:"revert back", to:"reply", note:"“Revert” means to go back to a previous state in UK English."},
+{from:"do the needful", to:"please arrange / please fix", note:"Say exactly what you need done."},
+{from:"prepone", to:"bring forward", note:"Meetings are brought forward or pushed back."},
+{from:"I have a doubt", to:"I have a question", note:"“A doubt” sounds like suspicion in the UK."},
+{from:"kindly", to:"please", note:"“Kindly” can read as passive-aggressive to UK readers."},
+{from:"the same", to:"it / them", note:"“…and return the same” → “…and return it”."},
+{from:"as per my last email", to:"as I mentioned", note:"“As per my last email” is famously frosty."},
+{from:"at this moment in time", to:"now / currently"},
+{from:"in the event that", to:"if"},
+{from:"due to the fact that", to:"because"},
+{from:"with regard to the matter of", to:"about"},
+{from:"a substantial proportion of", to:"many / most"},
+{from:"utilise", to:"use"},
+{from:"commence", to:"start / begin"},
+{from:"terminate", to:"end"},
+{from:"in receipt of", to:"have received", note:"“We are in receipt of” → “We've received”."},
+{from:"herewith / hitherto / henceforth", to:"(just delete them)", note:"Victorian survivors — modern emails don't need them."},
+{from:"please be advised that", to:"(start the sentence)", note:"“Please be advised that the clinic is closed” → “The clinic is closed.”"},
+{from:"it has come to my attention that", to:"I've noticed that"},
+{from:"I am writing to inform you that", to:"(usually just say the thing)", note:"Fine occasionally in formal letters; padding in everyday email."},
+{from:"very unique / very essential", to:"unique / essential", note:"Some words are already absolute — no “very” needed."},
+{from:"irregardless", to:"regardless"},
+{from:"could of / should of", to:"could have / should have", note:"The sound of “could've” tricks the spelling."},
+{from:"alot", to:"a lot", note:"Always two words."},
+];
+
+const CONFUSABLES = [
+{a:"accept", b:"except", rule:"Accept = agree to receive. Except = not including.", ex:"I accept the offer. Everyone except Ben attended."},
+{a:"advice", b:"advise", rule:"Advice (s sounds like “s”) is the noun; advise (sounds like “z”) is the verb.", ex:"Thanks for your advice. I'd advise waiting."},
+{a:"practice", b:"practise", rule:"UK English: practice = noun, practise = verb. (Like advice/advise.)", ex:"The GP practice. I practise my presentation daily."},
+{a:"licence", b:"license", rule:"UK: licence = noun, license = verb.", ex:"A driving licence. Licensed to sell alcohol."},
+{a:"stationary", b:"stationery", rule:"StationAry = not moving. StationEry = Envelopes and pens.", ex:"The traffic was stationary. Order more stationery."},
+{a:"principal", b:"principle", rule:"Principal = main, or a head person. Principle = a rule or belief.", ex:"The principal reason. A matter of principle."},
+{a:"complement", b:"compliment", rule:"Complement = completes/goes well with. Compliment = kind words.", ex:"The wine complements the meal. She complimented my talk."},
+{a:"ensure", b:"insure / assure", rule:"Ensure = make certain. Insure = buy insurance. Assure = tell someone confidently.", ex:"Ensure the door is locked. I assure you it's safe."},
+{a:"quiet", b:"quite", rule:"QuiEt = silent (2 beats). QuiTe = fairly (1 beat).", ex:"A quiet ward. Quite busy today."},
+{a:"lose", b:"loose", rule:"Lose (looz) = misplace / not win. Loose (looss) = not tight.", ex:"Don't lose the keys. A loose screw."},
+{a:"personal", b:"personnel", rule:"Personal = private, your own. Personnel = staff/HR.", ex:"A personal matter. Contact the personnel department."},
+{a:"emigrate", b:"immigrate", rule:"Emigrate = Exit a country. Immigrate = come Into one.", ex:"She emigrated from Manila and immigrated to the UK."},
+{a:"historic", b:"historical", rule:"Historic = important in history. Historical = related to the past.", ex:"A historic agreement. Historical records."},
+{a:"economic", b:"economical", rule:"Economic = about the economy. Economical = good value, not wasteful.", ex:"Economic policy. An economical little car."},
+{a:"beside", b:"besides", rule:"Beside = next to. Besides = in addition to / anyway.", ex:"Sit beside me. Besides, it's too late now."},
+{a:"lay", b:"lie", rule:"You lay something down (needs an object); you lie down yourself.", ex:"Lay the folder on the desk. I need to lie down."},
+];
+
+const CHECKLIST = [
+"The subject line says what the email is about (and includes dates if relevant)",
+"The very first line makes the purpose clear",
+"There is exactly one main ask — and it's easy to find",
+"Names and titles are spelled correctly (check the person's own signature!)",
+"Every singular noun has its little word: a, an, the, my, this…",
+"No “revert back”, “do the needful”, “kindly” — swapped for plain English",
+"Sentences are short — anything over two lines got split",
+"Apostrophes checked: it's = it is; its = belonging",
+"Tone check: would I be happy if this were forwarded to anyone?",
+"Read it aloud once — if you stumble, the reader will too",
+"Attachment actually attached (the classic!)",
+];
+
+const SPELLINGS = [
+{uk:"colour, behaviour, favour", us:"color, behavior, favor", rule:"-our (UK) vs -or (US)"},
+{uk:"centre, litre, theatre", us:"center, liter, theater", rule:"-re (UK) vs -er (US)"},
+{uk:"organise, realise, recognise", us:"organize, realize, recognize", rule:"-ise (UK default) vs -ize"},
+{uk:"analyse, paralyse", us:"analyze, paralyze", rule:"-yse (UK) vs -yze (US)"},
+{uk:"travelling, cancelled, labelled", us:"traveling, canceled, labeled", rule:"UK doubles the l"},
+{uk:"programme (TV/plan), program (computing)", us:"program (everything)", rule:"UK keeps both spellings"},
+{uk:"practice (n) / practise (v)", us:"practice (both)", rule:"UK splits noun & verb"},
+{uk:"licence (n) / license (v)", us:"license (both)", rule:"UK splits noun & verb"},
+{uk:"defence, offence", us:"defense, offense", rule:"-ce (UK) vs -se (US)"},
+{uk:"grey, tyre, kerb, cheque", us:"gray, tire, curb, check", rule:"one-off differences worth memorising"},
+];
+
+/* ================================================================
+   DAILY EXTRAS — word of the day, tips, bonus drill questions
+   ================================================================ */
+const WOTD = [
+{w:"concise", pos:"adjective", def:"saying a lot in few words — the highest compliment for an email.", ex:"Her handover was concise but complete."},
+{w:"clarify", pos:"verb", def:"to make something clearer or easier to understand.", ex:"Could you clarify the second point?"},
+{w:"liaise", pos:"verb", def:"to communicate and work together with someone.", ex:"I'll liaise with pharmacy about the change."},
+{w:"streamline", pos:"verb", def:"to make a process simpler and more efficient.", ex:"We streamlined the admission paperwork."},
+{w:"thorough", pos:"adjective", def:"careful and complete, missing nothing.", ex:"She did a thorough check of the equipment."},
+{w:"feasible", pos:"adjective", def:"possible and practical to do.", ex:"Is a Friday deadline feasible?"},
+{w:"proactive", pos:"adjective", def:"acting before problems appear, not just reacting.", ex:"He's proactive about flagging risks early."},
+{w:"convey", pos:"verb", def:"to communicate an idea or feeling.", ex:"Slides help convey complex results."},
+{w:"pertinent", pos:"adjective", def:"directly relevant to the matter at hand.", ex:"She asked a very pertinent question."},
+{w:"succinct", pos:"adjective", def:"brief and clearly expressed.", ex:"Keep the summary succinct — five lines at most."},
+{w:"mitigate", pos:"verb", def:"to make a risk or problem less severe.", ex:"Extra staffing mitigated the winter pressure."},
+{w:"discrepancy", pos:"noun", def:"a difference between things that should match.", ex:"There's a discrepancy between the two counts."},
+{w:"expedite", pos:"verb", def:"to make something happen faster.", ex:"Can we expedite the referral?"},
+{w:"cohort", pos:"noun", def:"a group of people studied or treated together.", ex:"This year's cohort of students is the largest yet."},
+{w:"benchmark", pos:"noun", def:"a standard used for comparison.", ex:"Our times are below the national benchmark."},
+{w:"collate", pos:"verb", def:"to collect and organise information from different sources.", ex:"I'll collate the survey responses by Friday."},
+{w:"oversight", pos:"noun", def:"1) a mistake made by not noticing something; 2) supervision.", ex:"Missing your name off the list was an oversight."},
+{w:"contingency", pos:"noun", def:"a plan for if things go wrong.", ex:"What's our contingency if the speaker cancels?"},
+{w:"robust", pos:"adjective", def:"strong and unlikely to fail — beloved of UK managers.", ex:"We need a robust system for reporting."},
+{w:"ambiguous", pos:"adjective", def:"open to more than one meaning; unclear.", ex:"The instruction was ambiguous, so I checked."},
+{w:"consolidate", pos:"verb", def:"to combine things into one stronger whole.", ex:"Let's consolidate the three spreadsheets."},
+{w:"caveat", pos:"noun", def:"a warning or condition attached to a statement.", ex:"One caveat: the data only covers weekdays."},
+{w:"transparent", pos:"adjective", def:"open and honest; easy to see through.", ex:"Be transparent about what went wrong."},
+{w:"incremental", pos:"adjective", def:"happening in small steady steps.", ex:"Incremental improvements add up quickly."},
+{w:"holistic", pos:"adjective", def:"considering the whole, not just parts.", ex:"A holistic view of the patient's needs."},
+{w:"articulate", pos:"adj / verb", def:"speaking clearly and effectively; to express clearly.", ex:"She articulated the risks brilliantly."},
+{w:"rapport", pos:"noun", def:"a warm, trusting connection with someone. (Silent t!)", ex:"He builds rapport with patients quickly."},
+{w:"nuance", pos:"noun", def:"a small, subtle difference in meaning.", ex:"The word choice carries an important nuance."},
+];
+
+const TIPS = [
+"One email, one ask. If you need three things, number them 1-2-3 so none get missed.",
+"Write the email first, then the subject line — it's easier to summarise something that exists.",
+"Reading your email aloud is the fastest proofread in existence. Your ear catches what your eye forgives.",
+"Short sentences sound confident. Long sentences hide the point and multiply grammar risks.",
+"In UK emails, “Thanks” beats “Thank you in advance” — the latter can feel like pressure.",
+"Before a lecture, say your first two sentences out loud five times. A strong start settles your nerves for everything after.",
+"Pausing is not a weakness. A two-second silence before a key point makes the audience lean in.",
+"When you learn a new word, learn the sentence it lives in. Words stick in phrases, not in lists.",
+"“Could you…?” questions get faster replies than “Can you…?” — politeness is measurable!",
+"If an email thread passes three replies, it wants to be a phone call.",
+"Slides are for the audience; notes are for you. Never read your slides aloud word for word.",
+"End meetings and lectures with names and deadlines. “Someone should…” means no one will.",
+"Keep a “sent brilliantly” folder — copy emails you're proud of and reuse their shapes.",
+"The word “just” shrinks you (“I just wanted to ask…”). Delete it and feel the difference.",
+"Speak 10% slower than feels natural when presenting. What feels slow to you sounds clear to them.",
+"Learn three phrases for disagreeing politely and you'll never dread a meeting again.",
+];
+
+/* Bonus questions mixed into the Daily Drill */
+const DRILL_EXTRA = [
+{q:"Your manager writes “Can you action this?” — what do they want?", opts:["Your opinion on it","You to actually do the task","You to file it"], a:1, why:"“To action” something (manager-speak) = to do it. You may also “action the action points”."},
+{q:"A colleague says “Let's touch base tomorrow.” They mean…", opts:["Meet or talk briefly","Play rounders","Review the database"], a:0, why:"“Touch base” = have a quick catch-up conversation."},
+{q:"“I'll do it at the end of play today” means by…", opts:["Midnight","The end of the working day","Friday"], a:1, why:"“End of play” (or COP/EOD) = the end of the working day."},
+{q:"The politest version of “Resend it” is:", opts:["Resend it please.","Please could you resend it when you get a chance?","You must resend it."], a:1, why:"“Please could you…” + a pressure-softener is the natural polite shape."},
+{q:"“The meeting has been pushed back” means it will now happen…", opts:["Earlier","Later","Never"], a:1, why:"Pushed back = later. Brought forward = earlier. Called off = cancelled."},
+{q:"Which closing suits an email to an external consultant you've never met?", opts:["Cheers!","Kind regards,","Love,"], a:1, why:"“Kind regards” is the safe formal-but-warm choice for external contacts."},
+{q:"“Please find attached the report” — a more natural modern version is:", opts:["Herewith the report.","I've attached the report.","The report finds itself attached."], a:1, why:"“I've attached…” is today's plain, friendly standard. (“Please find attached” is still fine, just stiffer.)"},
+{q:"Your colleague writes “no worries at all!” after you apologised. It means…", opts:["They are actually worried","It's completely fine","Stop emailing them"], a:1, why:"“No worries” = it's fine, don't feel bad. A very common friendly reassurance."},
+{q:"Which is correct?", opts:["I'm agree with you.","I agree with you.","I am agree to you."], a:1, why:"“Agree” is a verb, not an adjective — no “am”: I agree, she agrees."},
+{q:"“Bear with me” means…", opts:["Please wait a moment patiently","Carry this for me","There is a bear with me"], a:0, why:"“Bear with me” = please be patient while I sort this out. (Bear, not bare!)"},
+];
+/* ================================================================
+   ENGINE — state, XP, speech, router, screens
+   ================================================================ */
+const $=s=>document.querySelector(s);
+function el(tag,cls,html){const e=document.createElement(tag);if(cls)e.className=cls;if(html!=null)e.innerHTML=html;return e;}
+function shuffle(a){const c=a.slice();for(let i=c.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[c[i],c[j]]=[c[j],c[i]];}return c;}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function yesterStr(){const d=new Date(Date.now()-864e5);return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+
+/* ---------- state ---------- */
+const KEY="husay-v1";
+let store;
+try{store=JSON.parse(localStorage.getItem(KEY))||{};}catch(e){store={};}
+store.xp=store.xp||0; store.streak=store.streak||0; store.lastDay=store.lastDay||"";
+store.done=store.done||{}; store.best=store.best||{}; store.drill=store.drill||{};
+store.rate=store.rate||1; store.checks=store.checks||[];
+function save(){try{localStorage.setItem(KEY,JSON.stringify(store));}catch(e){}}
+
+const LVL_TITLES=["Starter","Improver","Confident","Capable","Polished","Fluent","Eloquent","Wordsmith","Virtuoso","Legend"];
+function levelInfo(){const n=Math.floor(store.xp/300);return{num:n+1,title:LVL_TITLES[Math.min(n,LVL_TITLES.length-1)],into:store.xp%300,need:300};}
+
+function touchStreak(){
+  const t=todayStr();
+  if(store.lastDay===t)return;
+  store.streak=(store.lastDay===yesterStr())?store.streak+1:1;
+  store.lastDay=t;
+}
+function updateHeader(){
+  $("#streakNum").textContent=store.streak;
+  $("#xpChip").textContent="✨ "+store.xp+" XP";
+  $("#streakChip").classList.toggle("hot",store.streak>0&&store.lastDay===todayStr());
+}
+function floatText(txt,x,y,color){
+  const f=el("div","xpfloat",txt);
+  if(color)f.style.color=color;
+  f.style.left=(x-20)+"px";f.style.top=(y-10)+"px";
+  document.body.appendChild(f);
+  setTimeout(()=>f.remove(),1100);
+}
+function addXP(n,nearEl){
+  store.xp+=n;touchStreak();save();updateHeader();
+  let x=window.innerWidth/2,y=window.innerHeight/2;
+  if(nearEl&&nearEl.getBoundingClientRect){const r=nearEl.getBoundingClientRect();x=r.left+r.width/2;y=r.top;}
+  floatText("+"+n+" XP",x,y);
+}
+const CONF_COLORS=["#6C5CE7","#F368E0","#FF9F1A","#00B8A9","#FFD32A","#FF6B6B","#20BF6B"];
+function confetti(n){
+  n=n||60;
+  for(let i=0;i<n;i++){
+    const b=el("div","confetti-bit");
+    b.style.left=Math.random()*100+"vw";
+    b.style.background=CONF_COLORS[i%CONF_COLORS.length];
+    b.style.animation="cfall "+(1.6+Math.random()*1.6)+"s "+(Math.random()*0.7)+"s cubic-bezier(.3,.4,.6,1) forwards";
+    b.style.transform="rotate("+Math.random()*360+"deg)";
+    document.body.appendChild(b);
+    setTimeout(()=>b.remove(),4200);
+  }
+}
+
+/* ---------- speech ---------- */
+let VOICE=null;
+function pickVoice(){
+  if(!("speechSynthesis" in window))return;
+  const vs=speechSynthesis.getVoices();
+  VOICE=vs.find(v=>v.lang==="en-GB"&&/sonia|libby|kate|serena|stephanie|martha|female/i.test(v.name))
+      ||vs.find(v=>v.lang==="en-GB")
+      ||vs.find(v=>(v.lang||"").startsWith("en"))||null;
+}
+if("speechSynthesis" in window){pickVoice();speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text,rate){
+  if(!("speechSynthesis" in window))return;
+  speechSynthesis.cancel();
+  queueSpeak(text,rate);
+}
+function queueSpeak(text,rate){
+  if(!("speechSynthesis" in window))return;
+  const u=new SpeechSynthesisUtterance(text.replace(/ \/ /g,", "));
+  u.lang="en-GB";if(VOICE)u.voice=VOICE;
+  u.rate=rate||store.rate;
+  speechSynthesis.speak(u);
+}
+const SRClass=window.SpeechRecognition||window.webkitSpeechRecognition||null;
+
+/* ---------- clipboard ---------- */
+function copyText(t,nearEl){
+  const done=()=>{let x=window.innerWidth/2,y=window.innerHeight/2;
+    if(nearEl){const r=nearEl.getBoundingClientRect();x=r.left+r.width/2;y=r.top;}
+    floatText("Copied ✓",x,y,"#168F4E");};
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,()=>fallbackCopy(t,done));}
+  else fallbackCopy(t,done);
+}
+function fallbackCopy(t,done){
+  const ta=document.createElement("textarea");ta.value=t;ta.style.position="fixed";ta.style.opacity="0";
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand("copy");done();}catch(e){}
+  ta.remove();
+}
+
+/* ---------- router ---------- */
+let activeTab="home";
+const RENDER={home:renderHome,learn:renderLearn,write:renderWrite,speak:renderSpeak,tools:renderTools};
+function switchTab(name){
+  activeTab=name;
+  document.querySelectorAll(".tabbtn").forEach(b=>b.classList.toggle("active",b.dataset.tab===name));
+  document.querySelectorAll("section.screen").forEach(s=>s.classList.toggle("active",s.id==="scr-"+name));
+  RENDER[name]();
+  window.scrollTo({top:0});
+}
+document.querySelectorAll(".tabbtn").forEach(b=>b.addEventListener("click",()=>switchTab(b.dataset.tab)));
+
+function openDetail(title,build){
+  $("#detTitle").textContent=title;
+  const body=$("#detBody");body.innerHTML="";
+  build(body);
+  $("#detail").classList.add("open");
+  $("#detail").scrollTop=0;
+}
+function closeDetail(){
+  if("speechSynthesis" in window)speechSynthesis.cancel();
+  $("#detail").classList.remove("open");
+  RENDER[activeTab]();updateHeader();
+}
+$("#backBtn").addEventListener("click",closeDetail);
+
+/* ---------- shared widgets ---------- */
+function tileBtn(icon,iconCls,title,blurb,done,onClick){
+  const t=el("button","tile rise");
+  t.innerHTML='<span class="icn '+(iconCls||"")+'">'+icon+'</span><span class="tmid"><span class="tt">'+title+'</span><span class="tb">'+blurb+'</span></span>'+(done?'<span class="done">✓</span>':'<span class="todo"></span>');
+  t.addEventListener("click",onClick);
+  return t;
+}
+function playBtn(text,rate){
+  const b=el("button","roundbtn play","🔊");
+  b.addEventListener("click",e=>{e.stopPropagation();speak(text,rate);});
+  return b;
+}
+function copyBtnEl(text){
+  const b=el("button","roundbtn copy","⧉");
+  b.title="Copy";
+  b.addEventListener("click",e=>{e.stopPropagation();copyText(text,b);});
+  return b;
+}
+
+/* ---------- quiz engine ---------- */
+function quizBlock(qs,opts){
+  opts=opts||{};
+  const xpPer=opts.xpPer||10;
+  const wrap=el("div");
+  let i=0,score=0;
+  function renderQ(){
+    wrap.innerHTML="";
+    const q=qs[i];
+    wrap.appendChild(el("div","qhead",'<div class="prog"><div class="progfill" style="width:'+(i/qs.length*100)+'%"></div></div><span class="qcount">'+(i+1)+" / "+qs.length+"</span>"));
+    wrap.appendChild(el("div","qtext",q.q.replace(/___/g,'<span class="blank">___</span>')));
+    const order=shuffle(q.opts.map((t,idx)=>({t:t,idx:idx})));
+    let answered=false;const btns=[];
+    order.forEach(o=>{
+      const b=el("button","opt",o.t);
+      b._idx=o.idx;btns.push(b);
+      b.addEventListener("click",()=>{
+        if(answered)return;answered=true;
+        btns.forEach(x=>x.disabled=true);
+        const ok=o.idx===q.a;
+        if(ok){b.classList.add("correct");score++;addXP(xpPer,b);}
+        else{b.classList.add("wrong");const c=btns.find(x=>x._idx===q.a);if(c)c.classList.add("reveal");}
+        wrap.appendChild(el("div","why",(ok?"<b>✓ Correct!</b> ":"<b>Not quite.</b> ")+q.why));
+        const nxt=el("button","btn small",i<qs.length-1?"Next →":"See results ✨");
+        nxt.addEventListener("click",()=>{i++;if(i<qs.length){renderQ();wrap.scrollIntoView({block:"start"});}else finish();});
+        wrap.appendChild(nxt);
+      });
+      wrap.appendChild(b);
+    });
+  }
+  function finish(){
+    wrap.innerHTML="";
+    const pct=score/qs.length;
+    if(pct>=0.8)confetti(pct===1?90:50);
+    const msg=pct===1?"Perfect score! 🎉":pct>=0.7?"Great work! 💪":"Good effort — review the lesson and try again 🌱";
+    const sc=el("div","card scorecard",'<div class="bigscore">'+score+"/"+qs.length+'</div><div class="msg">'+msg+'</div><div class="submsg">+'+(score*xpPer)+" XP earned</div>");
+    const again=el("button","btn ghost small","↻ Try again");
+    again.addEventListener("click",()=>{i=0;score=0;renderQ();});
+    const back=el("button","btn small","Done");
+    back.style.marginLeft="10px";
+    back.addEventListener("click",closeDetail);
+    sc.appendChild(again);sc.appendChild(back);
+    wrap.appendChild(sc);
+    if(opts.onFinish)opts.onFinish(score,qs.length);
+  }
+  renderQ();
+  return wrap;
+}
+
+/* ================================================================
+   HOME
+   ================================================================ */
+const BADGES=[
+{ic:"🐣",nm:"First steps",test:()=>store.xp>0},
+{ic:"🔥",nm:"3-day streak",test:()=>store.streak>=3},
+{ic:"🌋",nm:"7-day streak",test:()=>store.streak>=7},
+{ic:"📚",nm:"Grammar great",test:()=>LESSONS.every(l=>store.done["l_"+l.id])},
+{ic:"🐛",nm:"Bookworm",test:()=>READINGS.every(r=>store.done["r_"+r.id])},
+{ic:"✉️",nm:"Wordsmith",test:()=>SCENARIOS.every(s=>store.done["s_"+s.id])},
+{ic:"👂",nm:"Sharp ear",test:()=>(store.best.pairs||0)>=9},
+{ic:"🎯",nm:"Drill sergeant",test:()=>Object.keys(store.drill).length>=5},
+{ic:"⚡",nm:"Level 5",test:()=>levelInfo().num>=5},
+{ic:"🌟",nm:"1000 XP club",test:()=>store.xp>=1000},
+];
+function greeting(){
+  const h=new Date().getHours();
+  return h<12?"Good morning! ☀️":h<17?"Good afternoon! 🌤️":"Good evening! 🌙";
+}
+function dayIndex(){return Math.floor(Date.now()/864e5);}
+
+function renderHome(){
+  const s=$("#scr-home");s.innerHTML="";
+  const lvl=levelInfo();
+  const today=todayStr();
+  const drillDone=store.drill[today]!=null;
+
+  /* stats */
+  const stats=el("div","statrow rise");
+  stats.appendChild(el("div","stat",'<span class="em">🔥</span><div class="big">'+store.streak+'</div><div class="lbl">day streak</div>'));
+  stats.appendChild(el("div","stat",'<span class="em">✨</span><div class="big">'+store.xp+'</div><div class="lbl">total XP</div>'));
+  stats.appendChild(el("div","stat",'<span class="em">🎓</span><div class="big">'+lvl.num+'</div><div class="lbl">'+lvl.title+'</div>'));
+  s.appendChild(stats);
+
+  /* hero + plan */
+  const hero=el("div","hero rise d1");
+  hero.appendChild(el("h2",null,greeting()));
+  hero.appendChild(el("div","sub","Ten focused minutes a day beats two hours on Sunday. Here's today's plan:"));
+  const plan=el("div","planrow");
+  const items=[];
+  if(!drillDone)items.push({ic:"🎯",t:"Daily drill — 10 quick questions",go:openDrill});
+  const nextLesson=LESSONS.find(l=>!store.done["l_"+l.id]);
+  if(nextLesson)items.push({ic:nextLesson.icon,t:"Lesson: "+nextLesson.title,go:()=>openLesson(nextLesson)});
+  const nextScen=SCENARIOS.find(x=>!store.done["s_"+x.id]);
+  if(nextScen)items.push({ic:nextScen.icon,t:"Email practice: "+nextScen.title,go:()=>openScenario(nextScen)});
+  const nextRead=READINGS.find(r=>!store.done["r_"+r.id]);
+  if(items.length<3&&nextRead)items.push({ic:nextRead.icon,t:"Read: "+nextRead.title,go:()=>openReading(nextRead)});
+  if(items.length<3)items.push({ic:"🎤",t:"Pronunciation gym — 5 tricky words",go:openPronGym});
+  items.slice(0,3).forEach(it=>{
+    const p=el("button","planitem",'<span class="pi-ic">'+it.ic+'</span><span>'+it.t+'</span><span class="pi-go">→</span>');
+    p.addEventListener("click",it.go);
+    plan.appendChild(p);
+  });
+  hero.appendChild(plan);
+  const lb=el("div","lvlbar",'<span class="lv">LVL '+lvl.num+'</span><div class="prog"><div class="progfill" style="width:'+(lvl.into/lvl.need*100)+'%"></div></div><span class="lv">'+lvl.into+"/"+lvl.need+"</span>");
+  hero.appendChild(lb);
+  s.appendChild(hero);
+
+  /* daily drill card */
+  const dc=el("div","card rise d2");
+  if(drillDone){
+    dc.innerHTML='<div style="display:flex;align-items:center;gap:14px"><span class="icn green">🎯</span><div style="flex:1"><b>Daily drill complete!</b><div style="font-size:13.5px;color:var(--ink-soft)">You scored '+store.drill[today]+'/10 today. Come back tomorrow to keep the streak alive.</div></div><span class="done">✓</span></div>';
+  }else{
+    dc.innerHTML='<div style="display:flex;align-items:center;gap:14px;margin-bottom:12px"><span class="icn coral">🎯</span><div style="flex:1"><b>Daily drill</b><div style="font-size:13.5px;color:var(--ink-soft)">10 mixed questions from everything — grammar, emails, workplace English.</div></div></div>';
+    const go=el("button","btn coral","Start today's drill →");
+    go.addEventListener("click",openDrill);
+    dc.appendChild(go);
+  }
+  s.appendChild(dc);
+
+  /* word of the day */
+  const w=WOTD[dayIndex()%WOTD.length];
+  const wc=el("div","card wotd rise d2");
+  wc.innerHTML='<span class="pill teal">Word of the day</span><div style="display:flex;align-items:baseline;margin-top:8px"><span class="w">'+w.w+'</span><span class="pos">'+w.pos+'</span></div><div class="def">'+w.def+'</div><div class="ex">“'+w.ex+'”</div>';
+  const wb=playBtn(w.w+". "+w.ex);wb.style.marginTop="10px";
+  wc.appendChild(wb);
+  s.appendChild(wc);
+
+  /* tip */
+  const tip=TIPS[dayIndex()%TIPS.length];
+  s.appendChild(el("div","card tipcard rise d3",'<span class="pill amber">💡 Tip of the day</span><div class="tiptext">'+tip+'</div>'));
+
+  /* progress */
+  const gDone=LESSONS.filter(l=>store.done["l_"+l.id]).length;
+  const rDone=READINGS.filter(r=>store.done["r_"+r.id]).length;
+  const scDone=SCENARIOS.filter(x=>store.done["s_"+x.id]).length;
+  const pc=el("div","card rise d3",'<b>Your journey</b>');
+  [["📚 Grammar",gDone,LESSONS.length,""],["📖 Reading",rDone,READINGS.length,"teal"],["✉️ Email scenarios",scDone,SCENARIOS.length,"coral"]].forEach(row=>{
+    const line=el("div",null,'<div style="display:flex;justify-content:space-between;font-size:13px;margin:10px 0 5px"><span>'+row[0]+'</span><span class="qcount">'+row[1]+" / "+row[2]+'</span></div><div class="prog"><div class="progfill '+row[3]+'" style="width:'+(row[1]/row[2]*100)+'%"></div></div>');
+    pc.appendChild(line);
+  });
+  s.appendChild(pc);
+
+  /* badges */
+  s.appendChild(el("div","sectionlabel",null)).textContent="Badges";
+  const bd=el("div","badges rise d4");
+  BADGES.forEach(b=>{
+    bd.appendChild(el("div","badge "+(b.test()?"earned":"locked"),'<span class="bic">'+b.ic+'</span><span class="bnm">'+b.nm+'</span>'));
+  });
+  s.appendChild(bd);
+}
+
+/* ================================================================
+   DAILY DRILL
+   ================================================================ */
+function drillPool(){
+  const pool=[];
+  LESSONS.forEach(l=>l.quiz.forEach(q=>pool.push(q)));
+  FIXES.forEach(f=>pool.push({q:"Improve this: “"+f.bad+"”",opts:f.opts,a:f.a,why:f.why}));
+  DRILL_EXTRA.forEach(q=>pool.push(q));
+  return pool;
+}
+function openDrill(){
+  const today=todayStr();
+  openDetail("🎯 Daily drill",body=>{
+    if(store.drill[today]!=null){
+      body.appendChild(el("div","card scorecard",'<div class="bigscore">'+store.drill[today]+'/10</div><div class="msg">Already done today! 🌟</div><div class="submsg">Fresh questions arrive tomorrow. Streak: '+store.streak+' day'+(store.streak===1?"":"s")+' 🔥</div>'));
+      return;
+    }
+    body.appendChild(el("div","note","Ten questions, drawn from everything in the app. Score 8+ for a confetti shower. Good luck! 🍀"));
+    const qs=shuffle(drillPool()).slice(0,10);
+    body.appendChild(quizBlock(qs,{xpPer:10,onFinish:(score)=>{
+      store.drill[today]=score;touchStreak();save();updateHeader();
+    }}));
+  });
+}
+
+/* ================================================================
+   LEARN
+   ================================================================ */
+function renderLearn(){
+  const s=$("#scr-learn");s.innerHTML="";
+  s.appendChild(el("div","sectionlabel")).textContent="📚 Grammar lessons";
+  LESSONS.forEach(l=>{
+    s.appendChild(tileBtn(l.icon,"",l.title,l.blurb,store.done["l_"+l.id],()=>openLesson(l)));
+  });
+  s.appendChild(el("div","sectionlabel")).textContent="📖 Reading room";
+  READINGS.forEach(r=>{
+    s.appendChild(tileBtn(r.icon,"teal",r.title,r.blurb,store.done["r_"+r.id],()=>openReading(r)));
+  });
+}
+function openLesson(l){
+  openDetail(l.icon+" "+l.title,body=>{
+    const card=el("div","card lesson");card.innerHTML=l.body;
+    body.appendChild(card);
+    body.appendChild(el("div","sectionlabel")).textContent="✏️ Practice";
+    body.appendChild(quizBlock(l.quiz,{onFinish:(score,total)=>{
+      if(score/total>=0.7){store.done["l_"+l.id]=true;save();}
+    }}));
+  });
+}
+function openReading(r){
+  openDetail(r.icon+" "+r.title,body=>{
+    const paper=el("div","paper rise");paper.innerHTML=r.text;
+    body.appendChild(paper);
+    body.appendChild(el("div","sectionlabel")).textContent="🔤 Vocabulary — tap to reveal";
+    const vwrap=el("div","card");
+    r.vocab.forEach(v=>{
+      const chip=el("button","vocabchip",v.w+" 🔊");
+      let defEl=null;
+      chip.addEventListener("click",()=>{
+        speak(v.w);
+        if(defEl){defEl.remove();defEl=null;return;}
+        defEl=el("div","vocabdef","<b>"+v.w+"</b> — "+v.def);
+        chip.insertAdjacentElement("afterend",defEl);
+      });
+      vwrap.appendChild(chip);
+    });
+    body.appendChild(vwrap);
+    body.appendChild(el("div","sectionlabel")).textContent="🧠 Check your understanding";
+    body.appendChild(quizBlock(r.quiz,{onFinish:(score,total)=>{
+      if(score/total>=0.7){store.done["r_"+r.id]=true;save();}
+    }}));
+  });
+}
+
+/* ================================================================
+   WRITE
+   ================================================================ */
+function renderWrite(){
+  const s=$("#scr-write");s.innerHTML="";
+  s.appendChild(el("div","card rise",'<div style="display:flex;gap:13px;align-items:center"><span class="icn coral">✉️</span><div><b>The Email Studio</b><div style="font-size:13.5px;color:var(--ink-soft)">Build real workplace emails line by line, learn the anatomy, and steal the templates.</div></div></div>'));
+  s.appendChild(el("div","sectionlabel")).textContent="📮 Build an email — scenarios";
+  SCENARIOS.forEach(sc=>{
+    s.appendChild(tileBtn(sc.icon,"coral",sc.title,sc.blurb,store.done["s_"+sc.id],()=>openScenario(sc)));
+  });
+  s.appendChild(el("div","sectionlabel")).textContent="🔧 Drills";
+  const fixBest=store.best.fix!=null?"Best: "+store.best.fix+"/"+FIXES.length:"Spot the natural, polished version.";
+  s.appendChild(tileBtn("🩹","coral","Fix the sentence",fixBest,store.best.fix>=Math.ceil(FIXES.length*0.8),openFixes));
+  s.appendChild(el("div","sectionlabel")).textContent="🧭 Know-how";
+  s.appendChild(tileBtn("🔬","coral","Anatomy of a great email","Subject to sign-off — the seven working parts.",false,openAnatomy));
+  s.appendChild(tileBtn("🎚️","coral","The three tones","Too casual, just right, too stiff — hear the difference.",false,openTones));
+  s.appendChild(tileBtn("📋","coral","Template library","Seven ready-to-adapt emails for real situations.",false,openTemplates));
+}
+
+function openScenario(sc){
+  openDetail(sc.icon+" "+sc.title,body=>{
+    let i=0,mistakes=0;const lines=[];let subject="";
+    const intro=el("div","note","Choose the best line at each step. Your choices build a real email you can copy at the end.");
+    body.appendChild(intro);
+    const mail=el("div","mailpreview");
+    const mpSub=el("div","mp-sub","Subject: …");
+    const mpBody=el("div","mp-body","");
+    mail.appendChild(mpSub);mail.appendChild(mpBody);
+    body.appendChild(mail);
+    const stepWrap=el("div");
+    body.appendChild(stepWrap);
+    function renderStep(){
+      stepWrap.innerHTML="";
+      const st=sc.steps[i];
+      const card=el("div","card");
+      card.appendChild(el("div","steplbl","Step "+(i+1)+" of "+sc.steps.length+" · "+st.label));
+      card.appendChild(el("div","qtext",st.prompt));
+      let answered=false;
+      shuffle(st.opts.map(o=>o)).forEach(o=>{
+        const b=el("button","opt",o.t.replace(/\n/g,"<br>"));
+        b.addEventListener("click",()=>{
+          if(answered)return;
+          if(o.good){
+            answered=true;
+            card.querySelectorAll(".opt").forEach(x=>x.disabled=true);
+            b.classList.add("correct");
+            addXP(10,b);
+            card.appendChild(el("div","why","<b>✓ Nice choice.</b> "+o.why));
+            if(i===0){subject=o.t;mpSub.innerHTML='<span class="mailline">Subject: '+o.t+"</span>";}
+            else{lines.push(o.t);mpBody.innerHTML=lines.map(x=>'<span class="mailline">'+x.replace(/\n/g,"<br>")+"</span>").join("\n\n");}
+            const nxt=el("button","btn coral small",i<sc.steps.length-1?"Next step →":"Finish ✨");
+            nxt.addEventListener("click",()=>{i++;if(i<sc.steps.length)renderStep();else finish();});
+            card.appendChild(nxt);
+          }else{
+            mistakes++;
+            b.classList.add("wrong");b.disabled=true;
+            card.appendChild(el("div","why","<b>Hmm, not this one.</b> "+o.why+" <i>Pick another option.</i>"));
+          }
+        });
+        card.appendChild(b);
+      });
+      stepWrap.appendChild(card);
+      card.scrollIntoView({block:"nearest"});
+    }
+    function finish(){
+      stepWrap.innerHTML="";
+      const flawless=mistakes===0;
+      if(flawless){addXP(20);confetti(80);}else confetti(40);
+      const sccard=el("div","card scorecard",'<div class="bigscore">📮</div><div class="msg">'+(flawless?"Flawless — sent with style! (+20 bonus XP)":"Email built! "+mistakes+" wrong turn"+(mistakes===1?"":"s")+" along the way.")+'</div><div class="submsg">Here is the email your choices created — copy it as a starting point for the real thing.</div>');
+      const cp=el("button","copychip","⧉ Copy this email");
+      cp.addEventListener("click",()=>copyText("Subject: "+subject+"\n\n"+lines.join("\n\n"),cp));
+      sccard.appendChild(cp);
+      stepWrap.appendChild(sccard);
+      store.done["s_"+sc.id]=true;save();
+      mail.scrollIntoView({block:"start"});
+    }
+    renderStep();
+  });
+}
+
+function openFixes(){
+  openDetail("🩹 Fix the sentence",body=>{
+    body.appendChild(el("div","note","Each sentence below is the kind that quietly undermines an email. Pick the version a UK colleague would naturally write."));
+    const qs=shuffle(FIXES).map(f=>({q:"Improve this: “"+f.bad+"”",opts:f.opts,a:f.a,why:f.why}));
+    body.appendChild(quizBlock(qs,{onFinish:(score)=>{
+      store.best.fix=Math.max(store.best.fix||0,score);save();
+    }}));
+  });
+}
+
+const ANATOMY=[
+["1 · Subject line","Say what it is, add dates if they matter. Your reader should understand the email before opening it.","Annual leave request: 2–13 March · Audit results — action needed by Friday"],
+["2 · Greeting","“Hi + first name” for colleagues; “Dear + title + surname” for external or very formal; “Hi both / Hi all” for groups. When replying, mirror how they signed off.","Hi Sarah, · Dear Dr Patel, · Hi all,"],
+["3 · Warm opener (one line, optional)","One short human line. Skip it in urgent or very short emails.","I hope you're well. · Thanks for your quick reply. · Great to see you at the huddle earlier."],
+["4 · Purpose","Say why you're writing — in the first two lines, always.","I'm writing to ask about… · Just a quick note about tomorrow's clinic. · I'd like to flag an issue with…"],
+["5 · Details","Short paragraphs, one idea each. Three or more items? Use a numbered list. Bold sparingly for dates and deadlines.","1. The rota changes start Monday. 2. Training is at 2 p.m. 3. Please confirm by Thursday."],
+["6 · The ask","One clear action, one owner, one deadline. Make it impossible to miss.","Please could you confirm the dates by Friday? · Could you review section 2 before our 3 p.m. call?"],
+["7 · Sign-off","Match the formality of your greeting. Then your name — and that's it.","Many thanks, · Best wishes, · Kind regards, (external)"],
+];
+function openAnatomy(){
+  openDetail("🔬 Anatomy of a great email",body=>{
+    body.appendChild(el("div","note","Seven parts, top to bottom. Most emails only need five of them — but they always appear in this order."));
+    ANATOMY.forEach((a,ix)=>{
+      const c=el("div","card rise");
+      c.style.animationDelay=(ix*0.05)+"s";
+      c.innerHTML="<b>"+a[0]+"</b><p style='font-size:14.5px;color:var(--ink-soft);margin:6px 0 8px'>"+a[1]+"</p><div class='tonebox right'><span class='tl'>Examples</span>"+a[2]+"</div>";
+      body.appendChild(c);
+    });
+  });
+}
+function openTones(){
+  openDetail("🎚️ The three tones",body=>{
+    body.appendChild(el("div","note","Most workplace email problems are tone problems. Compare the same message three ways — aim for the middle every time."));
+    TONES.forEach(t=>{
+      const c=el("div","card");
+      c.innerHTML="<b>"+t.topic+"</b>"
+        +'<div class="tonebox casual"><span class="tl">😬 Too casual</span>'+t.casual+"</div>"
+        +'<div class="tonebox right"><span class="tl">✅ Just right</span>'+t.right+"</div>"
+        +'<div class="tonebox stiff"><span class="tl">🎩 Too stiff</span>'+t.stiff+"</div>";
+      body.appendChild(c);
+    });
+  });
+}
+function openTemplates(){
+  openDetail("📋 Template library",body=>{
+    body.appendChild(el("div","note","Tap to expand, copy, then swap the [brackets] for your details. Templates are starting points — always re-read in your own voice."));
+    TEMPLATES.forEach(t=>{
+      const c=el("div","card tpl");
+      const head=el("button","tile",'<span class="icn coral">'+t.icon+'</span><span class="tmid"><span class="tt">'+t.title+'</span><span class="tb">Subject: '+t.subject+'</span></span><span class="pi-go">▾</span>');
+      head.style.boxShadow="none";head.style.border="none";head.style.margin="0";head.style.padding="0";
+      let bodyEl=null;
+      head.addEventListener("click",()=>{
+        if(bodyEl){bodyEl.remove();bodyEl=null;return;}
+        bodyEl=el("div");
+        const pre=el("div","tplbody",t.body);
+        const cp=el("button","copychip","⧉ Copy template");
+        cp.addEventListener("click",()=>copyText("Subject: "+t.subject+"\n\n"+t.body,cp));
+        bodyEl.appendChild(pre);bodyEl.appendChild(cp);
+        c.appendChild(bodyEl);
+      });
+      c.appendChild(head);
+      body.appendChild(c);
+    });
+  });
+}
+
+/* ================================================================
+   SPEAK
+   ================================================================ */
+function renderSpeak(){
+  const s=$("#scr-speak");s.innerHTML="";
+  s.appendChild(el("div","card rise",'<div style="display:flex;gap:13px;align-items:center"><span class="icn amber">🎤</span><div><b>The Speaking Studio</b><div style="font-size:13.5px;color:var(--ink-soft)">Turn the sound on 🔊 — everything here talks back in a British voice.</div></div></div>'));
+  s.appendChild(el("div","sectionlabel")).textContent="🎓 For your lectures";
+  s.appendChild(tileBtn("🪧","amber","Signposting phrases","Open, move on, emphasise, close — the presenter's toolkit.",false,openSignposts));
+  s.appendChild(tileBtn("🗣️","amber","Shadowing studio","Listen and repeat real lecture excerpts, line by line.",false,openShadowMenu));
+  s.appendChild(el("div","sectionlabel")).textContent="👄 Pronunciation";
+  s.appendChild(tileBtn("🏋️","amber","Pronunciation gym","24 words everyone trips on — hear them, then say them.",false,openPronGym));
+  const pBest=store.best.pairs!=null?"Best: "+store.best.pairs+"/10":"Hear a word — pick what you heard.";
+  s.appendChild(tileBtn("👂","amber","Minimal pairs game",pBest,(store.best.pairs||0)>=9,openPairs));
+}
+
+function openSignposts(){
+  openDetail("🪧 Signposting phrases",body=>{
+    body.appendChild(el("div","note","These phrases are the skeleton of every good lecture. Tap 🔊 to hear the rhythm, then practise saying each one with the same music."));
+    SIGNPOSTS.forEach(g=>{
+      const c=el("div","card");
+      c.appendChild(el("b",null,g.stage));
+      g.phrases.forEach(p=>{
+        const row=el("div","phr");
+        row.appendChild(el("span","ptxt",p));
+        row.appendChild(playBtn(p));
+        row.appendChild(copyBtnEl(p));
+        c.appendChild(row);
+      });
+      body.appendChild(c);
+    });
+  });
+}
+
+function openPronGym(){
+  openDetail("🏋️ Pronunciation gym",body=>{
+    body.appendChild(el("div","note",SRClass?
+      "Tap 🔊 to hear each word, then tap 🎙️ and say it — the app listens and tells you what it heard. (+5 XP per word it recognises!)":
+      "Tap 🔊 to hear each word, then say it aloud three times, copying the stress pattern. (Your browser doesn't support the microphone check, but your ears are the best coach anyway.)"));
+    const c=el("div","card");
+    PRON.forEach(p=>{
+      const row=el("div","pronword");
+      const mid=el("span","pmid",'<span class="pw">'+p.w+'</span><span class="ph">'+p.hint+'</span><span class="ptip">'+p.tip+"</span>");
+      row.appendChild(mid);
+      row.appendChild(playBtn(p.w,0.9));
+      if(SRClass){
+        const res=el("div");
+        const mic=el("button","roundbtn mic","🎙️");
+        mic.addEventListener("click",()=>{
+          if(mic.classList.contains("listening"))return;
+          const r=new SRClass();
+          r.lang="en-GB";r.interimResults=false;r.maxAlternatives=3;
+          mic.classList.add("listening");
+          res.innerHTML='<div class="sayresult">Listening… say “'+p.w.split(" / ")[0]+'”</div>';
+          const targets=p.w.toLowerCase().split(" / ");
+          r.onresult=e=>{
+            let heard="";
+            for(let a=0;a<e.results[0].length;a++)heard+=" "+e.results[0][a].transcript.toLowerCase();
+            const ok=targets.some(t=>heard.includes(t));
+            if(ok){res.innerHTML='<div class="sayresult good">✓ Heard you loud and clear — lovely! </div>';addXP(5,mic);}
+            else res.innerHTML='<div class="sayresult tryagain">I heard “'+heard.trim().split(" ").slice(0,4).join(" ")+'” — listen once more and have another go!</div>';
+          };
+          r.onerror=()=>{res.innerHTML='<div class="sayresult tryagain">Mic didn’t catch that — try again.</div>';mic.classList.remove("listening");};
+          r.onend=()=>mic.classList.remove("listening");
+          try{r.start();}catch(e){mic.classList.remove("listening");}
+        });
+        row.appendChild(mic);
+        mid.appendChild(res);
+      }
+      c.appendChild(row);
+    });
+    body.appendChild(c);
+  });
+}
+
+function openPairs(){
+  openDetail("👂 Minimal pairs game",body=>{
+    body.appendChild(el("div","note","You'll hear one word. Tap the word you heard. These tiny sound differences (ship / sheep!) are what make spoken English click."));
+    const wrap=el("div");body.appendChild(wrap);
+    let round=0,score=0;const total=10;
+    const deck=shuffle(PAIRS).slice(0,total);
+    function play(target){speak(target,0.9);}
+    function next(){
+      if(round>=total)return finish();
+      wrap.innerHTML="";
+      const pair=deck[round];
+      const target=Math.random()<0.5?pair.a:pair.b;
+      const card=el("div","card");
+      card.appendChild(el("div","qhead",'<div class="prog"><div class="progfill amber" style="width:'+(round/total*100)+'%"></div></div><span class="qcount">'+(round+1)+" / "+total+"</span>"));
+      const bw=el("div","bigword","👂");
+      card.appendChild(bw);
+      const replay=el("button","btn ghost small","🔊 Hear it again");
+      replay.addEventListener("click",()=>play(target));
+      card.appendChild(replay);
+      const btns=el("div","pairbtns");btns.style.marginTop="14px";
+      let answered=false;
+      [pair.a,pair.b].forEach(wd=>{
+        const b=el("button","opt",wd);
+        b.addEventListener("click",()=>{
+          if(answered)return;answered=true;
+          const ok=wd===target;
+          if(ok){b.classList.add("correct");score++;addXP(5,b);}
+          else{b.classList.add("wrong");btns.querySelectorAll(".opt").forEach(x=>{if(x.textContent===target)x.classList.add("reveal");});}
+          bw.textContent="“"+target+"”";
+          setTimeout(()=>{round++;next();},1100);
+        });
+        btns.appendChild(b);
+      });
+      card.appendChild(btns);
+      wrap.appendChild(card);
+      setTimeout(()=>play(target),350);
+    }
+    function finish(){
+      wrap.innerHTML="";
+      store.best.pairs=Math.max(store.best.pairs||0,score);save();
+      if(score>=8)confetti(70);
+      const sc=el("div","card scorecard",'<div class="bigscore">'+score+"/"+total+'</div><div class="msg">'+(score>=9?"Golden ears! 👑":score>=7?"Sharp listening! 👂":"Tricky, aren’t they? Try again!")+'</div><div class="submsg">Best so far: '+store.best.pairs+"/10</div>");
+      const again=el("button","btn amber small","↻ Play again");
+      again.addEventListener("click",openPairs);
+      sc.appendChild(again);
+      wrap.appendChild(sc);
+    }
+    next();
+  });
+}
+
+function openShadowMenu(){
+  openDetail("🗣️ Shadowing studio",body=>{
+    body.appendChild(el("div","note","Shadowing = listen to a line, then say it back immediately, copying the speed, stress and melody. It's the fastest way to sound natural when presenting. Pick an excerpt:"));
+    SHADOW.forEach(sh=>{
+      body.appendChild(tileBtn(sh.icon,"amber",sh.title,sh.lines.length+" lines · about 2 minutes",false,()=>openShadow(sh)));
+    });
+  });
+}
+function openShadow(sh){
+  openDetail(sh.icon+" "+sh.title,body=>{
+    let rate=store.rate;
+    body.appendChild(el("div","note","▶ a line, listen, then say it back out loud before playing the next. Repeat the whole excerpt until it feels easy in the mouth."));
+    const sp=el("div","card");
+    sp.appendChild(el("b",null,"Speed"));
+    const row=el("div","speedrow");
+    [["🐢 Slow",0.75],["🚶 Natural",1.0],["🏃 Brisk",1.15]].forEach((o,ix)=>{
+      const b=el("button","speedchip"+(ix===1?" on":""),o[0]);
+      b.addEventListener("click",()=>{row.querySelectorAll(".speedchip").forEach(x=>x.classList.remove("on"));b.classList.add("on");rate=o[1];});
+      row.appendChild(b);
+    });
+    sp.appendChild(row);
+    const all=el("button","btn amber small","▶ Play the whole excerpt");
+    all.addEventListener("click",()=>{
+      speechSynthesis.cancel();
+      sh.lines.forEach(l=>queueSpeak(l,rate));
+    });
+    sp.appendChild(all);
+    body.appendChild(sp);
+    const c=el("div","card");
+    sh.lines.forEach((l,ix)=>{
+      const line=el("div","shadowline");
+      line.appendChild(el("span","qcount",String(ix+1)));
+      line.appendChild(el("span","ptxt",l));
+      const pb=el("button","roundbtn play","🔊");
+      pb.addEventListener("click",()=>speak(l,rate));
+      line.appendChild(pb);
+      c.appendChild(line);
+    });
+    body.appendChild(c);
+  });
+}
+
+/* ================================================================
+   TOOLS
+   ================================================================ */
+function renderTools(){
+  const s=$("#scr-tools");s.innerHTML="";
+  s.appendChild(el("div","card rise",'<div style="display:flex;gap:13px;align-items:center"><span class="icn teal">🧰</span><div><b>The Toolbox</b><div style="font-size:13.5px;color:var(--ink-soft)">Quick references for the moment you’re actually writing something.</div></div></div>'));
+  s.appendChild(tileBtn("💬","teal","Phrase bank","Searchable phrases for emails, meetings, calls & small talk.",false,openPhrases));
+  s.appendChild(tileBtn("✨","teal","Say it better","Wordy or odd → plain and natural. The de-jargoniser.",false,openSwaps));
+  s.appendChild(tileBtn("🔀","teal","Confusables dictionary","Practice or practise? Licence or license? Sorted.",false,openConfusables));
+  s.appendChild(tileBtn("✅","teal","Send-it checklist","Eleven checks before any important email leaves.",false,openChecklist));
+  s.appendChild(tileBtn("🇬🇧","teal","UK vs US spelling","Colour, centre, organise — the patterns in one table.",false,openSpelling));
+  s.appendChild(tileBtn("⚙️","teal","Settings","Voice speed, progress reset.",false,openSettings));
+}
+
+function openPhrases(){
+  openDetail("💬 Phrase bank",body=>{
+    const search=el("input","search");
+    search.placeholder="Search phrases… e.g. “mind”, “grateful”, “weekend”";
+    body.appendChild(search);
+    const list=el("div");body.appendChild(list);
+    function draw(){
+      const f=search.value.trim().toLowerCase();
+      list.innerHTML="";
+      PHRASES.forEach(g=>{
+        const items=g.items.filter(it=>!f||it.p.toLowerCase().includes(f)||(it.note||"").toLowerCase().includes(f));
+        if(!items.length)return;
+        const c=el("div","card");
+        c.appendChild(el("b",null,g.cat));
+        items.forEach(it=>{
+          const row=el("div","phr");
+          row.appendChild(el("span","ptxt",it.p+(it.note?'<span class="pnote">'+it.note+"</span>":"")));
+          row.appendChild(playBtn(it.p));
+          row.appendChild(copyBtnEl(it.p));
+          c.appendChild(row);
+        });
+        list.appendChild(c);
+      });
+      if(!list.children.length)list.appendChild(el("div","note","Nothing matches “"+search.value+"” — try a shorter word."));
+    }
+    search.addEventListener("input",draw);
+    draw();
+  });
+}
+function openSwaps(){
+  openDetail("✨ Say it better",body=>{
+    body.appendChild(el("div","note","The left column is what people write; the right is what UK readers prefer. Swapping these is the single fastest upgrade to your emails."));
+    const c=el("div","card");
+    SWAPS.forEach(sw=>{
+      c.appendChild(el("div","swap",'<span class="from">'+sw.from+'</span><span class="arrow">→</span><span class="to">'+sw.to+"</span>"+(sw.note?'<span class="snote">'+sw.note+"</span>":"")));
+    });
+    body.appendChild(c);
+  });
+}
+function openConfusables(){
+  openDetail("🔀 Confusables dictionary",body=>{
+    const c=el("div","card");
+    CONFUSABLES.forEach(cf=>{
+      c.appendChild(el("div","confu",'<div class="cpair">'+cf.a+" · "+cf.b+'</div><div class="crule">'+cf.rule+'</div><div class="cex">'+cf.ex+"</div>"));
+    });
+    body.appendChild(c);
+  });
+}
+function openChecklist(){
+  openDetail("✅ Send-it checklist",body=>{
+    body.appendChild(el("div","note","Run this before any email that matters — to your manager, a consultant, HR, or a big group. Tap to tick."));
+    const c=el("div","card");
+    const state=store.checks.length===CHECKLIST.length?store.checks:CHECKLIST.map(()=>false);
+    function draw(){
+      c.innerHTML="";
+      CHECKLIST.forEach((item,ix)=>{
+        const row=el("div","checkitem"+(state[ix]?" on":""),'<span class="checkbox">'+(state[ix]?"✓":"")+"</span><span>"+item+"</span>");
+        row.addEventListener("click",()=>{
+          state[ix]=!state[ix];store.checks=state;save();draw();
+          if(state.every(Boolean)){confetti(60);}
+        });
+        c.appendChild(row);
+      });
+      const done=state.filter(Boolean).length;
+      const foot=el("div",null,'<div class="divider"></div><div style="display:flex;align-items:center;gap:12px"><div class="prog" style="flex:1"><div class="progfill teal" style="width:'+(done/CHECKLIST.length*100)+'%"></div></div><span class="qcount">'+done+" / "+CHECKLIST.length+"</span></div>");
+      const reset=el("button","btn ghost small","↻ Reset for next email");
+      reset.style.marginTop="12px";
+      reset.addEventListener("click",()=>{state.fill(false);store.checks=state;save();draw();});
+      foot.appendChild(reset);
+      c.appendChild(foot);
+    }
+    draw();
+    body.appendChild(c);
+  });
+}
+function openSpelling(){
+  openDetail("🇬🇧 UK vs US spelling",body=>{
+    body.appendChild(el("div","note","You're writing for UK readers, so the left column wins. Set your phone and Word to “English (United Kingdom)” and half the battle is automatic."));
+    const c=el("div","card");
+    let t='<table class="extable"><tr><th>UK 🇬🇧</th><th>US 🇺🇸</th><th>Pattern</th></tr>';
+    SPELLINGS.forEach(sp=>{t+="<tr><td><b>"+sp.uk+"</b></td><td>"+sp.us+"</td><td>"+sp.rule+"</td></tr>";});
+    t+="</table>";
+    c.innerHTML=t;
+    body.appendChild(c);
+  });
+}
+function openSettings(){
+  openDetail("⚙️ Settings",body=>{
+    const c=el("div","card");
+    c.appendChild(el("b",null,"🔊 Voice speed"));
+    c.appendChild(el("p",null,'<span style="font-size:13.5px;color:var(--ink-soft)">How fast the British voice reads phrases and words.</span>'));
+    const slider=el("input","slider");
+    slider.type="range";slider.min="0.6";slider.max="1.3";slider.step="0.05";slider.value=store.rate;
+    const lbl=el("div","qcount","Speed: "+Number(store.rate).toFixed(2)+"×");
+    slider.addEventListener("input",()=>{store.rate=Number(slider.value);save();lbl.textContent="Speed: "+Number(store.rate).toFixed(2)+"×";});
+    c.appendChild(slider);c.appendChild(lbl);
+    const test=el("button","btn teal small","🔊 Test the voice");
+    test.style.marginTop="10px";
+    test.addEventListener("click",()=>speak("Hello! This is your practice voice. Shall we polish some English today?"));
+    c.appendChild(test);
+    body.appendChild(c);
+    const c2=el("div","card");
+    c2.appendChild(el("b",null,"🧹 Start over"));
+    c2.appendChild(el("p",null,'<span style="font-size:13.5px;color:var(--ink-soft)">Erases XP, streak, badges and all completed lessons on this device.</span>'));
+    const rst=el("button","btn ghost small","Reset all progress…");
+    rst.addEventListener("click",()=>{
+      if(confirm("Really reset all progress? This cannot be undone.")){localStorage.removeItem(KEY);location.reload();}
+    });
+    c2.appendChild(rst);
+    body.appendChild(c2);
+    body.appendChild(el("div","note","Husay works fully offline once loaded — add it to your Home Screen and practise anywhere, even on the bus. 🚌"));
+  });
+}
+
+/* ---------- init ---------- */
+updateHeader();
+renderHome();
+switchTab("home");
+if("serviceWorker" in navigator){
+  window.addEventListener("load",()=>{navigator.serviceWorker.register("./sw.js").catch(()=>{});});
+}
+</script>
+</body>
+</html>
